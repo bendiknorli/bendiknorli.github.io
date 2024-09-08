@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/bendiknorli.github.io/static/css/main.f855e6bc.css",
+    "main.js": "/bendiknorli.github.io/static/js/main.d64c3f6d.js",
+    "static/js/453.1407b060.chunk.js": "/bendiknorli.github.io/static/js/453.1407b060.chunk.js",
+    "static/media/logo.svg": "/bendiknorli.github.io/static/media/logo.6ce24c58023cc2f8fd88fe9d219db6c6.svg",
+    "index.html": "/bendiknorli.github.io/index.html",
+    "main.f855e6bc.css.map": "/bendiknorli.github.io/static/css/main.f855e6bc.css.map",
+    "main.d64c3f6d.js.map": "/bendiknorli.github.io/static/js/main.d64c3f6d.js.map",
+    "453.1407b060.chunk.js.map": "/bendiknorli.github.io/static/js/453.1407b060.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.f855e6bc.css",
+    "static/js/main.d64c3f6d.js"
+  ]
+}
