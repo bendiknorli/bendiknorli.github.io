@@ -59,6 +59,10 @@ h2 {
   margin-bottom: 15px;
 }
 
+p {
+  margin: 0 0 5px 20px;
+}
+
 .note {
   margin-bottom: 20px;
   color: gray;
@@ -74,5 +78,7 @@ h2 {
 .image-container {
   width: 45%;
   margin: 20px 2.5%;
-  border-radius: 5px;
+  border-radius: 10px;
+  border: solid 1px #ddd;
+  overflow: hidden;
 }
