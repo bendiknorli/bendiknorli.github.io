@@ -59,8 +59,8 @@ h2 {
   margin-bottom: 15px;
 }
 
-p {
-  margin: 0 0 5px 20px;
+.image-text {
+  margin: 0 0 5px 15px;
 }
 
 .note {
