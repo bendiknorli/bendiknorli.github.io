@@ -9,7 +9,7 @@
   <body>
     <header>
       <div class="navbar">
-        <a class="logo" href="../index.html">Project 1</a>
+        <a class="logo" href="../index.html">CS180</a>
         <nav>
           <ul>
             <li><a href="#">Project 1</a></li>
@@ -24,137 +24,129 @@
 
     <main>
       <section class="content">
-        <h1>Project 1:</h1>
-        <h2>
-          Images of the Russian Empire: Colorizing the Prokudin-Gorskii photo
-          collection
-        </h2>
-        <ul>
-          <li>
-            <a href="#single-scale"
-              >1. Single-scale implementation with successful results on low-res
-              images</a
-            >
-          </li>
-          <li>
-            <a href="#"
-              >2. Multiscale pyramid version that works on large images</a
-            >
-          </li>
-        </ul>
+        <h1>Project 1</h1>
+        <p class="note">
+          Aligning blue, green, and red images to create a color photo from the
+          Prokudin-Gorskii collection
+        </p>
+        <br />
+        <p>
+          I started of the project with a single-scale implementation. I used
+          np.roll to shift the image to the right by 1 pixel at a time. At each
+          iteration I compared the two images with NCC (Normalize Cross
+          Correlation) and checked if the current alignment was better than the
+          previous ones.
+        </p>
+        <br />
+        <p>
+          I then implemented a multi-scale version where I scaled the images
+          down by a factor of 2 in a type of pyramid. I then compared the images
+          at the lowest scale and then scaled them up and compared them again.
+          This way I could find the best alignment at a lower scale and then
+          refine it at a higher scale to save computation time.
+        </p>
+        <br />
+        <p>
+          This worked for all the images we were given except the one of emir.
+          For that image I had to implement a different comparison algorithm.
+          What I did was to create a copy of each image that was rolled to the
+          right by 1 pixel. I then calculated the difference between the
+          original image and the right-shifted image to have a new image
+          describing where to find edges and surfaces in the image. Afterwards,
+          I compared the difference-image of the blue image with the
+          difference-image of the green image and red difference-images with NCC
+          to find the best alignment.
+        </p>
 
-        <h2 id="single-scale">
-          1. Single-scale implementation with successful results on low-res
-          images
-        </h2>
-        <p>Placeholder text</p>
-        <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla
-          facilisi. Sed euismod, nisl ac ultrices tincidunt, nunc nunc tincidunt
-          nunc, nec lacinia nunc lectus id nunc. Sed euismod, nisl ac ultrices
-          tincidunt, nunc nunc tincidunt nunc, nec lacinia nunc lectus id nunc.
-        </p>
-        <p>
-          Nulla facilisi. Sed euismod, nisl ac ultrices tincidunt, nunc nunc
-          tincidunt nunc, nec lacinia nunc lectus id nunc. Sed euismod, nisl ac
-          ultrices tincidunt, nunc nunc tincidunt nunc, nec lacinia nunc lectus
-          id nunc. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-        </p>
-        <p>
-          Nulla facilisi. Sed euismod, nisl ac ultrices tincidunt, nunc nunc
-          tincidunt nunc, nec lacinia nunc lectus id nunc. Sed euismod, nisl ac
-          ultrices tincidunt, nunc nunc tincidunt nunc, nec lacinia nunc lectus
-          id nunc.
-        </p>
-        <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla
-          facilisi. Sed euismod, nisl ac ultrices tincidunt, nunc nunc tincidunt
-          nunc, nec lacinia nunc lectus id nunc. Sed euismod, nisl ac ultrices
-          tincidunt, nunc nunc tincidunt nunc, nec lacinia nunc lectus id nunc.
-        </p>
-        <p>
-          Nulla facilisi. Sed euismod, nisl ac ultrices tincidunt, nunc nunc
-          tincidunt nunc, nec lacinia nunc lectus id nunc. Sed euismod, nisl ac
-          ultrices tincidunt, nunc nunc tincidunt nunc, nec lacinia nunc lectus
-          id nunc. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-        </p>
-        <p>
-          Nulla facilisi. Sed euismod, nisl ac ultrices tincidunt, nunc nunc
-          tincidunt nunc, nec lacinia nunc lectus id nunc. Sed euismod, nisl ac
-          ultrices tincidunt, nunc nunc tincidunt nunc, nec lacinia nunc lectus
-          id nunc.
-        </p>
-        <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla
-          facilisi. Sed euismod, nisl ac ultrices tincidunt, nunc nunc tincidunt
-          nunc, nec lacinia nunc lectus id nunc. Sed euismod, nisl ac ultrices
-          tincidunt, nunc nunc tincidunt nunc, nec lacinia nunc lectus id nunc.
-        </p>
-        <p>
-          Nulla facilisi. Sed euismod, nisl ac ultrices tincidunt, nunc nunc
-          tincidunt nunc, nec lacinia nunc lectus id nunc. Sed euismod, nisl ac
-          ultrices tincidunt, nunc nunc tincidunt nunc, nec lacinia nunc lectus
-          id nunc. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-        </p>
-        <p>
-          Nulla facilisi. Sed euismod, nisl ac ultrices tincidunt, nunc nunc
-          tincidunt nunc, nec lacinia nunc lectus id nunc. Sed euismod, nisl ac
-          ultrices tincidunt, nunc nunc tincidunt nunc, nec lacinia nunc lectus
-          id nunc.
-        </p>
-        <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla
-          facilisi. Sed euismod, nisl ac ultrices tincidunt, nunc nunc tincidunt
-          nunc, nec lacinia nunc lectus id nunc. Sed euismod, nisl ac ultrices
-          tincidunt, nunc nunc tincidunt nunc, nec lacinia nunc lectus id nunc.
-        </p>
-        <p>
-          Nulla facilisi. Sed euismod, nisl ac ultrices tincidunt, nunc nunc
-          tincidunt nunc, nec lacinia nunc lectus id nunc. Sed euismod, nisl ac
-          ultrices tincidunt, nunc nunc tincidunt nunc, nec lacinia nunc lectus
-          id nunc. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-        </p>
-        <p>
-          Nulla facilisi. Sed euismod, nisl ac ultrices tincidunt, nunc nunc
-          tincidunt nunc, nec lacinia nunc lectus id nunc. Sed euismod, nisl ac
-          ultrices tincidunt, nunc nunc tincidunt nunc, nec lacinia nunc lectus
-          id nunc.
-        </p>
-        <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla
-          facilisi. Sed euismod, nisl ac ultrices tincidunt, nunc nunc tincidunt
-          nunc, nec lacinia nunc lectus id nunc. Sed euismod, nisl ac ultrices
-          tincidunt, nunc nunc tincidunt nunc, nec lacinia nunc lectus id nunc.
-        </p>
-        <p>
-          Nulla facilisi. Sed euismod, nisl ac ultrices tincidunt, nunc nunc
-          tincidunt nunc, nec lacinia nunc lectus id nunc. Sed euismod, nisl ac
-          ultrices tincidunt, nunc nunc tincidunt nunc, nec lacinia nunc lectus
-          id nunc. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-        </p>
-        <p>
-          Nulla facilisi. Sed euismod, nisl ac ultrices tincidunt, nunc nunc
-          tincidunt nunc, nec lacinia nunc lectus id nunc. Sed euismod, nisl ac
-          ultrices tincidunt, nunc nunc tincidunt nunc, nec lacinia nunc lectus
-          id nunc.
-        </p>
-        <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla
-          facilisi. Sed euismod, nisl ac ultrices tincidunt, nunc nunc tincidunt
-          nunc, nec lacinia nunc lectus id nunc. Sed euismod, nisl ac ultrices
-          tincidunt, nunc nunc tincidunt nunc, nec lacinia nunc lectus id nunc.
-        </p>
-        <p>
-          Nulla facilisi. Sed euismod, nisl ac ultrices tincidunt, nunc nunc
-          tincidunt nunc, nec lacinia nunc lectus id nunc. Sed euismod, nisl ac
-          ultrices tincidunt, nunc nunc tincidunt nunc, nec lacinia nunc lectus
-          id nunc. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-        </p>
-        <p>
-          Nulla facilisi. Sed euismod, nisl ac ultrices tincidunt, nunc nunc
-          tincidunt nunc, nec lacinia nunc lectus id nunc. Sed euismod, nisl ac
-          ultrices tincidunt, nunc nunc tincidunt nunc, nec lacinia nunc lectus
-          id nunc.
+        <h2>Results</h2>
+        <div class="images-container">
+          <div class="image-container">
+            <img src="./images/cathedral.jpg" alt="Cathedral" width="100%" />
+            <p>Cathedral</p>
+            <p>Offset: (12, 3)</p>
+          </div>
+          <div class="image-container">
+            <img src="./images/church.jpg" alt="Church" width="100%" />
+            <p>Church</p>
+            <p>Offset: (58, -4)</p>
+          </div>
+          <div class="image-container">
+            <img src="./images/harvesters.jpg" alt="Harvesters" width="100%" />
+            <p>Harvesters</p>
+            <p>Offset: (123, 14)</p>
+          </div>
+          <div class="image-container">
+            <img src="./images/icon.jpg" alt="Icon" width="100%" />
+            <p>Icon</p>
+            <p>Offset: (89, 23)</p>
+          </div>
+          <div class="image-container">
+            <img src="./images/lady.jpg" alt="Lady" width="100%" />
+            <p>Lady</p>
+            <p>Offset: (110, 12)</p>
+          </div>
+          <div class="image-container">
+            <img src="./images/melons.jpg" alt="Melons" width="100%" />
+            <p>Melons</p>
+            <p>Offset: (170, 11)</p>
+          </div>
+          <div class="image-container">
+            <img src="./images/monastery.jpg" alt="Monastery" width="100%" />
+            <p>Monastery</p>
+            <p>Offset: (2, 2)</p>
+          </div>
+          <div class="image-container">
+            <img
+              src="./images/onion_church.jpg"
+              alt="Onion Church"
+              width="100%"
+            />
+            <p>Onion Church</p>
+            <p>Offset: (140, -27)</p>
+          </div>
+          <div class="image-container">
+            <img
+              src="./images/self_portrait.jpg"
+              alt="Self Portrait"
+              width="100%"
+            />
+            <p>Self Portrait</p>
+            <p>Offset: (170, 36)</p>
+          </div>
+          <div class="image-container">
+            <img
+              src="./images/three_generations.jpg"
+              alt="Three Generations"
+              width="100%"
+            />
+            <p>Three Generations</p>
+            <p>Offset: (110, 12)</p>
+          </div>
+          <div class="image-container">
+            <img src="./images/tobolsk.jpg" alt="Tobolsk" width="100%" />
+            <p>Tobolsk</p>
+            <p>Offset: (7, 3)</p>
+          </div>
+          <div class="image-container">
+            <img src="./images/train.jpg" alt="Train" width="100%" />
+            <p>Train</p>
+            <p>Offset: (86, 32)</p>
+          </div>
+          <h2>And lastly Emir</h2>
+          <img src="./images/emir.jpg" alt="Emir" width="100%" />
+          <div>
+            <p>Emir</p>
+            <p>Offset: (0, 0)</p>
+          </div>
+        </div>
+        <br />
+        <hr />
+        <br />
+        <p class="note">
+          Bottom note: I had a lot of fun with this project! I am still not
+          enrolled in the course, but I hope that my effort in the first project
+          will give me a chance to take the course. I am looking forward to the
+          next projects!
         </p>
       </section>
     </main>
