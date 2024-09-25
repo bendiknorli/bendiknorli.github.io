@@ -43,15 +43,17 @@
         <p>D_y = [[1], [-1]]</p>
         <img src="images/task1-1y.png" alt="Task 1.1 y-derivative" />
         <p>
-          I then calculated the gradient by taking the square root of the sum of
-          the squares of the x and y derivatives:
+          I then calculated the gradient by taking computing the convolution
+          over the image with the x and y derivatives and then taking the square
+          root of the sum of the squares of the two derivatives:
           <br />
-          Gradient Magnitude = sqrt(D_x^2 + D_y^2)
+          Gradient Magnitude = sqrt((convolve_x^2 + convolve_y^2))
         </p>
         <img src="images/task1-1gradient.png" alt="Task 1.1 gradient" />
 
         <p>
-          I then set a binary threshold of 0.2 to get clear edges in the image:
+          I then set a binary threshold of 0.2 to only show pixels values that
+          were higher than 0.2. This made the edges in the image more visible:
         </p>
         <img src="images/task1-1binarized.png" alt="Task 1.1 binery" />
 
@@ -87,16 +89,16 @@
           image. Adding more of the higher frequencies makes the edges more
           visible which gives the illusion of the image being sharper.
         </p>
-
+        <br />
         <p>
           To make this procedure even more streamlined I rewrote the code to
           calculate the unsharp filter mask by using the formula:
           <br />
           f*((1+a)e -ag)
           <br />
-          where f represents the input image, a is a scaling factor that
-          controls the sharpness intensity, e is the unit impulse, and g
-          represents the gaussian.
+          Here f represents the input image, a is a scaling factor that controls
+          the sharpness intensity, e is the unit impulse, and g represents the
+          gaussian.
         </p>
 
         <div class="images-container">
@@ -425,6 +427,25 @@
         <img src="images/task2-3layer3.png" alt="Task 2.3" />
         <img src="images/task2-3layer4.png" alt="Task 2.3" />
         <img src="images/task2-3layer5.png" alt="Task 2.3" />
+
+        <p>
+          Here is two images of space that I blended together in the same way.
+        </p>
+
+        <div class="images-container">
+          <div class="image-container">
+            <img src="images/space1.png" alt="Task 2.3" width="100%" />
+            <p class="image-text">Space 1</p>
+          </div>
+          <div class="image-container">
+            <img src="images/space2.png" alt="Task 2.3" width="100%" />
+            <p class="image-text">Space 2</p>
+          </div>
+          <div class="image-container">
+            <img src="images/space_blended.png" alt="Task 2.3" width="100%" />
+            <p class="image-text">Blended</p>
+          </div>
+        </div>
 
         <h3>Part 2.4: Multiresolution Blending (a.k.a. the oraple!)</h3>
         <p>
