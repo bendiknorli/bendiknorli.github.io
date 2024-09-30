@@ -23,11 +23,406 @@
     <main>
       <section class="content">
         <h1>Project 3</h1>
-        <p class="note"></p>
+        <p class="note">
+          Morphing faces by using affine transformations on their meshes
+        </p>
         <br />
-        <p></p>
+        <h2>Part 1. Defining Correspondences</h2>
+        <p>
+          The first thing I did was finding a picture of my face and using the
+          picture of George Clooney.
+        </p>
+        <div class="images-container">
+          <div class="image-container">
+            <img src="images/self-portrait.png" alt="Me" width="100%" />
+            <p class="image-text">Me</p>
+          </div>
+          <div class="image-container">
+            <img
+              src="images/george_small.png"
+              alt="George Clooney"
+              width="100%"
+            />
+            <p class="image-text">George Clooney</p>
+          </div>
+        </div>
+        <br />
+        <p>
+          I used the tool made by a previous student to define the
+          correspondences between the two faces. Now I could compute the mean of
+          the two sets of landmarks and compute the triangulation of the mean by
+          using the Delaunay function from the scipy library.
+        </p>
+        <div class="images-container">
+          <div class="three-width-image-container">
+            <img
+              src="images/self-portrait_landmarks.png"
+              alt="Me with Landmarks"
+              width="100%"
+            />
+            <p class="image-text">Me with Landmarks</p>
+          </div>
+          <div class="three-width-image-container">
+            <img
+              src="images/george_small_landmarks.png"
+              alt="George Clooney with Landmarks"
+              width="100%"
+            />
+            <p class="image-text">George Clooney with Landmarks</p>
+          </div>
+          <div class="three-width-image-container">
+            <img
+              src="images/triangulation.png"
+              alt="Triangulation"
+              width="100%"
+            />
+            <p class="image-text">Triangulation</p>
+          </div>
+        </div>
 
-        <h2>Results</h2>
+        <h2>Part 2. Computing the "Mid-way Face"</h2>
+        <p>
+          The next step was to compute the "mid-way face" between the two faces.
+          I did this by looping over all the triangles in the triangulation
+          warping each one to where it would be in the mid-way face. This was
+          done by generating a mask around a triangle, computing the affine
+          transformation matrix, and then applying the inverse of the
+          transformation to the triangle on the mid-way image to get the pixel
+          value of the corresponding pixel in the starting image.
+        </p>
+        <br />
+        <p>
+          For the affine matrix, we have to solve the equation system that maps
+          the three coordinates in the start triangle to the three coordinates
+          in the mid-way triangle. For each point in the mid-way triangle, we
+          can express the x and y coordinates as follows:
+          <br />
+          xi' = a*x + b*y + c
+          <br />
+          yi' = d*x + e*y + f
+          <br />
+          For all three points in the triangle, we then get six equations in
+          total which we can set up in a matrix. Given that we know the start
+          and mid-way coordinates we can now solve the system.
+        </p>
+        <img
+          src="images/affine_matrix_setup.png"
+          alt="Affine Matrix Setup"
+          width="50%"
+        />
+        <p>
+          When we have computed a, b, c, d, e, and f, we can then put it in the
+          Affine matrix together with a 1 in the last column on the bottom row
+          which makes it homogenous.
+        </p>
+        <br />
+        <p>
+          To perform the inverse warping with the affine matrix, we first have
+          to compute which pixels are inside the triangle and make the
+          coordinates homogenous. You can then matrix multiply the inverse of
+          the affine matrix with the list of the coordinates inside the triangle
+          to get the coordinate of the corresponding pixel in the starting
+          image. We now have a mapping from the mid-way image to the starting
+          image so we can fill in the pixel values in the mid-way image. To get
+          the correct pixel value of the corresponding pixel however, we have to
+          use bilinear interpolation since the pixel we are looking for might be
+          in between up to four pixels. We therefore have to take the weighted
+          average of the four pixels around the pixel we are looking for to get
+          the correct pixel value.
+        </p>
+        <br />
+        <p>
+          Finally, we can add all the warped triangles together to get the
+          images fully warped to the mid-way face. To then actually compute the
+          mid-way face, I then computed the mean of the two images which here
+          means taking the average of each pixel value. That gave me this
+          result.
+        </p>
+        <div class="images-container">
+          <div class="three-width-image-container">
+            <img
+              src="images/me_warped_mid-face.png"
+              alt="Me Warped"
+              width="100%"
+            />
+            <p class="image-text">Me warped into the mid-way face</p>
+          </div>
+          <div class="three-width-image-container">
+            <img
+              src="images/mid-way_face.png"
+              alt="Mid-way Face"
+              width="100%"
+            />
+            <p class="image-text">Mid-way face</p>
+          </div>
+          <div class="three-width-image-container">
+            <img
+              src="images/george_warped_mid-face.png"
+              alt="George Clooney"
+              width="100%"
+            />
+            <p class="image-text">
+              George Clooney warped into the mid-way face
+            </p>
+          </div>
+        </div>
+        <h2>Part 3. The Morph Sequence</h2>
+        <p>
+          When it comes to making the morphing sequence, I implemented a morph
+          function that would compute a morphed image for a given warp and
+          dissolve value. These values represented how many percent the first
+          image would warp into the second one. Here 0 would be the first image,
+          0.5 would be the mid-way face, and 1 would be the second image.
+        </p>
+        <br />
+        <p>
+          To then create the morphing sequence, I looped over a range of
+          linearly distributed warp and dissolve values and computed the morphed
+          image for each pair of values. I then saved all the images in a list
+          and could then use the imageio library to save the images as a gif.
+          Before saving the images, I also made sure to add all the frames in
+          reverse order to make the morphing sequence loop seamlessly.
+        </p>
+        <img src="images/morph.gif" alt="Morph Sequence" width="100%" />
+
+        <h2>Part 4. The "Mean face" of a population</h2>
+        <p>
+          I chose to compute the mean face over the
+          <a href="https://fei.edu.br/~cet/facedatabase.html"
+            >FEIFace Database</a
+          >. The database only had landmarks for the spatially normalized and
+          not cropped images which were in black and white, but I first made all
+          the images 3D to make sure my algorithm also would work on color
+          images. I used the first 100 images and added one point for each
+          corner to the landmarks on each face to make sure the background also
+          would show in the mean image. I then computed the mean face by warping
+          all the images to the mean triangulation and then taking the average
+          of all the images. This gave me the following mean face.
+        </p>
+        <img src="images/mean_face.png" alt="Mean Face" width="100%" />
+        <p>
+          To warp then warp my own face to the mean face, I first had to label
+          my own face in the same way that the faces in the database were
+          labeled. I therefore checked the landmarks of the first image in the
+          dataset and added the same landmarks on my own face with the same tool
+          as before.
+        </p>
+        <div class="images-container">
+          <div class="image-container">
+            <img
+              src="images/database_landmarks.png"
+              alt="Mean Face"
+              width="100%"
+            />
+            <p class="image-text">The first person in the database</p>
+          </div>
+          <div class="image-container">
+            <img
+              src="images/self-portrait_landmarks.png"
+              alt="Me"
+              width="100%"
+            />
+            <p class="image-text">Me with the same Landmarks</p>
+          </div>
+        </div>
+
+        <p>
+          I then warped myself into the mean face by using the same method as
+          before and warped the mean face into my face. This gave me the
+          following result.
+        </p>
+        <div class="images-container">
+          <div class="image-container">
+            <img
+              src="images/me_warped_to_mean.png"
+              alt="Mean Face"
+              width="100%"
+            />
+            <p class="image-text">Me warped to the mean face geometry</p>
+          </div>
+          <div class="image-container">
+            <img src="images/mean_warped_to_me.png" alt="Me" width="100%" />
+            <p class="image-text">The mean face warped to my geometry</p>
+          </div>
+        </div>
+
+        <p>
+          As we can see, the image of me warped to the mean face has visible
+          lines in between the warped triangles. This is likeley due to the fact
+          that this image is smaller which makes it more visible when two warped
+          pixels lands on top of one another. This could be resolbed by using a
+          better interpolation method than bilinear interpolation or by using a
+          higher resolution image. You could also create a mask of all the lines
+          and perform a Gaussian blur on them to make them less visible. Another
+          way could be to compute a rolling mean over the image to make outliers
+          like these dissapear.
+        </p>
+
+        <h2>Part 5. Caricatures: Extrapolating from the mean</h2>
+        <p>
+          For the extrapolation, I first computed the difference between the
+          points on my face and the mean face. Then I was able to add or
+          subtract however much of this difference I wanted to my face to make
+          my face look either closer to or further away from the mean face. The
+          amount was controlled by a factor alpha between -2 and 2 with the
+          following formula:
+          <br />
+          new_shape = my_face + alpha * (my_face - mean_face)
+          <br />
+          This made me get the following results.
+        </p>
+
+        <div class="images-container">
+          <div class="three-width-image-container">
+            <img
+              src="images/extrapolation-2.png"
+              alt="Caricature -2"
+              width="100%"
+            />
+            <p class="image-text">Extrapolation -2</p>
+          </div>
+          <div class="three-width-image-container">
+            <img
+              src="images/extrapolation-1,5.png"
+              alt="extrapolation -1,5"
+              width="100%"
+            />
+            <p class="image-text">Extrapolation -1,5</p>
+          </div>
+          <div class="three-width-image-container">
+            <img
+              src="images/extrapolation-1.png"
+              alt="extrapolation -1"
+              width="100%"
+            />
+            <p class="image-text">Extrapolation -1</p>
+          </div>
+
+          <div class="three-width-image-container">
+            <img
+              src="images/extrapolation-0,5.png"
+              alt="extrapolation -0,5"
+              width="100%"
+            />
+            <p class="image-text">Extrapolation -0,5</p>
+          </div>
+          <div class="three-width-image-container">
+            <img
+              src="images/extrapolation0.png"
+              alt="extrapolation 0"
+              width="100%"
+            />
+            <p class="image-text">Extrapolation 0</p>
+          </div>
+          <div class="three-width-image-container">
+            <img
+              src="images/extrapolation0,5.png"
+              alt="extrapolation 0,5"
+              width="100%"
+            />
+            <p class="image-text">Extrapolation 0,5</p>
+          </div>
+          <div class="three-width-image-container">
+            <img
+              src="images/extrapolation1.png"
+              alt="extrapolation 1"
+              width="100%"
+            />
+            <p class="image-text">Extrapolation 1</p>
+          </div>
+          <div class="three-width-image-container">
+            <img
+              src="images/extrapolation1,5.png"
+              alt="extrapolation 1,5"
+              width="100%"
+            />
+            <p class="image-text">Extrapolation 1,5</p>
+          </div>
+          <div class="three-width-image-container">
+            <img
+              src="images/extrapolation2.png"
+              alt="extrapolation 2"
+              width="100%"
+            />
+            <p class="image-text">Extrapolation 2</p>
+          </div>
+        </div>
+
+        <p>
+          As we can see on the first few images, there are these thick bright
+          lines going across the image. This is due to the fact that the side of
+          my face is getting more pushed into the middle than my eye brows. This
+          makes parts of the face overlap when the image is warped. The result
+          is that the colors are added together which makes the colors much
+          brighter. To solve this issue, you could do edge detection when you
+          are warping the image. Another fix could also be to use better labels
+          whereas the ones that are used now makes some lables like the eye brow
+          and the side of the face really close and therefore makes them likely
+          to overlap. However, we see that the mathematical model is working as
+          intended.
+        </p>
+
+        <h2>Bells and Whistles: Changing ethnicity of my face</h2>
+        <p>
+          For the bells and whistels I chose to change the look of my face into
+          the look of a mongolian man. To do this I found a picture of the mean
+          face of a group of mongolian men found on
+          <a
+            href="https://pmsol3.wordpress.com/2009/10/10/world-of-facial-averages-east-southeast-asia-pacific-islander/"
+            >this blog</a
+          >. I then cropped my image to fit the same size as the mean face of
+          the mongolian mean.
+        </p>
+        <div class="images-container">
+          <div class="image-container">
+            <img
+              src="images/mongolian_mean.png"
+              alt="Mongolian Mean"
+              width="100%"
+            />
+            <p class="image-text">The mean face of a group</p>
+          </div>
+          <div class="image-container">
+            <img src="images/me_cropped.png" alt="Me Cropped" width="100%" />
+            <p class="image-text">Me cropped to the same size</p>
+          </div>
+        </div>
+        <p>
+          I then morphed my face into the mongolian face by using the warped
+          method from earlier with 1 as the warp value and 0 as the dissolve
+          value to get my face morphed with just the mongolian shape. I then
+          morphed my face with a warp value of 0 and a dissolve value of 0.5 to
+          get the color of the mongolian face but still have my face in there.
+          To get the final result with both the shape and color of the mongolian
+          face, I then morphed the two images together with a warp value of 1
+          and a dissolve value of 0.5. This gave me the following results.
+        </p>
+        <div class="images-container">
+          <div class="three-width-image-container">
+            <img
+              src="images/mongolian_shape.png"
+              alt="Mongolian Shape"
+              width="100%"
+            />
+            <p class="image-text">Mongolian Shape</p>
+          </div>
+          <div class="three-width-image-container">
+            <img
+              src="images/mongolian_color.png"
+              alt="Mongolian Color"
+              width="100%"
+            />
+            <p class="image-text">Mongolian Color</p>
+          </div>
+          <div class="three-width-image-container">
+            <img
+              src="images/mongolian_shape_and_color.png"
+              alt="Mongolian Shape and Color"
+              width="100%"
+            />
+            <p class="image-text">Mongolian Shape and Color</p>
+          </div>
+        </div>
       </section>
     </main>
   </body>
