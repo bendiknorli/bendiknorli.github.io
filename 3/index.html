@@ -201,6 +201,61 @@
         </p>
         <img src="images/mean_face.png" alt="Mean Face" width="100%" />
         <p>
+          When I had the average face, I could then warp the faces from the
+          database into the average face. This gave me the following result.
+        </p>
+        <div class="images-container">
+          <div class="three-width-image-container">
+            <img
+              src="images/db_to_mean1.png"
+              alt="Face 1 to Mean 1"
+              width="100%"
+            />
+            <p class="image-text">Face 1 warped to the mean face</p>
+          </div>
+          <div class="three-width-image-container">
+            <img
+              src="images/db_to_mean2.png"
+              alt="Face 2 to Mean 2"
+              width="100%"
+            />
+            <p class="image-text">Face 2 warped to the mean face</p>
+          </div>
+          <div class="three-width-image-container">
+            <img
+              src="images/db_to_mean3.png"
+              alt="Face 3 to Mean 3"
+              width="100%"
+            />
+            <p class="image-text">Face 3 warped to the mean face</p>
+          </div>
+          <div class="three-width-image-container">
+            <img
+              src="images/db_to_mean4.png"
+              alt="Face 4 to Mean 4"
+              width="100%"
+            />
+            <p class="image-text">Face 4 warped to the mean face</p>
+          </div>
+          <div class="three-width-image-container">
+            <img
+              src="images/db_to_mean5.png"
+              alt="Face 5 to Mean 5"
+              width="100%"
+            />
+            <p class="image-text">Face 5 warped to the mean face</p>
+          </div>
+          <div class="three-width-image-container">
+            <img
+              src="images/db_to_mean6.png"
+              alt="Face 6 to Mean 6"
+              width="100%"
+            />
+            <p class="image-text">Face 6 warped to the mean face</p>
+          </div>
+        </div>
+
+        <p>
           To warp then warp my own face to the mean face, I first had to label
           my own face in the same way that the faces in the database were
           labeled. I therefore checked the landmarks of the first image in the
@@ -360,6 +415,17 @@
           and the side of the face really close and therefore makes them likely
           to overlap. However, we see that the mathematical model is working as
           intended.
+        </p>
+
+        <br />
+
+        <p>
+          Analyzing the results, we can see that my face is thinner than the
+          average sinse my face is getting wider when we add more of the average
+          image and thinner when we subtract more of the average image. However,
+          my face is also longer away from the camera than the faces in the
+          dataset which makes my face big in general when we add more of the
+          mean face.
         </p>
 
         <h2>Bells and Whistles: Changing ethnicity of my face</h2>
