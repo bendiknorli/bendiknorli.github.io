@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>Bendik Norli - CS180 Project 4</title>
+    <title>Bendik Norli - Image Mosaicing and Rectification Project</title>
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
@@ -23,11 +23,226 @@
     <main>
       <section class="content">
         <h1>Project 4</h1>
-        <p class="note"></p>
-        <br />
-        <p></p>
+        <p class="note">
+          Using homographies to rectify images and creating panorama images
+        </p>
 
-        <h2>Results</h2>
+        <h2>Part A: Computing Homographies</h2>
+        <p>
+          To align the images for both the mosaic and rectification, I needed to
+          compute the homography matrix between the images. The homography
+          defines the transformation between two perspectives of the same scene,
+          which can be used to map points from one image to the other.
+        </p>
+        <br />
+        <p>
+          The homography matrix is a 3x3 matrix that represents a projective
+          transformation. We want to recover this projective transformation such
+          that
+        </p>
+        <img
+          src="images/equations/eq1.png"
+          alt="Homography Matrix"
+          width="50%"
+        />
+
+        <p>If we expand this out, we have the following system of equations:</p>
+        <img
+          src="images/equations/eq2.png"
+          alt="System of Equations"
+          width="50%"
+        />
+
+        <p>Expanding this further:</p>
+        <img
+          src="images/equations/eq3.png"
+          alt="Expanded Homography"
+          width="50%"
+        />
+
+        <p>Which simplifies to:</p>
+        <img
+          src="images/equations/eq4.png"
+          alt="Simplified System"
+          width="50%"
+        />
+
+        <p>This gives us the following system of linear equations:</p>
+        <img src="images/equations/eq5.png" alt="Linear System" width="50%" />
+
+        <h3>Rectification</h3>
+        <p>
+          To ensure the homography matrix was calculated corectly, I took a
+          picture of a square painting from an angle. I then manually selected
+          four corner points from the painting in the image with the tool from
+          the previous student. Then, I mapped those points to a perfect square
+          which in this case was [0, 0], [0, 100], [100, 0], [100, 100] to
+          compute the homography. I then inverse warped the image using the
+          inverse of the homography matrix and bilinear interpolation where the
+          pixels mapped between multiple pixels. Here are the points I selected
+          on the painting and the result after warping the image in to the
+          square:
+        </p>
+        <div class="images-container">
+          <div class="image-container">
+            <img
+              src="images/painting_keypoints.png"
+              alt="Painting Keypoints"
+              width="100%"
+            />
+            <p class="image-text">Painting with defined points</p>
+          </div>
+          <div class="image-container">
+            <img
+              src="images/painting_rectified.png"
+              alt="Target Square"
+              width="100%"
+            />
+            <p class="image-text">Painting Rectified</p>
+          </div>
+        </div>
+
+        <h3>Warping for the Mosaic</h3>
+        <p>
+          For the mosaicing, I took three photos of I-House overlapping each
+          other by about 60%. Here I made sure to keep the camera fixed in one
+          location and rotating it around its own axis to make the center of
+          projection the same for all images.
+        </p>
+        <div class="images-container">
+          <div class="three-width-image-container">
+            <img
+              src="images/i-house-left.png"
+              alt="I House left"
+              width="100%"
+            />
+            <p class="image-text">I House left image</p>
+          </div>
+          <div class="three-width-image-container">
+            <img
+              src="images/i-house-middle.png"
+              alt="I House middle"
+              width="100%"
+            />
+            <p class="image-text">I House middle image</p>
+          </div>
+          <div class="three-width-image-container">
+            <img
+              src="images/i-house-right.png"
+              alt="I House right"
+              width="100%"
+            />
+            <p class="image-text">I House right image</p>
+          </div>
+        </div>
+        <p>
+          Afterward, I manually selected a bunch of points for correspondences
+          between the left and middle image and the right and middle image.
+        </p>
+        <div class="images-container">
+          <div class="image-container">
+            <img
+              src="images/i-house-left-points.png"
+              alt="I House left points"
+              width="100%"
+            />
+            <p class="image-text">Left image points</p>
+          </div>
+          <div class="image-container">
+            <img
+              src="images/i-house-middle-left-points.png"
+              alt="I House middle left points"
+              width="100%"
+            />
+            <p class="image-text">Middle image correspondence points</p>
+          </div>
+          <div class="image-container">
+            <img
+              src="images/i-house-middle-right-points.png"
+              alt="I House middle right points"
+              width="100%"
+            />
+            <p class="image-text">Middle image correspondence points</p>
+          </div>
+          <div class="image-container">
+            <img
+              src="images/i-house-right-points.png"
+              alt="I House right points"
+              width="100%"
+            />
+            <p class="image-text">Right image points</p>
+          </div>
+        </div>
+
+        <p>
+          Using the same warping funciton as before, I warped the images into
+          three separate canvases, all with the same dimentions.
+        </p>
+        <div class="images-container">
+          <div class="three-width-image-container">
+            <img
+              src="images/i-house-left-canvas.png"
+              alt="I House left canvas"
+              width="100%"
+            />
+            <p class="image-text">Left image canvas</p>
+          </div>
+          <div class="three-width-image-container">
+            <img
+              src="images/i-house-middle-canvas.png"
+              alt="I House middle canvas"
+              width="100%"
+            />
+            <p class="image-text">Middle image canvas</p>
+          </div>
+          <div class="three-width-image-container">
+            <img
+              src="images/i-house-right-canvas.png"
+              alt="I House right canvas"
+              width="100%"
+            />
+            <p class="image-text">Right image canvas</p>
+          </div>
+        </div>
+
+        <h3>Blending the Images into a Mosaic</h3>
+        <p>
+          To then combine the images onto one canvas and smooth the transitions
+          over them together, I first created an alpha mask for the middle image
+          by setting 1 at the center and gradually decreasing to 0 at the edges
+          by using euclidean distance from the center. I then multiplied this
+          mask with the pixel values of the middle image to ensure a smooth
+          transition between the warped left and right images.
+        </p>
+
+        <div class="images-container">
+          <div class="image-container">
+            <img src="images/alpha-mask.png" alt="Alpha Mask" width="100%" />
+            <p class="image-text">Alpha Mask</p>
+          </div>
+          <div class="image-container">
+            <img
+              src="images/i-house-middle-canvas-alpha-mask.png"
+              alt="Middle Canvas with Alpha Mask"
+              width="100%"
+            />
+            <p class="image-text">Middle Canvas with Alpha Mask</p>
+          </div>
+        </div>
+        <p>
+          I then computed the weighted average of the three images by combining
+          the pixel values from all images, using the total weight map to
+          normalize the pixel intensities. This produced a smooth, visually
+          appealing transition between the overlapping images.
+        </p>
+        <div class="image-container">
+          <img
+            src="images/i-house-mosaic.png"
+            alt="Blended Panorama"
+            width="100%"
+          />
+          <p class="image-text">Final Blended Panorama</p>
+        </div>
       </section>
     </main>
   </body>
