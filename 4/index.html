@@ -86,7 +86,7 @@
         <div class="images-container">
           <div class="image-container">
             <img
-              src="images/painting_keypoints.png"
+              src="images/portrait.png"
               alt="Painting Keypoints"
               width="100%"
             />
@@ -94,11 +94,31 @@
           </div>
           <div class="image-container">
             <img
-              src="images/painting_rectified.png"
+              src="images/portrait_rectified.png"
               alt="Target Square"
               width="100%"
             />
             <p class="image-text">Painting Rectified</p>
+          </div>
+        </div>
+
+        <p>I then did the same thing with a picture of a mirror</p>
+        <div class="images-container">
+          <div class="image-container">
+            <img
+              src="images/mirror_keypoints.png"
+              alt="Mirror Keypoints"
+              width="100%"
+            />
+            <p class="image-text">Mirror with defined points</p>
+          </div>
+          <div class="image-container">
+            <img
+              src="images/mirror_rectified.png"
+              alt="Mirror Rectified"
+              width="100%"
+            />
+            <p class="image-text">Mirror Rectified</p>
           </div>
         </div>
 
@@ -212,7 +232,11 @@
           by setting 1 at the center and gradually decreasing to 0 at the edges
           by using euclidean distance from the center. I then multiplied this
           mask with the pixel values of the middle image to ensure a smooth
-          transition between the warped left and right images.
+          transition between the warped images on the side and the middle image.
+          During this process I kept a weight map that kept track of the total
+          amount of overalpping images at each pixel. I then divided by the sum
+          of all the canvases by this weight map to normalize the pixel values
+          to get the final blended panorama.
         </p>
 
         <div class="images-container">
@@ -242,6 +266,68 @@
             width="100%"
           />
           <p class="image-text">Final Blended Panorama</p>
+        </div>
+
+        <p>
+          I then did the exact same procedure for these three images of the cal
+          stadium during the homecoming game and the same thing for haas.
+        </p>
+
+        <div class="images-container">
+          <div class="three-width-image-container">
+            <img
+              src="images/cal-left.png"
+              alt="Cal Stadium left"
+              width="100%"
+            />
+            <p class="image-text">Cal Stadium left image</p>
+          </div>
+          <div class="three-width-image-container">
+            <img
+              src="images/cal-middle.png"
+              alt="Cal Stadium middle"
+              width="100%"
+            />
+            <p class="image-text">Cal Stadium middle image</p>
+          </div>
+          <div class="three-width-image-container">
+            <img
+              src="images/cal-right.png"
+              alt="Cal Stadium right"
+              width="100%"
+            />
+            <p class="image-text">Cal Stadium right image</p>
+          </div>
+        </div>
+
+        <div class="images-container">
+          <div class="three-width-image-container">
+            <img src="images/haas-left.png" alt="Haas left" width="100%" />
+            <p class="image-text">Haas left image</p>
+          </div>
+          <div class="three-width-image-container">
+            <img src="images/haas-middle.png" alt="Haas middle" width="100%" />
+            <p class="image-text">Haas middle image</p>
+          </div>
+          <div class="three-width-image-container">
+            <img src="images/haas-right.png" alt="Haas right" width="100%" />
+            <p class="image-text">Haas right image</p>
+          </div>
+        </div>
+
+        <div class="images-container">
+          <div class="image-container">
+            <img
+              src="images/cal-mosaic.png"
+              alt="Cal Stadium Mosaic"
+              width="100%"
+            />
+            <p class="image-text">Final Blended Panorama of Cal Stadium</p>
+          </div>
+          <div class="image-container">
+            <img src="images/haas-mosaic.png" alt="Haas Mosaic" width="100%" />
+            <p class="image-text">Final Blended Panorama of Haas</p>
+          </div>
         </div>
       </section>
     </main>
