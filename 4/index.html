@@ -233,10 +233,6 @@
           by using euclidean distance from the center. I then multiplied this
           mask with the pixel values of the middle image to ensure a smooth
           transition between the warped images on the side and the middle image.
-          During this process I kept a weight map that kept track of the total
-          amount of overalpping images at each pixel. I then divided by the sum
-          of all the canvases by this weight map to normalize the pixel values
-          to get the final blended panorama.
         </p>
 
         <div class="images-container">
@@ -256,8 +252,10 @@
         <p>
           I then computed the weighted average of the three images by combining
           the pixel values from all images, using the total weight map to
-          normalize the pixel intensities. This produced a smooth, visually
-          appealing transition between the overlapping images.
+          normalize the pixel intensities. By using this weight map, I got all
+          the pixel values to a weighted average of all the overlapping images.
+          This produced a smooth, visually appealing transition between the
+          overlapping images.
         </p>
         <div class="image-container">
           <img
