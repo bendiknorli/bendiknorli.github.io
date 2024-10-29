@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>Bendik Norli - Image Mosaicing and Rectification Project</title>
+    <title>Bendik Norli - Automatic Image Mosaicing and Rectification</title>
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
@@ -24,7 +24,8 @@
       <section class="content">
         <h1>Project 4</h1>
         <p class="note">
-          Using homographies to rectify images and creating panorama images
+          Rectifying images and automatically creating panorama images through
+          feature matching and homography
         </p>
 
         <h2>Part A: Computing Homographies</h2>
@@ -345,7 +346,8 @@
         <p>
           The next step now was to get feature descriptors for the points in
           each image. To do this, I looped over every 5th pixel around the image
-          in a 36x36 grid to get a 8x8 descriptor for each point. I then
+          in a 36x36 grid (since this will result in the same number of points
+          as a 40x40 grid) to get a 8x8 descriptor for each point. I then
           normalized it by subtracting the mean and dividing by the standard
           deviation of the descriptor. This gave me descriptors that looked like
           this:
