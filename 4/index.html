@@ -310,12 +310,14 @@
         <img src="images/street-mosaic.png" alt="Street Mosaic" width="100%" />
 
         <h2>Part B: Feature Matching and Autostitching</h2>
+        <h3>Harris points</h3>
         <p>
           To start implementing the autostitching, I used the sample code given
           in the project to detect the harris interest points. This made me get
           this result.
         </p>
         <img src="images/harris-points.png" alt="Harris Points" width="50%" />
+        <h3>Adaptive Non-Maximal Suppression</h3>
         <p>
           As we can see, getting all the harris interest points results in a lot
           of points. To reduce the number of points, I used the Adaptive
@@ -339,12 +341,14 @@
           image.
         </p>
         <img src="images/anms-points.png" alt="ANMS Points" width="50%" />
+        <h3>Feature Descriptor extraction</h3>
         <p>
-          The next step now was to get descriptors for the points in each image.
-          To do this, I looped over every 5th pixel around the image in a 36x36
-          grid to get a 8x8 descriptor for each point. I then normalized it by
-          subtracting the mean and dividing by the standard deviation of the
-          descriptor. This gave me descriptors that looked like this:
+          The next step now was to get feature descriptors for the points in
+          each image. To do this, I looped over every 5th pixel around the image
+          in a 36x36 grid to get a 8x8 descriptor for each point. I then
+          normalized it by subtracting the mean and dividing by the standard
+          deviation of the descriptor. This gave me descriptors that looked like
+          this:
         </p>
         <div class="images-container">
           <div class="image-container">
@@ -366,7 +370,7 @@
           alt="Descriptor Collection"
           width="100%"
         />
-
+        <h3>Feature Matching</h3>
         <p>
           After getting the descriptors, I then matched the descriptors between
           the two images by first normalizing the descriptors and then computing
@@ -397,7 +401,7 @@
             <p class="image-text">Matches between right and middle image</p>
           </div>
         </div>
-
+        <h3>RANSAC</h3>
         <p>
           I now had the matches between the images, but as we see on the images
           above, some of the matches are still off. To fix this, I implemented
