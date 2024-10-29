@@ -254,49 +254,20 @@
           the pixel values from all images, using the total weight map to
           normalize the pixel intensities. By using this weight map, I got all
           the pixel values to a weighted average of all the overlapping images.
-          This produced a smooth, visually appealing transition between the
-          overlapping images.
+          This produced a smooth transition between the overlapping images.
+          After cropping the image to remove the black edges, I got this final
+          blended panorama.
         </p>
-        <div class="image-container">
-          <img
-            src="images/i-house-mosaic.png"
-            alt="Blended Panorama"
-            width="100%"
-          />
-          <p class="image-text">Final Blended Panorama</p>
-        </div>
+        <img
+          src="images/i-house-mosaic.png"
+          alt="Blended Panorama"
+          width="100%"
+        />
 
         <p>
-          I then did the exact same procedure for these three images of the cal
-          stadium during the homecoming game and the same thing for haas.
+          I then did the exact same procedure for these three images of haas and
+          the street next to it.
         </p>
-
-        <div class="images-container">
-          <div class="three-width-image-container">
-            <img
-              src="images/cal-left.png"
-              alt="Cal Stadium left"
-              width="100%"
-            />
-            <p class="image-text">Cal Stadium left image</p>
-          </div>
-          <div class="three-width-image-container">
-            <img
-              src="images/cal-middle.png"
-              alt="Cal Stadium middle"
-              width="100%"
-            />
-            <p class="image-text">Cal Stadium middle image</p>
-          </div>
-          <div class="three-width-image-container">
-            <img
-              src="images/cal-right.png"
-              alt="Cal Stadium right"
-              width="100%"
-            />
-            <p class="image-text">Cal Stadium right image</p>
-          </div>
-        </div>
 
         <div class="images-container">
           <div class="three-width-image-container">
@@ -312,19 +283,214 @@
             <p class="image-text">Haas right image</p>
           </div>
         </div>
+        <img src="images/haas-mosaic.png" alt="Haas Mosaic" width="100%" />
+
+        <div class="images-container">
+          <div class="three-width-image-container">
+            <img src="images/street-left.png" alt="Street left" width="100%" />
+            <p class="image-text">Street left image</p>
+          </div>
+          <div class="three-width-image-container">
+            <img
+              src="images/street-middle.png"
+              alt="Street middle"
+              width="100%"
+            />
+            <p class="image-text">Street middle image</p>
+          </div>
+          <div class="three-width-image-container">
+            <img
+              src="images/street-right.png"
+              alt="Street right"
+              width="100%"
+            />
+            <p class="image-text">Street right image</p>
+          </div>
+        </div>
+        <img src="images/street-mosaic.png" alt="Street Mosaic" width="100%" />
+
+        <h2>Part B: Feature Matching and Autostitching</h2>
+        <p>
+          To start implementing the autostitching, I used the sample code given
+          in the project to detect the harris interest points. This made me get
+          this result.
+        </p>
+        <img src="images/harris-points.png" alt="Harris Points" width="50%" />
+        <p>
+          As we can see, getting all the harris interest points results in a lot
+          of points. To reduce the number of points, I used the Adaptive
+          Non-Maximal Suppression algorithm to get the interest points that were
+          both spread out and had a high corner response. I did this by first
+          sorting the harris points by their strength. For each point, I then
+          found all points that were stronger than the current point, even after
+          mulitplying by a c_robust factor of 0.9. I stored the distance r_i to
+          the closest point in a list. This process can be described with the
+          following equation:
+        </p>
+        <img
+          src="images/equations/ri_equation.png"
+          alt="Ri Equation"
+          width="50%"
+        />
+        <p>
+          With this list of distances, I sorted it and select the stronger
+          points that were the furthest away from each other. For the amount of
+          points, I selected 500 as in the paper which resulted in the following
+          image.
+        </p>
+        <img src="images/anms-points.png" alt="ANMS Points" width="50%" />
+        <p>
+          The next step now was to get descriptors for the points in each image.
+          To do this, I looped over every 5th pixel around the image in a 36x36
+          grid to get a 8x8 descriptor for each point. I then normalized it by
+          subtracting the mean and dividing by the standard deviation of the
+          descriptor. This gave me descriptors that looked like this:
+        </p>
+        <div class="images-container">
+          <div class="image-container">
+            <img
+              src="images/descriptor_unnormalized.png"
+              alt="Descriptor 1"
+              width="100%"
+            />
+            <p class="image-text">Descriptor before normalization</p>
+          </div>
+          <div class="image-container">
+            <img src="images/descriptor3.png" alt="Descriptor 3" width="100%" />
+            <p class="image-text">Descriptor after normalization</p>
+          </div>
+        </div>
+
+        <img
+          src="images/descriptor_collection.png"
+          alt="Descriptor Collection"
+          width="100%"
+        />
+
+        <p>
+          After getting the descriptors, I then matched the descriptors between
+          the two images by first normalizing the descriptors and then computing
+          the euclidean distance between them. I could then sort the distances
+          so that I had a list of the the descriptors that were the most
+          similar. I then took the two first entries in this list which were the
+          first and second nearest neighbor and kept all the matches that
+          satisfied the Lowe's ratio test. This test was done by taking the
+          ratio of the distance between the first and second nearest neighbor to
+          make sure it was both a good and unique match. This gave me the
+          following matches:
+        </p>
+        <div class="images-container">
+          <div class="image-container">
+            <img
+              src="images/i-house-left-middle-matches.png"
+              alt="I House Left Middle Matches"
+              width="100%"
+            />
+            <p class="image-text">Matches between left and middle image</p>
+          </div>
+          <div class="image-container">
+            <img
+              src="images/i-house-middle-right-matches.png"
+              alt="I House Right Middle Matches"
+              width="100%"
+            />
+            <p class="image-text">Matches between right and middle image</p>
+          </div>
+        </div>
+
+        <p>
+          I now had the matches between the images, but as we see on the images
+          above, some of the matches are still off. To fix this, I implemented
+          the RANSAC algorithm to find the inliers in the matches. I did this by
+          first randomly selecting 4 matches and computing the homography matrix
+          between them. I then used this matrix to warp the points from the
+          first image to the second image and checked if the distance between
+          the warped points and the actual points were less than a threshold of
+          1 pixel away from each other. I then counted the amount of inliers and
+          kept the homography matrix that had the most inliers. I then ended up
+          with these inliers:
+        </p>
+        <div class="images-container">
+          <div class="image-container">
+            <img
+              src="images/i-house-left-middle-ransac.png"
+              alt="I House Left Middle RANSAC"
+              width="100%"
+            />
+            <p class="image-text">Inliers between left and middle image</p>
+          </div>
+          <div class="image-container">
+            <img
+              src="images/i-house-middle-right-ransac.png"
+              alt="I House Right Middle RANSAC"
+              width="100%"
+            />
+            <p class="image-text">Inliers between right and middle image</p>
+          </div>
+        </div>
+
+        <p>
+          With the inliers, I could now warp the images into the final mosaic.
+        </p>
+        <img
+          src="images/i-house-auto-mosaic.png"
+          alt="Auto Mosaic"
+          width="100%"
+        />
+        <div class="images-container">
+          <div class="image-container">
+            <img
+              src="images/i-house-auto-mosaic.png"
+              alt="Auto Mosaic"
+              width="100%"
+            />
+            <p class="image-text">Autostitched</p>
+          </div>
+          <div class="image-container">
+            <img
+              src="images/i-house-mosaic.png"
+              alt="Manual Mosaic"
+              width="100%"
+            />
+            <p class="image-text">Manually stitched</p>
+          </div>
+        </div>
 
         <div class="images-container">
           <div class="image-container">
             <img
-              src="images/cal-mosaic.png"
-              alt="Cal Stadium Mosaic"
+              src="images/haas-auto-mosaic.png"
+              alt="Haas Auto Mosaic"
               width="100%"
             />
-            <p class="image-text">Final Blended Panorama of Cal Stadium</p>
+            <p class="image-text">Haas Autostitched</p>
           </div>
           <div class="image-container">
-            <img src="images/haas-mosaic.png" alt="Haas Mosaic" width="100%" />
-            <p class="image-text">Final Blended Panorama of Haas</p>
+            <img
+              src="images/haas-mosaic.png"
+              alt="Haas Manual Mosaic"
+              width="100%"
+            />
+            <p class="image-text">Haas Manually stitched</p>
+          </div>
+        </div>
+
+        <div class="images-container">
+          <div class="image-container">
+            <img
+              src="images/street-auto-mosaic.png"
+              alt="Street Auto Mosaic"
+              width="100%"
+            />
+            <p class="image-text">Street Autostitched</p>
+          </div>
+          <div class="image-container">
+            <img
+              src="images/street-mosaic.png"
+              alt="Street Manual Mosaic"
+              width="100%"
+            />
+            <p class="image-text">Street Manually stitched</p>
           </div>
         </div>
       </section>
