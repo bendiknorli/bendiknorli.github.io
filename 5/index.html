@@ -24,7 +24,7 @@
       <section class="content">
         <h1>Project 5</h1>
         <p class="note">Using diffusion models to generate images</p>
-        <h2>Setup</h2>
+        <h2>Part A</h2>
         <p>
           For this project we were supposed to generate images by using
           diffusion models. The first part of the project was to run an already
@@ -205,7 +205,15 @@
         </p>
 
         <div class="images-container">
-          <div class="three-width-image-container">
+          <div class="image-container">
+            <img
+              src="images/1.1-1.3/tower_noise1.png"
+              alt="Campanile 1"
+              width="100%"
+            />
+            <p class="image-text">Noise after 250 step</p>
+          </div>
+          <div class="image-container">
             <img
               src="images/1.1-1.3/tower_denoised1.png"
               alt="Campanile denoised 1"
@@ -213,7 +221,17 @@
             />
             <p class="image-text">Denoising after 250 steps</p>
           </div>
-          <div class="three-width-image-container">
+        </div>
+        <div class="images-container">
+          <div class="image-container">
+            <img
+              src="images/1.1-1.3/tower_noise2.png"
+              alt="Campanile 10"
+              width="100%"
+            />
+            <p class="image-text">Noise after 500 steps</p>
+          </div>
+          <div class="image-container">
             <img
               src="images/1.1-1.3/tower_denoised2.png"
               alt="Campanile denoised 10"
@@ -221,7 +239,18 @@
             />
             <p class="image-text">Denoising after 500 steps</p>
           </div>
-          <div class="three-width-image-container">
+        </div>
+
+        <div class="images-container">
+          <div class="image-container">
+            <img
+              src="images/1.1-1.3/tower_noise3.png"
+              alt="Campanile 100"
+              width="100%"
+            />
+            <p class="image-text">Noise after 750 steps</p>
+          </div>
+          <div class="image-container">
             <img
               src="images/1.1-1.3/tower_denoised3.png"
               alt="Campanile denoised 100"
@@ -231,7 +260,7 @@
           </div>
         </div>
 
-        <h3>Implementing One Step Denoising</h3>
+        <h3>One Step Denoising</h3>
         <p>
           To implement one step denoising, I used the pre-trained U-Net model
           and estimated the noise in the new noisy image, with the stage_1.unet.
@@ -256,7 +285,7 @@
           width="100%"
         />
 
-        <h3>Implementing Iterative Denoising</h3>
+        <h3>Iterative Denoising</h3>
         <p>
           To implement iterative denoising, I used the U-Net model as before,
           but now denoised the image bit by bit. I did this by going from
@@ -291,6 +320,7 @@
             <p class="image-text">Timestep 390</p>
           </div>
         </div>
+
         <div class="images-container">
           <div class="three-width-image-container">
             <img
@@ -317,18 +347,23 @@
             <p class="image-text">Final predicted image</p>
           </div>
         </div>
+
         <div class="images-container">
-          <div class="image-container">
+          <div class="three-width-image-container">
             <img src="images/1.4/one_step.png" alt="One Step" width="100%" />
             <p class="image-text">One step denoising</p>
           </div>
-          <div class="image-container">
+          <div class="three-width-image-container">
             <img
               src="images/1.4/gaussian_blur.png"
               alt="Gaussian Blur"
               width="100%"
             />
             <p class="image-text">Gaussian blur denoising</p>
+          </div>
+          <div class="three-width-image-container">
+            <img src="images/1.4/tower_org.png" alt="Original" width="100%" />
+            <p class="image-text">Original image</p>
           </div>
         </div>
         <h3>Diffusion Model Sampling</h3>
@@ -446,20 +481,98 @@
         </div>
         <h3>Image-to-image Translation</h3>
         <p>
-          For this section, I used the generative model to recreate an image of
-          my dog Timmi. I used the same process as before with the prompt "a
-          high quality photo". I tried noise start levels from 1 to 20. For
-          lower start levels where the noise is closer to the random noise, the
-          model generated random images that were not even related to dogs. For
-          higher noise levels, however, the model started to generate images of
-          dogs. I did the same for an image of Paddy, an Irish man, standing on
-          a cliff and here the images were always depicting some kind of
-          landscape, which may indicate that there are more picutres of
+          For this section, I used the iterative classifier-free guidance
+          denoising to recreate the image of the campanile. I used the prompt "a
+          high quality photo" and noise levels from 1 to 20. The results show
+          that we get images closer and closer to the original image as the
+          noise level increases.
+        </p>
+
+        <div class="images-container">
+          <div class="seven-width-image-container">
+            <img
+              src="images/1.7/campanile/campanile2.png"
+              alt="Campanile 2"
+              width="100%"
+            />
+            <p class="image-text">Campanile from noise level 1</p>
+          </div>
+          <div class="seven-width-image-container">
+            <img
+              src="images/1.7/campanile/campanile3.png"
+              alt="Campanile 3"
+              width="100%"
+            />
+            <p class="image-text">Campanile from noise level 3</p>
+          </div>
+          <div class="seven-width-image-container">
+            <img
+              src="images/1.7/campanile/campanile4.png"
+              alt="Campanile 5"
+              width="100%"
+            />
+            <p class="image-text">Campanile from noise level 5</p>
+          </div>
+          <div class="seven-width-image-container">
+            <img
+              src="images/1.7/campanile/campanile5.png"
+              alt="Campanile 7"
+              width="100%"
+            />
+            <p class="image-text">Campanile from noise level 7</p>
+          </div>
+          <div class="seven-width-image-container">
+            <img
+              src="images/1.7/campanile/campanile6.png"
+              alt="Campanile 10"
+              width="100%"
+            />
+            <p class="image-text">Campanile from noise level 10</p>
+          </div>
+          <div class="seven-width-image-container">
+            <img
+              src="images/1.7/campanile/campanile7.png"
+              alt="Campanile 20"
+              width="100%"
+            />
+            <p class="image-text">Campanile from noise level 20</p>
+          </div>
+          <div class="seven-width-image-container">
+            <img
+              src="images/1.7/campanile/campanile.png"
+              alt="Campanile"
+              width="100%"
+            />
+            <p class="image-text">Original image</p>
+          </div>
+        </div>
+
+        <p>
+          Afterwards, I used the generative model to recreate an image of my dog
+          Timmi. For lower start levels where the noise is closer to the random
+          noise, the model generated random images that were not even related to
+          dogs. For higher noise levels, however, the model started to generate
+          images of dogs. I did the same for an image of Paddy, an Irish man,
+          standing on a cliff and here the images were always depicting some
+          kind of landscape, which may indicate that there are more picutres of
           landscapes in the training data than pictures of dogs. The same thing
           held for that image where the recreations with higher noise level
           where more similar to the originial image. These were the results I
           got.
         </p>
+
+        <div class="images-container">
+          <div class="image-container">
+            <img src="images/1.7/timmi/timmi.png" alt="Timmi" width="100%" />
+            <p class="image-text">Original image of Timmi</p>
+          </div>
+          <div class="image-container">
+            <img src="images/1.7/paddy/paddy.png" alt="Paddy" width="100%" />
+            <p class="image-text">
+              Original image of Paddy standing on a cliff
+            </p>
+          </div>
+        </div>
 
         <div class="images-container">
           <div class="three-width-image-container">
@@ -995,7 +1108,7 @@
               alt="Campfire and old man"
               width="100%"
             />
-            <p class="image-text">Right side up</p>
+            <p class="image-text">Right side up (campfire)</p>
           </div>
           <div class="image-container">
             <img
@@ -1004,7 +1117,7 @@
               width="100%"
               style="transform: rotate(180deg)"
             />
-            <p class="image-text">Upside down</p>
+            <p class="image-text">Upside down (old man)</p>
           </div>
         </div>
         <p>
@@ -1019,7 +1132,7 @@
               alt="Waterfall and skull"
               width="100%"
             />
-            <p class="image-text">Right side up</p>
+            <p class="image-text">Right side up (waterfall)</p>
           </div>
           <div class="image-container">
             <img
@@ -1028,7 +1141,7 @@
               width="100%"
               style="transform: rotate(180deg)"
             />
-            <p class="image-text">Upside down</p>
+            <p class="image-text">Upside down (skull)</p>
           </div>
         </div>
 
@@ -1039,7 +1152,7 @@
               alt="Amalfi and dog"
               width="100%"
             />
-            <p class="image-text">Right side up</p>
+            <p class="image-text">Right side up (Amalfi coast)</p>
           </div>
           <div class="image-container">
             <img
@@ -1048,7 +1161,7 @@
               width="100%"
               style="transform: rotate(180deg)"
             />
-            <p class="image-text">Upside down</p>
+            <p class="image-text">Upside down (dog)</p>
           </div>
         </div>
 
@@ -1072,7 +1185,7 @@
               alt="Waterfalls and skull"
               width="100%"
             />
-            <p class="image-text">Close up</p>
+            <p class="image-text">Close up (waterfalls)</p>
           </div>
           <div class="image-container">
             <img
@@ -1081,7 +1194,7 @@
               width="100%"
               style="transform: scale(0.2)"
             />
-            <p class="image-text">From a distance</p>
+            <p class="image-text">From a distance (skull)</p>
           </div>
         </div>
         <p>
@@ -1100,7 +1213,7 @@
               alt="Amalfi and dog"
               width="100%"
             />
-            <p class="image-text">Close up</p>
+            <p class="image-text">Close up (Amalfi coast)</p>
           </div>
           <div class="image-container">
             <img
@@ -1109,7 +1222,7 @@
               width="100%"
               style="transform: scale(0.2)"
             />
-            <p class="image-text">From a distance</p>
+            <p class="image-text">From a distance (dog)</p>
           </div>
         </div>
         <div class="images-container">
@@ -1119,7 +1232,7 @@
               alt="Village Rocket"
               width="100%"
             />
-            <p class="image-text">Close up</p>
+            <p class="image-text">Close up (mountain village)</p>
           </div>
           <div class="image-container">
             <img
@@ -1128,7 +1241,7 @@
               width="100%"
               style="transform: scale(0.2)"
             />
-            <p class="image-text">From a distance</p>
+            <p class="image-text">From a distance (rocket)</p>
           </div>
         </div>
       </section>
