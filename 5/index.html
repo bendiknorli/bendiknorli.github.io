@@ -262,9 +262,9 @@
 
         <h3>One Step Denoising</h3>
         <p>
-          To implement one step denoising, I used the pre-trained U-Net model
-          and estimated the noise in the new noisy image, with the stage_1.unet.
-          I could then remove the noise from the image to get a denoised image.
+          To implement one step denoising, I used the pre-trained UNet model and
+          estimated the noise in the new noisy image, with the stage_1.unet. I
+          could then remove the noise from the image to get a denoised image.
           Below are the results of the denoising after 250, 500, and 750 steps
           showing the original image, the noisy image, and the denoised image
           respectively.
@@ -287,12 +287,11 @@
 
         <h3>Iterative Denoising</h3>
         <p>
-          To implement iterative denoising, I used the U-Net model as before,
-          but now denoised the image bit by bit. I did this by going from
-          timestep 690 and down with a stride of 30. Below is every fifth image
-          in the process. As we see, the results are way better with this
-          approach than denoising the image with one large step or by gaussian
-          blurring.
+          To implement iterative denoising, I used the UNet model as before, but
+          now denoised the image bit by bit. I did this by going from timestep
+          690 and down with a stride of 30. Below is every fifth image in the
+          process. As we see, the results are way better with this approach than
+          denoising the image with one large step or by gaussian blurring.
         </p>
         <div class="images-container">
           <div class="three-width-image-container">
@@ -1093,7 +1092,7 @@
         </div>
         <h3>Visual Anagrams</h3>
         <p>
-          Now to create a visual anagram, I used the U-Net model twice. First, I
+          Now to create a visual anagram, I used the UNet model twice. First, I
           used it to denoise the image and then I used it to denoise the image
           flipped on its head. By doing this, I could generate an image where
           you see one thing when the image is upside down and another thing when
@@ -1244,6 +1243,161 @@
             <p class="image-text">From a distance (rocket)</p>
           </div>
         </div>
+
+        <h2>Part B</h2>
+        <h3>Training a Single-Step Denoising UNet</h3>
+        <p>
+          Now it was time to build our own diffusion model from scratch. I
+          started this by implementing these blocks:
+        </p>
+        <br />
+        <p>
+          (1) Conv is a convolutional layer that doesn't change the image
+          resolution, only the channel dimension. <br />(2) DownConv is a
+          convolutional layer that downsamples the tensor by 2. <br />(3) UpConv
+          is a convolutional layer that upsamples the tensor by 2. <br />(4)
+          Flatten is an average pooling layer that flattens a 7x7 tensor into a
+          1x1 tensor. 7 is the resulting height and width after the downsampling
+          operations. <br />(5) Unflatten is a convolutional layer that
+          unflattens/upsamples a 1x1 tensor into a 7x7 tensor. <br />(6) Concat
+          is a channel-wise concatenation between tensors with the same 2D
+          shape. This is simply torch.cat. D is the number of hidden channels
+          and is a hyperparameter that we will set ourselves. <br />(7)
+          ConvBlock, is similar to Conv but includes an additional Conv. Note
+          that it has the same input and output shape as (1) Conv. <br />(8)
+          DownBlock, is similar to DownConv but includes an additional
+          ConvBlock. Note that it has the same input and output shape as (2)
+          DownConv. <br />(9) UpBlock, is similar to UpConv but includes an
+          additional ConvBlock. Note that it has the same input and output shape
+          as (3) UpConv.
+        </p>
+        <br />
+        <p>
+          Afterwards, I put it all together to create an unconditional UNet
+          according to this architecture:
+        </p>
+        <img src="images/b1/unet.png" alt="Unconditional UNet" width="100%" />
+        <h3>Using the UNet to Train a Denoiser</h3>
+        <p>
+          To then train the model on MNIST, I first had to add noise to the
+          images that the model would be able to learn from. Here I added noise
+          of the following levels: [0.0, 0.2, 0.4, 0.5, 0.6, 0.8, 1.0]. To
+          visualize the noise, I plotted 5 digits with different noise levels.
+          The results are below.
+        </p>
+        <img
+          src="images/b1/digit_noise_levels.png"
+          alt="Digit noise levels"
+          width="100%"
+        />
+        <p>
+          I then trained the model for 5 epochs with a batch size of 256. I set
+          the noise level to 0.5 and the number of hidden dimensions to 128.
+          Using L2 loss (MSE) and Adam optimizer with a learning rate of 1e-4, I
+          ended up getting a loss of only 0.0084 after the last epoch. Below I
+          have plotted some inputs to the model, the noised image and the output
+          that the model generated do denoise the image. I did this for both the
+          first and last epoch and we can clearly see that the output of the
+          model is more clear and similar to the input image after the last
+          epoch.
+        </p>
+        <h4>Results After Epoch 1</h4>
+        <img src="images/b1/epoch1.png" alt="Epoch 1" width="100%" />
+        <h4>Results After Epoch 5</h4>
+        <img src="images/b1/epoch5.png" alt="Epoch 5" width="100%" />
+        <p>
+          Below is the loss plotted over the steps of the training. We can see
+          that the loss is steadily decreasing and that the model is learning
+          well.
+        </p>
+        <img
+          src="images/b1/training_losses.png"
+          alt="Training losses"
+          width="100%"
+        />
+
+        <p>
+          When we have trained the model on noise level 0.5 we can then see how
+          it performs when denoising images of other noise levels. Below I have
+          plotted the input image at the noise levels from before [0.0, 0.2,
+          0.4, 0.5, 0.6, 0.8, 1.0] and the output that the model generated when
+          denoising the image. We can see that the model is able to denoise the
+          images with lower noise levels quite well. However, when the noise
+          gets higher to 0.8 or 1.0, the model creates artifacts in the image
+          and the number is not looking right.
+        </p>
+        <img
+          src="images/b1/denoise_at_levels.png"
+          alt="Denoise at levels"
+          width="100%"
+        />
+        <h2>Training a Diffusion Model</h2>
+        <p>
+          Now it was time to train a diffusion model. I started by implementing
+          time conditioning to the UNet so that it could take in images at
+          different noise levels and learn how to denoise them. I could then use
+          the equations below to calculate the next time step iteratively where
+          x<sub>t</sub> is the image at time t, z is noise, betas are a linear
+          schedule between two intervals, alphas are 1 - betas and alpha-bars
+          are cumulative product of alphas.
+        </p>
+        <img
+          src="images/equations/noise_prediction.png"
+          alt="Noise prediction"
+          width="50%"
+        />
+        <p>
+          Doing this allowed us to learn the patterns in the data and recreate
+          digits from noise, effectively drawing our own digits. Below I have
+          plotted the training loss over the steps of the training as well as
+          numbers generated after 5 and 20 epochs. We can see that the model is
+          becoming better as the training progresses and that the numbers are
+          becoming more clear and start to represent the actual digits.
+        </p>
+        <img
+          src="images/b2/training_losses.png"
+          alt="Training losses"
+          width="100%"
+        />
+        <h4>Results After Epoch 5</h4>
+        <img src="images/b2/epoch5.png" alt="Epoch 5" width="100%" />
+        <h4>Results After Epoch 20</h4>
+        <img src="images/b2/epoch20.png" alt="Epoch 20" width="100%" />
+
+        <p>
+          For the next part I implemented a Class-Conditioned UNet where I
+          conditioned the model on the class of the digit that I wanted to
+          generate. I did this by adding 2 more fully connected blocks to the
+          UNet with a one-hot encoded class label c as input. Additionally, I
+          implemented a 10% dropout to make it work without being conditioned on
+          the class c. Below is the loss plotted over the steps of the training
+          across 20 epochs.
+        </p>
+        <img
+          src="images/b2/class_cond_losses.png"
+          alt="Class cond losses"
+          width="100%"
+        />
+        <p>
+          Having a class conditioned UNet, we could now sample from specific
+          classes. Below are the samples from classes 0 to 9 after 5 and 20
+          epochs. We can see that the model is able to generate digits that
+          represent the classes quite well even after 5 epochs because of the
+          class conditioning, but it still gets less noisy and more clear after
+          20 epochs.
+        </p>
+        <h4>Results After Epoch 5</h4>
+        <img
+          src="images/b2/class_cond_epoch5.png"
+          alt="Class cond epoch 5"
+          width="100%"
+        />
+        <h4>Results After Epoch 20</h4>
+        <img
+          src="images/b2/class_cond_epoch20.png"
+          alt="Class cond epoch 20"
+          width="100%"
+        />
       </section>
     </main>
   </body>
