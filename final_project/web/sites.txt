@@ -1,3 +1,3 @@
-https://bendiknorli.github.io/image_quilting/code
-https://bendiknorli.github.io/nerf_transfer
+https://bendiknorli.github.io/final_project/code/image_quilting/code/index.html
 https://github.com/bendiknorli/bendiknorli.github.io
+https://bendiknorli.github.io/final_project/code/nerf_transfer/index.html
