@@ -1,0 +1,1 @@
+No special instructions, just need to have libraries/starter code. Then, run cells in order. Only need to change file path in last cell if rendering other images.

@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+    <title>CS 180 Image Quilting Project</title>
+    <style>
+        body {
+            font-family: "Titillium Web", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, "Lucida Grande", sans-serif;
+            font-weight: 300;
+            font-size: 18px;
+            margin-left: auto;
+            margin-right: auto;
+            width: 60%;
+            background-color: #f5f5f5;
+        }
+
+        h1, h2 {
+            font-size: 35px;
+            font-weight: 300;
+            text-align: center;
+        }
+
+        h3 {
+            font-size: 25px;
+            font-weight: 300;
+            text-align: center;
+            line-height: 30px;
+        }
+
+        .code {
+            font-size: 18px;
+            font-family: "Courier New", Courier, monospace;
+            background-color: #f0f0f0;
+            padding: 2px 4px;
+            border-radius: 3px;
+        }
+
+        .equation {
+            text-align: center;
+            background-color: #f9f9f9;
+            padding: 10px;
+            margin: 20px 0;
+            font-family: "Courier New", Courier, monospace;
+        }
+
+        .description {
+            margin-bottom: 30px;
+            text-align: justify;
+        }
+
+        .centered-text {
+            text-align: center;
+        }
+
+        .comparison-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 30px;
+            border-collapse: collapse;
+        }
+
+        .comparison-row {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .comparison-image {
+            width: 100%;
+            height: auto;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-bottom: 5px;
+        }
+
+        .centered-container {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .centered-image {
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            width: 75%;
+            height: auto;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .image-title, .image-description {
+            font-size: 16px;
+            font-weight: 500;
+            color: #333;
+            margin: 10px 0;
+        }
+
+        .image-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .image-container {
+            text-align: center;
+        }
+
+        .image-container img {
+            width: 100%;
+            height: auto;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .column-title {
+            grid-column: span 1;
+            font-size: 30px;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .table-title {
+            grid-column: span 2;
+            font-size: 18px;
+            font-weight: bold;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        hr {
+            border: 0;
+            height: 1px;
+            background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>CS 180: Image Quilting</h1>
+    </header>
+
+    <main>
+        <section class="description">
+            <h2>Project Overview</h2>
+            <p>
+                This project implements the image quilting algorithm for texture synthesis and transfer, as described in the SIGGRAPH 2001 paper by Efros and Freeman. The key idea is to generate textures by sampling overlapping patches from a given sample texture. This process is extended to texture transfer, where the texture of a sample is applied to a target image.
+            </p>
+        </section>
+
+        <section class="description">
+            <h2>Randomly Sampled Texture</h2>
+            <p>
+                The <span class="code">quilt_random</span> function generates an output image by randomly sampling patches of size <span class="code">patch_size</span> from a given sample image. Each patch is placed without any overlap, leading to visible seams. This approach serves as a baseline for more advanced methods.
+            </p>
+
+            <div class="comparison-container">
+                <div class="comparison-row">
+                    <img src="images/samples/grass.jpg" class="comparison-image">
+                    <div class="image-title">Grass</div>
+                </div>
+    
+                <div class="comparison-row">
+                    <img src="images/grass_random.png"
+                    class="comparison-image">
+                    <div class="image-title">Grass Randomly Sampled</div>
+                </div>
+            </div>
+
+            <div class="comparison-container">
+                <div class="comparison-row">
+                    <img src="images/samples/bricks_small.jpg" class="comparison-image">
+                    <div class="image-title">Brick</div>
+                </div>
+    
+                <div class="comparison-row">
+                    <img src="images/brick_random.png"
+                    class="comparison-image">
+                    <div class="image-title">Brick Randomly Sampled</div>
+                </div>
+            </div>
+
+            <div class="comparison-container">
+                <div class="comparison-row">
+                    <img src="images/samples/text_small.jpg" class="comparison-image">
+                    <div class="image-title">Text</div>
+                </div>
+    
+                <div class="comparison-row">
+                    <img src="images/text_random.png"
+                    class="comparison-image">
+                    <div class="image-title">Text Randomly Sampled</div>
+                </div>
+            </div>
+
+            <div class="comparison-container">
+                <div class="comparison-row">
+                    <img src="images/samples/grass.jpg" class="comparison-image">
+                    <div class="image-title">Toast</div>
+                </div>
+    
+                <div class="comparison-row">
+                    <img src="images/toast_random.png"
+                    class="comparison-image">
+                    <div class="image-title">Toast Randomly Sampled</div>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>Overlapping Patches</h2>
+            <p>
+                The <span class="code">quilt_simple</span> function improves upon the random sampling method by overlapping patches. Using the <span class="code">ssd_patch</span> and <span class="code">choose_sample</span> helper functions, the algorithm ensures better alignment between adjacent patches, reducing visible seams.
+            </p>
+
+            <div class="comparison-container">
+                <div class="comparison-row">
+                    <img src="images/samples/grass.jpg" class="comparison-image">
+                    <div class="image-title">Grass</div>
+                </div>
+    
+                <div class="comparison-row">
+                    <img src="images/grass_simple.png"
+                    class="comparison-image">
+                    <div class="image-title">Grass, Overlapping Patches</div>
+                </div>
+            </div>
+
+            <div class="comparison-container">
+                <div class="comparison-row">
+                    <img src="images/samples/bricks_small.jpg" class="comparison-image">
+                    <div class="image-title">Brick</div>
+                </div>
+    
+                <div class="comparison-row">
+                    <img src="images/brick_simple.png"
+                    class="comparison-image">
+                    <div class="image-title">Brick, Overlapping Patches</div>
+                </div>
+            </div>
+
+            <div class="comparison-container">
+                <div class="comparison-row">
+                    <img src="images/samples/text_small.jpg" class="comparison-image">
+                    <div class="image-title">Text</div>
+                </div>
+    
+                <div class="comparison-row">
+                    <img src="images/text_simple.png"
+                    class="comparison-image">
+                    <div class="image-title">Text, Overlapping Patches</div>
+                </div>
+            </div>
+
+            <div class="comparison-container">
+                <div class="comparison-row">
+                    <img src="images/samples/grass.jpg" class="comparison-image">
+                    <div class="image-title">Toast</div>
+                </div>
+    
+                <div class="comparison-row">
+                    <img src="images/toast_simple.png"
+                    class="comparison-image">
+                    <div class="image-title">Toast, Overlapping Patches</div>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>Seam Finding</h2>
+            <p>
+                The <span class="code">quilt_cut</span> function further refines texture synthesis by incorporating seam finding. This minimizes edge artifacts by finding the minimum-cost path through overlapping regions using the <span class="code">cut</span> function. The seams are blended to achieve smoother transitions.
+            </p>
+
+            <div class="comparison-container">
+                <div class="comparison-row">
+                    <img src="images/samples/grass.jpg" class="comparison-image">
+                    <div class="image-title">Grass</div>
+                </div>
+    
+                <div class="comparison-row">
+                    <img src="images/grass_cut.png"
+                    class="comparison-image">
+                    <div class="image-title">Grass, Seam Finding</div>
+                </div>
+            </div>
+
+            <div class="comparison-container">
+                <div class="comparison-row">
+                    <img src="images/samples/bricks_small.jpg" class="comparison-image">
+                    <div class="image-title">Brick</div>
+                </div>
+    
+                <div class="comparison-row">
+                    <img src="images/brick_cut.png"
+                    class="comparison-image">
+                    <div class="image-title">Brick, Seam Finding</div>
+                </div>
+            </div>
+
+            <div class="comparison-container">
+                <div class="comparison-row">
+                    <img src="images/samples/text_small.jpg" class="comparison-image">
+                    <div class="image-title">Text</div>
+                </div>
+    
+                <div class="comparison-row">
+                    <img src="images/text_cut.png"
+                    class="comparison-image">
+                    <div class="image-title">Text, Seam Finding</div>
+                </div>
+            </div>
+
+            <div class="comparison-container">
+                <div class="comparison-row">
+                    <img src="images/samples/grass.jpg" class="comparison-image">
+                    <div class="image-title">Toast</div>
+                </div>
+    
+                <div class="comparison-row">
+                    <img src="images/toast_cut.png"
+                    class="comparison-image">
+                    <div class="image-title">Toast, Seam Finding</div>
+                </div>
+            </div>
+        </section>
+
+            
+        <section>
+            <h2>Texture Transfer</h2>
+            <p>
+                The <span class="code">texture_transfer</span> function applies texture synthesis to a target image. By balancing overlap costs and target alignment costs, the algorithm overlays the texture while preserving the target's structural features.
+            </p>
+
+            <div class="image-grid">
+                <div class="image-container">
+                    <img src="images/obama_transfer_grass.png">
+                    <div class="image-title">Grass Texture on Obama</div>
+                </div>
+                <div class="image-container">
+                    <img src="images/obama_transfer_brick.png">
+                    <div class="image-title">Brick Texture on Obama</div>
+                </div>
+                <div class="image-container">
+                    <img src="images/obama_white.png">
+                    <div class="image-title">White Texture on Obama</div>
+                </div>
+                <div class="image-container">
+                    <img src="images/mickey_transfer_grass.png">
+                    <div class="image-title">Grass Texture on Mickey Mouse</div>
+                </div>
+                <div class="image-container">
+                    <img src="images/mickey_transfer_brick.png">
+                    <div class="image-title">Brick Texture on Mickey Mouse</div>
+                </div>
+            </div>
+    
+        </section>
+
+        <section>
+            <h2>Bells and Whistles: Iterative Texture Transfer</h2>
+            <p>
+                For the B&W portion of the project, I implemented the <span class="code">texture_transfer_iterative</span> function. This method progressively refines the transfer result over multiple iterations by iteratively increasing the weight of the target image alignment term. This ensures a more accurate texture alignment with the target structure while retaining the visual characteristics of the texture sample.
+            </p>
+
+            <div class="image-grid">
+                <div class="image-container">
+                    <img src="images/obama_iterative_grass2.png">
+                    <div class="image-title">Grass Texture on Obama, Iteratively</div>
+                </div>
+                <div class="image-container">
+                    <img src="images/obama_iterative_white.png">
+                    <div class="image-title">White Texture on Obama, Iteratively</div>
+                </div>
+                <div class="image-container">
+                    <img src="images/mickey_iterative_grass.png">
+                    <div class="image-title">Grass Texture on Mickey Mouse, Iteratively</div>
+                </div>
+            </div>
+
+            <h2>Improvements</h2>
+            <p>
+                Some of the challenges faced during the implementation included:
+                <ul>
+                    <li>Balancing the overlap cost and target alignment cost.</li>
+                    <li>Implementing efficient seam finding to avoid misaligned patches, since I kept running into misalignment-related errors.</li>
+                </ul>
+                Future improvements could involve advanced blending techniques (e.g., Laplacian pyramids) and extending the algorithm to handle arbitrary shapes for image completion tasks.
+            </p>
+        </section>
+    
+        <section class="description">
+            <h2>Acknowledgements</h2>
+            <p>
+                This project is a course project for CS 180 at UC Berkeley. Part of the starter code is provided by course staff. This website template is referenced from Bill Zheng.
+            </p>
+        </section>
+    </main>
+</body>
+</html>
