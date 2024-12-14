@@ -181,6 +181,10 @@
           The training process includes random pixel sampling and minimizing
           mean squared error loss.
         </p>
+        <p>The architecture used is the one below:</p>
+        <div class="centered-container">
+          <img src="images/2d_structure.png" class="centered-image" />
+        </div>
         <br />
         <p>The hyperparameters we used were:</p>
         <ul>
@@ -210,11 +214,28 @@
             </div>
             <div class="image-container">
               <img src="images/iteration_1000.png" alt="iteration_1000" />
-              <p class="image-title">Iteration 1000</p>
+              <p class="image-title">Iteration 800</p>
+            </div>
+            <div class="image-container">
+              <img src="images/obama.png" alt="Obama" />
+              <p class="image-title">Original Image</p>
             </div>
           </div>
           <p class="image-description">
             Visualization of the predicted image across training iterations.
+          </p>
+        </div>
+
+        <div class="centered-container">
+          <h4>PSNR Curve for Obama</h4>
+          <img
+            src="images/psnr_obama.png"
+            alt="PSNR Curve for 2D Neural Field"
+            class="centered-image"
+          />
+          <p class="image-description">
+            Plot showing the PSNR across training iterations for the picture of
+            Obama.
           </p>
         </div>
 
@@ -225,31 +246,36 @@
 
         <div class="image-grid">
           <div class="image-container">
-            <img src="images/animal.jpg" alt="Original Fox" />
-            <p class="image-title">Original Fox</p>
+            <img src="images/iteration_10 (1).png" alt="iteration_10" />
+            <p class="image-title">Iteration 10</p>
           </div>
           <div class="image-container">
-            <img
-              src="images/animal_reconstructed.png"
-              alt="Fox 10 Iterations"
-            />
-            <p class="image-title">Fox 10 Iterations</p>
+            <img src="images/iteration_50 (1).png" alt="iteration_100" />
+            <p class="image-title">Iteration 100</p>
           </div>
           <div class="image-container">
-            <img src="images/animal_good.png" alt="Fox 1000 Iterations" />
-            <p class="image-title">Fox 1000 Iterations</p>
+            <img src="images/iteration_100 (1).png" alt="iteration_500" />
+            <p class="image-title">Iteration 100</p>
+          </div>
+          <div class="image-container">
+            <img src="images/iteration_500 (1).png" alt="iteration_1000" />
+            <p class="image-title">Iteration 500</p>
+          </div>
+          <div class="image-container">
+            <img src="images/animal.jpg" alt="Animal" />
+            <p class="image-title">Original Image</p>
           </div>
         </div>
 
         <div class="centered-container">
-          <h3>PSNR Curve</h3>
+          <h4>PSNR Curve for the fox</h4>
           <img
             src="images/psnr_fox.png"
             alt="PSNR Curve for 2D Neural Field"
             class="centered-image"
           />
           <p class="image-description">
-            Plot showing the PSNR across training iterations.
+            Plot showing the PSNR across training iterations for the Fox.
           </p>
         </div>
 
@@ -277,6 +303,85 @@
 
       <section class="description">
         <h2>Part 2: Neural Radiance Field for 3D Scenes</h2>
+        <h2>Part 2.1: Create Rays from Cameras</h2>
+
+        <h3>Camera to World Coordinate Conversion</h3>
+        <p>
+          We implemented the camera-to-world coordinate transformation by
+          defining a function <code>x_w = transform(c2w, x_c)</code>, which
+          converts points from the camera space to the world space. The inverse
+          operation was also implemented to verify the correctness of the
+          transformation. We used either NumPy or PyTorch for matrix
+          multiplication, ensuring support for batched operations to handle
+          multiple points efficiently.
+        </p>
+
+        <h3>Pixel to Camera Coordinate Conversion</h3>
+        <p>
+          To map pixel coordinates <code>(u, v)</code> to camera coordinates
+          <code>(x_c, y_c, z_c)</code>, we defined a function
+          <code>x_c = pixel_to_camera(K, uv, s)</code>, where <code>K</code> is
+          the camera intrinsic matrix and <code>s</code> represents depth. This
+          function was implemented to invert the projection process defined by
+          the intrinsic matrix. We also added batch processing support for
+          scalability during rendering.
+        </p>
+
+        <h3>Pixel to Ray Conversion</h3>
+        <p>
+          For converting pixel coordinates to rays, we implemented a function
+          <code>ray_o, ray_d = pixel_to_ray(K, c2w, uv)</code>, where
+          <code>ray_o</code> is the ray origin and <code>ray_d</code> is the
+          normalized ray direction. This function leverages the earlier
+          transformations and computes the ray origin as the camera position and
+          the ray direction using normalized vector math. The implementation
+          supports batched coordinates for processing multiple rays
+          simultaneously.
+        </p>
+
+        <h2>Part 2.2: Sampling</h2>
+
+        <h3>Sampling Rays from Images</h3>
+        <p>
+          We extended the random sampling approach from Part 1 to include
+          multi-view images. A dataloader was implemented to handle multiple
+          images and generate rays uniformly or with per-image sampling. The
+          pixel coordinates were converted to rays using the functions from Part
+          2.1, and each ray was associated with the corresponding pixel color.
+        </p>
+
+        <h3>Sampling Points along Rays</h3>
+        <p>
+          To sample 3D points along each ray, we defined <code>t</code> as a
+          uniform range using <code>np.linspace(near, far, n_samples)</code> and
+          computed each 3D point as <code>x = R_o + R_d * t</code>. To introduce
+          randomness and avoid overfitting, we added a perturbation to
+          <code>t</code> during training, ensuring better generalization. This
+          step was crucial for generating accurate volume rendering results.
+        </p>
+
+        <h2>Part 2.3: Putting the Dataloader Together</h2>
+        <p>
+          We created a custom dataloader that processes pixel coordinates from
+          multi-view images, converts them into rays, and samples 3D points
+          along each ray. This dataloader returns the ray origin, ray direction,
+          sampled points, and pixel colors. To verify correctness, we visualized
+          a subset of rays and sampled points to ensure they matched the
+          expected camera frustums.
+        </p>
+
+        <h2>Part 2.4: Neural Radiance Field</h2>
+
+        <h3>Network Architecture</h3>
+        <p>
+          We modified the neural network from Part 1 to handle 3D inputs instead
+          of 2D. The network now predicts both the density and RGB color for
+          each 3D point. Positional encoding was used for the 3D input
+          coordinates and ray directions, with a reduced frequency for ray
+          direction encoding. We made the MLP deeper and injected the positional
+          encoding features of the input at intermediate layers to improve
+          gradient flow and model capacity.
+        </p>
         <p>
           This part extends the neural field to 3D scenes using multi-view
           images. Rays are sampled from the images, and a volume rendering
@@ -295,11 +400,18 @@
             Below is the image of how the rays travel from the cameras through
             the images. The points are added to show how the rays sample points
             randomly on the rays and they are perturbed which we can see from
-            the fact that the points are not spread out uniformly.
+            the fact that the points are not spread out uniformly. The first
+            image is a picture of rays from all cameras. The second image is
+            rays from only one camera.
           </p>
           <img
-            src="images/nerf_transfer/images/rays_and_samples.png.png"
+            src="images/rays_and_samples.png"
             alt="Cameras and Rays"
+            class="centered-image"
+          />
+          <img
+            src="images/rays_and_samples_one_camera.png"
+            alt="Cameras and Rays from One Camera"
             class="centered-image"
           />
           <p class="image-description">
@@ -407,8 +519,9 @@
 
         <div class="image-container">
           <img
-            src="images/custom_background.png"
+            src="images/nerf_render_with_color.gif"
             alt="Custom Background Rendering"
+            style="width: 50%; height: auto"
           />
           <p class="image-title">Custom Background Rendering</p>
         </div>
