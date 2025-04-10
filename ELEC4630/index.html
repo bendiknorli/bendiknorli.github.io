@@ -9,8 +9,18 @@
         <header>
             <div class="navbar">
                 <a class="logo" href="../index.html">ELEC4630</a>
+                <nav>
+                    <ul>
+                        <li><a href="../1/index.html">Project 1</a></li>
+                        <li><a href="../2/index.html">Project 2</a></li>
+                        <li><a href="../3/index.html">Project 3</a></li>
+                        <li><a href="../4/index.html">Project 4</a></li>
+                        <li><a href="../5/index.html">Project 5</a></li>
+                    </ul>
+                </nav>
             </div>
         </header>
+        <div id="progress-bar"></div>
 
         <main>
             <section class="content">
@@ -19,9 +29,93 @@
                     A blog that documents my progress and what I learned from
                     the Fast AI course.
                 </p>
+                <p>
+                    <span class="typewriter"
+                        >Hey! My name is Bendik and welcome to my ELEC4630
+                        blog👋🏼</span
+                    >
+                </p>
                 <br />
-                <p>Blah blah</p>
+                <p>
+                    During the work on assessment 2, I started working with
+                    fastAI. After downloading and setting everything up, I
+                    started of running the already made fastAI code for
+                    classifying birds. Looking at the code, I saw how simple and
+                    high-level fastAI is making it an effective language for
+                    machine learning tasks.
+                </p>
+                <br />
+                <img
+                    src="https://repository-images.githubusercontent.com/616548600/ae21fe11-2ab9-4556-bd6a-0566fc4474a2"
+                    alt="fastAI"
+                    class="image"
+                    width="50%"
+                />
+                <p>
+                    I learned how easy it is to collect and organize data with
+                    fastAI's integration with tools like duckduckgo_search,
+                    which allowed me to download images automatically from the
+                    web without needing to search or organize them manually. I
+                    have always seen data collection as a difficult and
+                    time-consuming task but this made it a lot easier.
+                </p>
+                <br />
+                <p>
+                    When it came to training the model, I discovered the
+                    benefits of using a pre-trained model for learning new
+                    connections. By fine-tuning a pre-trained model like
+                    <a
+                        href="https://pytorch.org/vision/main/models/generated/torchvision.models.resnet18.html"
+                        >ResNet18</a
+                    >, we were able to quickly adapt it to bird recognizing with
+                    only seconds of training. The process of fine-tuning in
+                    fastAI was straightforward and efficient, and I was able to
+                    get good results in a short time. Before, I have always
+                    trained my models from scratch, which took a lot of time and
+                    resources. Using pre-trained models therefore changed my
+                    perspective on developing new models.
+                </p>
+                <br />
+                <p>
+                    It was also my first time working with the DataBlock API,
+                    which simplified the data preparation process. With it, the
+                    dataset was easily split into training and validation sets,
+                    correctly resized to the same sizes. DataLoaders were also
+                    created all with minimal code.
+                </p>
+                <br />
+                <p>
+                    Overall, I learned that fastAI is a crazy fast and easy way
+                    to quickly set up and train a neural network.
+                </p>
             </section>
         </main>
+
+        <button id="back-to-top">↑</button>
+
+        <script>
+            window.addEventListener("scroll", () => {
+                const scrollTop = window.scrollY;
+                const docHeight =
+                    document.documentElement.scrollHeight - window.innerHeight;
+                const scrollPercent = (scrollTop / docHeight) * 100;
+                document.getElementById("progress-bar").style.width =
+                    scrollPercent + "%";
+            });
+
+            const btn = document.getElementById("back-to-top");
+
+            window.addEventListener("scroll", () => {
+                if (window.scrollY > 300) {
+                    btn.classList.add("show");
+                } else {
+                    btn.classList.remove("show");
+                }
+            });
+
+            btn.addEventListener("click", () => {
+                window.scrollTo({ top: 0, behavior: "smooth" });
+            });
+        </script>
     </body>
 </html>

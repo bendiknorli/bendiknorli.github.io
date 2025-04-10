@@ -1,84 +1,218 @@
+/* Base Reset */
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
+/* Keyframes */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/* Body */
 body {
-  font-family: Arial, sans-serif;
-  line-height: 1.6;
-  background-color: #f4f4f4;
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    background-color: #f4f4f4;
+    animation: fadeIn 0.6s ease-in-out;
 }
 
+/* Navbar */
 .navbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: #fff;
-  padding: 10px 20px;
-  border-bottom: 1px solid #ddd;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #fff;
+    padding: 10px 20px;
+    border-bottom: 1px solid #ddd;
+    position: sticky;
+    top: 0;
+    z-index: 999;
 }
 
+/* Logo */
 .logo {
-  font-size: 1.5em;
-  font-weight: bold;
+    font-size: 1.5em;
+    font-weight: bold;
+    text-decoration: none;
+    color: #333;
+    transition: color 0.3s;
+}
+.logo:hover {
+    color: #777;
 }
 
+/* Navbar Links */
 .navbar nav ul {
-  list-style: none;
-  display: flex;
-  gap: 15px;
+    list-style: none;
+    display: flex;
+    gap: 20px;
 }
-
 .navbar nav ul li a {
-  text-decoration: none;
-  color: #333;
-  font-weight: bold;
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
+    transition: transform 0.3s, color 0.3s;
+}
+.navbar nav ul li a:hover {
+    transform: scale(1.05);
+    color: #777;
 }
 
+/* Main Container */
 .main {
-  padding: 20px;
+    padding: 20px;
 }
 
+/* Content Section */
 .content {
-  max-width: 800px;
-  margin: 20px auto;
-  background-color: white;
-  padding: 20px;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 800px;
+    margin: 30px auto;
+    background-color: white;
+    padding: 20px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    opacity: 0;
+    animation: fadeIn 0.8s ease-in-out 0.4s forwards;
 }
 
+/* Headings */
 h1 {
-  font-size: 2.5em;
-  margin-bottom: 20px;
+    font-size: 2.5em;
+    margin-bottom: 20px;
 }
 
 h2 {
-  font-size: 1.75em;
-  margin-top: 30px;
-  margin-bottom: 15px;
+    font-size: 1.75em;
+    margin-top: 30px;
+    margin-bottom: 15px;
 }
 
+/* Additional Elements */
 .image-text {
-  margin: 0 0 5px 15px;
+    margin: 0 0 5px 15px;
 }
-
 .note {
-  margin-bottom: 20px;
-  color: gray;
+    margin-bottom: 20px;
+    color: gray;
 }
 
+/* Images */
 .images-container {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  width: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+}
+.image-container {
+    width: 45%;
+    margin: 20px 2.5%;
+    border-radius: 10px;
+    border: solid 1px #ddd;
+    overflow: hidden;
 }
 
-.image-container {
-  width: 45%;
-  margin: 20px 2.5%;
-  border-radius: 10px;
-  border: solid 1px #ddd;
-  overflow: hidden;
+p {
+    transition: color 0.5s;
+}
+
+p:hover {
+    color: #776d6d;
+}
+
+.typewriter {
+    font-family: monospace;
+    font-size: 1.2em;
+    display: inline-block;
+    overflow: hidden;
+    white-space: nowrap;
+    border-right: 1px solid #333;
+    animation: typing 2s steps(50, end), blink 0.75s step-end infinite;
+}
+
+@keyframes typing {
+    from {
+        width: 0;
+    }
+    to {
+        width: 75%;
+    }
+}
+
+@keyframes blink {
+    50% {
+        border-color: transparent;
+    }
+}
+
+/* Animated underline on hover for links */
+a {
+    position: relative;
+    text-decoration: none;
+    color: #002f93;
+}
+
+a::after {
+    content: "";
+    position: absolute;
+    width: 0%;
+    height: 2px;
+    bottom: -2px;
+    left: 0;
+    background-color: #333;
+    transition: width 0.3s ease;
+}
+
+a:hover::after {
+    width: 100%;
+}
+
+img {
+    transition: transform 0.3s ease;
+}
+
+img:hover {
+    transform: scale(1.15);
+}
+
+#progress-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 4px;
+    background: #333;
+    width: 0%;
+    z-index: 9999;
+    transition: width 0.25s ease-out;
+}
+
+#back-to-top {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    opacity: 0;
+    pointer-events: none;
+    background-color: #333;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 50%;
+    font-size: 18px;
+    cursor: pointer;
+    z-index: 1000;
+    transition: opacity 0.3s;
+}
+
+#back-to-top.show {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+#back-to-top:hover {
+    background-color: #555;
 }
