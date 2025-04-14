@@ -146,6 +146,7 @@
     <header>
         <h1>CS 180: Image Quilting</h1>
     </header>
+        <div id="progress-bar"></div>
 
     <main>
         <section class="description">
@@ -403,5 +404,30 @@
             </p>
         </section>
     </main>
-</body>
+<button id="back-to-top">↑</button>
+<script>
+            window.addEventListener("scroll", () => {
+                const scrollTop = window.scrollY;
+                const docHeight =
+                    document.documentElement.scrollHeight - window.innerHeight;
+                const scrollPercent = (scrollTop / docHeight) * 100;
+                document.getElementById("progress-bar").style.width =
+                    scrollPercent + "%";
+            });
+
+            const btn = document.getElementById("back-to-top");
+
+            window.addEventListener("scroll", () => {
+                if (window.scrollY > 300) {
+                    btn.classList.add("show");
+                } else {
+                    btn.classList.remove("show");
+                }
+            });
+
+            btn.addEventListener("click", () => {
+                window.scrollTo({ top: 0, behavior: "smooth" });
+            });
+        </script>
+    </body>
 </html>

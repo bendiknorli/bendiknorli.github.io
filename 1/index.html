@@ -1,180 +1,243 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Bendik Norli - CS180 Project 1</title>
-    <link rel="stylesheet" href="styles.css" />
-  </head>
-  <body>
-    <header>
-      <div class="navbar">
-        <a class="logo" href="../index.html">CS180</a>
-        <nav>
-          <ul>
-            <li><a href="../1/index.html">Project 1</a></li>
-            <li><a href="../2/index.html">Project 2</a></li>
-            <li><a href="../3/index.html">Project 3</a></li>
-            <li><a href="../4/index.html">Project 4</a></li>
-            <li><a href="../5/index.html">Project 5</a></li>
-          </ul>
-        </nav>
-      </div>
-    </header>
+    <head>
+        <meta charset="UTF-8" />
+        <title>Bendik Norli - CS180 Project 1</title>
+        <link rel="stylesheet" href="../styles.css" />
+    </head>
+    <body>
+        <header>
+            <div class="navbar">
+                <a class="logo" href="../index.html">Bendik Norli
+                <nav>
+                    <ul>
+                        <li><a href="../ELEC4630/index.html">ELEC4630</a></li>
+                        <li><a href="../1/index.html">Project 1</a></li>
+                        <li><a href="../2/index.html">Project 2</a></li>
+                        <li><a href="../3/index.html">Project 3</a></li>
+                        <li><a href="../4/index.html">Project 4</a></li>
+                        <li><a href="../5/index.html">Project 5</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </header>
+        <div id="progress-bar"></div>
 
-    <main>
-      <section class="content">
-        <h1>Project 1</h1>
-        <p class="note">
-          Aligning blue, green, and red images to create a color photo from the
-          Prokudin-Gorskii collection
-        </p>
-        <br />
-        <p>
-          I started of the project with a single-scale implementation. I used
-          np.roll to shift the image a few pixels at a time. At each iteration I
-          compared the two images with NCC (Normalize Cross Correlation) and
-          checked if the current alignment was better than the previous ones.
-        </p>
-        <br />
-        <p>
-          I then implemented a multi-scale version where I scaled the images
-          down by a factor of 2 in a type of pyramid. I then compared the images
-          at the lowest scale and then scaled them up and compared them again.
-          This way I could find the best alignment at a lower scale and then
-          refine it at a higher scale to save computation time.
-        </p>
-        <br />
-        <p>
-          This worked for all the images we were given except the one of emir.
-          For that image I had to implement a different comparison algorithm.
-          What I did was to create a copy of each image that was rolled to the
-          right by 1 pixel. I then calculated the difference between the
-          original image and the right-shifted image to have a new image
-          describing where to find edges and surfaces in the image. Afterwards,
-          I compared the difference-image of the blue image with the
-          difference-image of the green image and red difference-images with NCC
-          to find the best alignment.
-        </p>
-        <br />
-        <p>
-          The parameters I used were a max-search of 15 pixels in each
-          direction. I also cut the images to only include the center 50% of the
-          image when computing NCC to make it both faster and more accurate due
-          to the noise near the borders of the images. To make the computation
-          faster I also made the function roll the images 3 pixels at a time
-          until the last iteration where I only rolled them 1 pixel at a time
-          with a max-search of 3 pixels.
-        </p>
+        <main>
+            <section class="content">
+                <h1>Project 1</h1>
+                <p class="note">
+                    Aligning blue, green, and red images to create a color photo
+                    from the Prokudin-Gorskii collection
+                </p>
+                <br />
+                <p>
+                    I started of the project with a single-scale implementation.
+                    I used np.roll to shift the image a few pixels at a time. At
+                    each iteration I compared the two images with NCC (Normalize
+                    Cross Correlation) and checked if the current alignment was
+                    better than the previous ones.
+                </p>
+                <br />
+                <p>
+                    I then implemented a multi-scale version where I scaled the
+                    images down by a factor of 2 in a type of pyramid. I then
+                    compared the images at the lowest scale and then scaled them
+                    up and compared them again. This way I could find the best
+                    alignment at a lower scale and then refine it at a higher
+                    scale to save computation time.
+                </p>
+                <br />
+                <p>
+                    This worked for all the images we were given except the one
+                    of emir. For that image I had to implement a different
+                    comparison algorithm. What I did was to create a copy of
+                    each image that was rolled to the right by 1 pixel. I then
+                    calculated the difference between the original image and the
+                    right-shifted image to have a new image describing where to
+                    find edges and surfaces in the image. Afterwards, I compared
+                    the difference-image of the blue image with the
+                    difference-image of the green image and red
+                    difference-images with NCC to find the best alignment.
+                </p>
+                <br />
+                <p>
+                    The parameters I used were a max-search of 15 pixels in each
+                    direction. I also cut the images to only include the center
+                    50% of the image when computing NCC to make it both faster
+                    and more accurate due to the noise near the borders of the
+                    images. To make the computation faster I also made the
+                    function roll the images 3 pixels at a time until the last
+                    iteration where I only rolled them 1 pixel at a time with a
+                    max-search of 3 pixels.
+                </p>
 
-        <h2>Results</h2>
-        <div class="images-container">
-          <div class="image-container">
-            <img src="./images/cathedral.jpg" alt="Cathedral" width="100%" />
-            <p class="image-text">Cathedral</p>
-            <p class="image-text">Green Offset: (5, 2)</p>
-            <p class="image-text">Red Offset: (12, 3)</p>
-          </div>
-          <div class="image-container">
-            <img src="./images/church.jpg" alt="Church" width="100%" />
-            <p class="image-text">Church</p>
-            <p class="image-text">Green Offset: (25, 4)</p>
-            <p class="image-text">Red Offset: (58, -4)</p>
-          </div>
-          <div class="image-container">
-            <img src="./images/harvesters.jpg" alt="Harvesters" width="100%" />
-            <p class="image-text">Harvesters</p>
-            <p class="image-text">Green Offset: (59, 17)</p>
-            <p class="image-text">Red Offset: (123, 14)</p>
-          </div>
-          <div class="image-container">
-            <img src="./images/icon.jpg" alt="Icon" width="100%" />
-            <p class="image-text">Icon</p>
-            <p class="image-text">Green Offset: (41, 17)</p>
-            <p class="image-text">Red Offset: (89, 23)</p>
-          </div>
-          <div class="image-container">
-            <img src="./images/lady.jpg" alt="Lady" width="100%" />
-            <p class="image-text">Lady</p>
-            <p class="image-text">Green Offset: (52, 8)</p>
-            <p class="image-text">Red Offset: (110, 12)</p>
-          </div>
-          <div class="image-container">
-            <img src="./images/melons.jpg" alt="Melons" width="100%" />
-            <p class="image-text">Melons</p>
-            <p class="image-text">Green Offset: (82, 11)</p>
-            <p class="image-text">Red Offset: (170, 11)</p>
-          </div>
-          <div class="image-container">
-            <img src="./images/monastery.jpg" alt="Monastery" width="100%" />
-            <p class="image-text">Monastery</p>
-            <p class="image-text">Green Offset: (-3, 2)</p>
-            <p class="image-text">Red Offset: (2, 2)</p>
-          </div>
-          <div class="image-container">
-            <img
-              src="./images/onion_church.jpg"
-              alt="Onion Church"
-              width="100%"
-            />
-            <p class="image-text">Onion Church</p>
-            <p class="image-text">Green Offset: (50, 27)</p>
-            <p class="image-text">Red Offset: (108, 37)</p>
-          </div>
-          <div class="image-container">
-            <img src="./images/sculpture.jpg" alt="Sculpture" width="100%" />
-            <p class="image-text">Sculpture</p>
-            <p class="image-text">Green Offset: (33, -11)</p>
-            <p class="image-text">Red Offset: (140, -27)</p>
-          </div>
-          <div class="image-container">
-            <img
-              src="./images/self_portrait.jpg"
-              alt="Self Portrait"
-              width="100%"
-            />
-            <p class="image-text">Self Portrait</p>
-            <p class="image-text">Green Offset: (78, 29)</p>
-            <p class="image-text">Red Offset: (170, 36)</p>
-          </div>
-          <div class="image-container">
-            <img
-              src="./images/three_generations.jpg"
-              alt="Three Generations"
-              width="100%"
-            />
-            <p class="image-text">Three Generations</p>
-            <p class="image-text">Green Offset: (50, 14)</p>
-            <p class="image-text">Red Offset: (110, 12)</p>
-          </div>
-          <div class="image-container">
-            <img src="./images/tobolsk.jpg" alt="Tobolsk" width="100%" />
-            <p class="image-text">Tobolsk</p>
-            <p class="image-text">Green Offset: (3, 3)</p>
-            <p class="image-text">Red Offset: (7, 3)</p>
-          </div>
-          <div class="image-container">
-            <img src="./images/train.jpg" alt="Train" width="100%" />
-            <p class="image-text">Train</p>
-            <p class="image-text">Green Offset: (42, 6)</p>
-            <p class="image-text">Red Offset: (86, 32)</p>
-          </div>
-          <div class="image-container">
-            <img src="./images/emir.jpg" alt="Emir" width="100%" />
-            <p class="image-text">Emir</p>
-            <p class="image-text">Offset: (49, 17)</p>
-            <p class="image-text">Offset: (107, 37)</p>
-          </div>
-        </div>
-        <br />
-        <hr />
-        <br />
-        <p class="note">
-          Bottom note: I had a lot of fun with this project! I am still not
-          enrolled in the course, but I hope that my effort in the first project
-          will give me a chance to take the course. I am looking forward to the
-          next projects!
-        </p>
-      </section>
-    </main>
-  </body>
+                <h2>Results</h2>
+                <div class="images-container">
+                    <div class="image-container">
+                        <img
+                            src="./images/cathedral.jpg"
+                            alt="Cathedral"
+                            width="100%"
+                        />
+                        <p class="image-text">Cathedral</p>
+                        <p class="image-text">Green Offset: (5, 2)</p>
+                        <p class="image-text">Red Offset: (12, 3)</p>
+                    </div>
+                    <div class="image-container">
+                        <img
+                            src="./images/church.jpg"
+                            alt="Church"
+                            width="100%"
+                        />
+                        <p class="image-text">Church</p>
+                        <p class="image-text">Green Offset: (25, 4)</p>
+                        <p class="image-text">Red Offset: (58, -4)</p>
+                    </div>
+                    <div class="image-container">
+                        <img
+                            src="./images/harvesters.jpg"
+                            alt="Harvesters"
+                            width="100%"
+                        />
+                        <p class="image-text">Harvesters</p>
+                        <p class="image-text">Green Offset: (59, 17)</p>
+                        <p class="image-text">Red Offset: (123, 14)</p>
+                    </div>
+                    <div class="image-container">
+                        <img src="./images/icon.jpg" alt="Icon" width="100%" />
+                        <p class="image-text">Icon</p>
+                        <p class="image-text">Green Offset: (41, 17)</p>
+                        <p class="image-text">Red Offset: (89, 23)</p>
+                    </div>
+                    <div class="image-container">
+                        <img src="./images/lady.jpg" alt="Lady" width="100%" />
+                        <p class="image-text">Lady</p>
+                        <p class="image-text">Green Offset: (52, 8)</p>
+                        <p class="image-text">Red Offset: (110, 12)</p>
+                    </div>
+                    <div class="image-container">
+                        <img
+                            src="./images/melons.jpg"
+                            alt="Melons"
+                            width="100%"
+                        />
+                        <p class="image-text">Melons</p>
+                        <p class="image-text">Green Offset: (82, 11)</p>
+                        <p class="image-text">Red Offset: (170, 11)</p>
+                    </div>
+                    <div class="image-container">
+                        <img
+                            src="./images/monastery.jpg"
+                            alt="Monastery"
+                            width="100%"
+                        />
+                        <p class="image-text">Monastery</p>
+                        <p class="image-text">Green Offset: (-3, 2)</p>
+                        <p class="image-text">Red Offset: (2, 2)</p>
+                    </div>
+                    <div class="image-container">
+                        <img
+                            src="./images/onion_church.jpg"
+                            alt="Onion Church"
+                            width="100%"
+                        />
+                        <p class="image-text">Onion Church</p>
+                        <p class="image-text">Green Offset: (50, 27)</p>
+                        <p class="image-text">Red Offset: (108, 37)</p>
+                    </div>
+                    <div class="image-container">
+                        <img
+                            src="./images/sculpture.jpg"
+                            alt="Sculpture"
+                            width="100%"
+                        />
+                        <p class="image-text">Sculpture</p>
+                        <p class="image-text">Green Offset: (33, -11)</p>
+                        <p class="image-text">Red Offset: (140, -27)</p>
+                    </div>
+                    <div class="image-container">
+                        <img
+                            src="./images/self_portrait.jpg"
+                            alt="Self Portrait"
+                            width="100%"
+                        />
+                        <p class="image-text">Self Portrait</p>
+                        <p class="image-text">Green Offset: (78, 29)</p>
+                        <p class="image-text">Red Offset: (170, 36)</p>
+                    </div>
+                    <div class="image-container">
+                        <img
+                            src="./images/three_generations.jpg"
+                            alt="Three Generations"
+                            width="100%"
+                        />
+                        <p class="image-text">Three Generations</p>
+                        <p class="image-text">Green Offset: (50, 14)</p>
+                        <p class="image-text">Red Offset: (110, 12)</p>
+                    </div>
+                    <div class="image-container">
+                        <img
+                            src="./images/tobolsk.jpg"
+                            alt="Tobolsk"
+                            width="100%"
+                        />
+                        <p class="image-text">Tobolsk</p>
+                        <p class="image-text">Green Offset: (3, 3)</p>
+                        <p class="image-text">Red Offset: (7, 3)</p>
+                    </div>
+                    <div class="image-container">
+                        <img
+                            src="./images/train.jpg"
+                            alt="Train"
+                            width="100%"
+                        />
+                        <p class="image-text">Train</p>
+                        <p class="image-text">Green Offset: (42, 6)</p>
+                        <p class="image-text">Red Offset: (86, 32)</p>
+                    </div>
+                    <div class="image-container">
+                        <img src="./images/emir.jpg" alt="Emir" width="100%" />
+                        <p class="image-text">Emir</p>
+                        <p class="image-text">Offset: (49, 17)</p>
+                        <p class="image-text">Offset: (107, 37)</p>
+                    </div>
+                </div>
+                <br />
+                <hr />
+                <br />
+                <p class="note">
+                    Bottom note: I had a lot of fun with this project! I am
+                    still not enrolled in the course, but I hope that my effort
+                    in the first project will give me a chance to take the
+                    course. I am looking forward to the next projects!
+                </p>
+            </section>
+        </main>
+        <button id="back-to-top">↑</button>
+        <script>
+            window.addEventListener("scroll", () => {
+                const scrollTop = window.scrollY;
+                const docHeight =
+                    document.documentElement.scrollHeight - window.innerHeight;
+                const scrollPercent = (scrollTop / docHeight) * 100;
+                document.getElementById("progress-bar").style.width =
+                    scrollPercent + "%";
+            });
+
+            const btn = document.getElementById("back-to-top");
+
+            window.addEventListener("scroll", () => {
+                if (window.scrollY > 300) {
+                    btn.classList.add("show");
+                } else {
+                    btn.classList.remove("show");
+                }
+            });
+
+            btn.addEventListener("click", () => {
+                window.scrollTo({ top: 0, behavior: "smooth" });
+            });
+        </script>
+    </body>
 </html>

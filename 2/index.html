@@ -1,542 +1,673 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Bendik Norli - CS180 Project 2</title>
-    <link rel="stylesheet" href="styles.css" />
-  </head>
-  <body>
-    <header>
-      <div class="navbar">
-        <a class="logo" href="../index.html">CS180</a>
-        <nav>
-          <ul>
-            <li><a href="../1/index.html">Project 1</a></li>
-            <li><a href="../2/index.html">Project 2</a></li>
-            <li><a href="../3/index.html">Project 3</a></li>
-            <li><a href="../4/index.html">Project 4</a></li>
-            <li><a href="../5/index.html">Project 5</a></li>
-          </ul>
-        </nav>
-      </div>
-    </header>
-    <main>
-      <section class="content">
-        <h1>Project 2</h1>
-        <p class="note">
-          Filtering and frequencies using gaussian and laplacian filters for
-          finding features in images
-        </p>
-        <h2>Part 1: Fun with Filters</h2>
-        <h3>Part 1.1: Finite Difference Operator</h3>
-        <p>Here is the first image of the project which is a cameraman.</p>
-        <img src="images/task1-1.png" alt="Task 1.1" />
-        <p>
-          I took the derivate of the image in both the x and y direction by
-          using the convolve2d method from the scipy library with a derivate in
-          each direction:
-          <br />
-          D_x = [[1, -1]]
-        </p>
-        <img src="images/task1-1x.png" alt="Task 1.1 x-derivative" />
-        <br />
-        <p>D_y = [[1], [-1]]</p>
-        <img src="images/task1-1y.png" alt="Task 1.1 y-derivative" />
-        <p>
-          I then calculated the gradient by taking computing the convolution
-          over the image with the x and y derivatives and then taking the square
-          root of the sum of the squares of the two derivatives:
-          <br />
-          Gradient Magnitude = sqrt((convolve_x^2 + convolve_y^2))
-        </p>
-        <img src="images/task1-1gradient.png" alt="Task 1.1 gradient" />
+    <head>
+        <meta charset="UTF-8" />
+        <title>Bendik Norli - CS180 Project 2</title>
+        <link rel="stylesheet" href="../styles.css" />
+    </head>
+    <body>
+        <header>
+            <div class="navbar">
+                <a class="logo" href="../index.html">Bendik Norli
+                <nav>
+                    <ul>
+                        <li><a href="../ELEC4630/index.html">ELEC4630</a></li>
+                        <li><a href="../1/index.html">Project 1</a></li>
+                        <li><a href="../2/index.html">Project 2</a></li>
+                        <li><a href="../3/index.html">Project 3</a></li>
+                        <li><a href="../4/index.html">Project 4</a></li>
+                        <li><a href="../5/index.html">Project 5</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </header>
+        <div id="progress-bar"></div>
+        <main>
+            <section class="content">
+                <h1>Project 2</h1>
+                <p class="note">
+                    Filtering and frequencies using gaussian and laplacian
+                    filters for finding features in images
+                </p>
+                <h2>Part 1: Fun with Filters</h2>
+                <h3>Part 1.1: Finite Difference Operator</h3>
+                <p>
+                    Here is the first image of the project which is a cameraman.
+                </p>
+                <img src="images/task1-1.png" alt="Task 1.1" />
+                <p>
+                    I took the derivate of the image in both the x and y
+                    direction by using the convolve2d method from the scipy
+                    library with a derivate in each direction:
+                    <br />
+                    D_x = [[1, -1]]
+                </p>
+                <img src="images/task1-1x.png" alt="Task 1.1 x-derivative" />
+                <br />
+                <p>D_y = [[1], [-1]]</p>
+                <img src="images/task1-1y.png" alt="Task 1.1 y-derivative" />
+                <p>
+                    I then calculated the gradient by taking computing the
+                    convolution over the image with the x and y derivatives and
+                    then taking the square root of the sum of the squares of the
+                    two derivatives:
+                    <br />
+                    Gradient Magnitude = sqrt((convolve_x^2 + convolve_y^2))
+                </p>
+                <img src="images/task1-1gradient.png" alt="Task 1.1 gradient" />
 
-        <p>
-          I then set a binary threshold of 0.2 to only show pixels values that
-          were higher than 0.2. This made the edges in the image more visible:
-        </p>
-        <img src="images/task1-1binarized.png" alt="Task 1.1 binery" />
+                <p>
+                    I then set a binary threshold of 0.2 to only show pixels
+                    values that were higher than 0.2. This made the edges in the
+                    image more visible:
+                </p>
+                <img src="images/task1-1binarized.png" alt="Task 1.1 binery" />
 
-        <h3>Part 1.2: Derivative of Gaussian (DoG) Filter</h3>
-        <p>
-          To make the filters less noisy, I now applied a gaussian filter to the
-          image. I now got a blurred image by creating a gaussian kernel and
-          convolving it with the image.
-        </p>
-        <img src="images/task1-2blur.png" alt="Task 1.2 blurred" />
+                <h3>Part 1.2: Derivative of Gaussian (DoG) Filter</h3>
+                <p>
+                    To make the filters less noisy, I now applied a gaussian
+                    filter to the image. I now got a blurred image by creating a
+                    gaussian kernel and convolving it with the image.
+                </p>
+                <img src="images/task1-2blur.png" alt="Task 1.2 blurred" />
 
-        <p>
-          When we now compute the gradient of the image and binarize as before,
-          we can see that the edges are much clearer and that we get far less
-          noise compared to before.
-        </p>
-        <img src="images/task1-2gradient.png" alt="Task 1.2 gradient" />
+                <p>
+                    When we now compute the gradient of the image and binarize
+                    as before, we can see that the edges are much clearer and
+                    that we get far less noise compared to before.
+                </p>
+                <img src="images/task1-2gradient.png" alt="Task 1.2 gradient" />
 
-        <p>
-          To do the same with a single convolution, I created a 2d gaussian by
-          taking the outer product between two 1d gaussians. Then I convolved
-          D_x and D_y with the 2d gaussian to get blurred derivatives. When we
-          then calculate the gradient with the blurred derivates, we can see
-          that we get the same result as before without needing to blend before.
-        </p>
-        <img src="images/task1-2gradient_DoG.png" alt="Task 1.2 blurred 2" />
+                <p>
+                    To do the same with a single convolution, I created a 2d
+                    gaussian by taking the outer product between two 1d
+                    gaussians. Then I convolved D_x and D_y with the 2d gaussian
+                    to get blurred derivatives. When we then calculate the
+                    gradient with the blurred derivates, we can see that we get
+                    the same result as before without needing to blend before.
+                </p>
+                <img
+                    src="images/task1-2gradient_DoG.png"
+                    alt="Task 1.2 blurred 2"
+                />
 
-        <h2>Part 2: Fun with Frequencies!</h2>
-        <h3>Part 2.1: Image "Sharpening"</h3>
-        <p>
-          Next, I implemented a sharpening filter by subtracting the blurred
-          image from the original image and adding the result to the original
-          image. Adding more of the higher frequencies makes the edges more
-          visible which gives the illusion of the image being sharper.
-        </p>
-        <br />
-        <p>
-          To make this procedure even more streamlined I rewrote the code to
-          calculate the unsharp filter mask by using the formula:
-          <br />
-          f*((1+a)e -ag)
-          <br />
-          Here f represents the input image, a is a scaling factor that controls
-          the sharpness intensity, e is the unit impulse, and g represents the
-          gaussian.
-        </p>
+                <h2>Part 2: Fun with Frequencies!</h2>
+                <h3>Part 2.1: Image "Sharpening"</h3>
+                <p>
+                    Next, I implemented a sharpening filter by subtracting the
+                    blurred image from the original image and adding the result
+                    to the original image. Adding more of the higher frequencies
+                    makes the edges more visible which gives the illusion of the
+                    image being sharper.
+                </p>
+                <br />
+                <p>
+                    To make this procedure even more streamlined I rewrote the
+                    code to calculate the unsharp filter mask by using the
+                    formula:
+                    <br />
+                    f*((1+a)e -ag)
+                    <br />
+                    Here f represents the input image, a is a scaling factor
+                    that controls the sharpness intensity, e is the unit
+                    impulse, and g represents the gaussian.
+                </p>
 
-        <div class="images-container">
-          <div class="image-container">
-            <img
-              src="images/task2-1taj_before.png"
-              alt="Task 2.1"
-              width="100%"
-            />
-            <p class="image-text">Before</p>
-          </div>
-          <div class="image-container">
-            <img
-              src="images/task2-1taj_after.png"
-              alt="Task 2.1"
-              width="100%"
-            />
-            <p class="image-text">After</p>
-          </div>
-          <div class="image-container">
-            <img
-              src="images/task2-1cam_before.png"
-              alt="Task 2.1"
-              width="100%"
-            />
-            <p class="image-text">Before</p>
-          </div>
-          <div class="image-container">
-            <img
-              src="images/task2-1cam_after.png"
-              alt="Task 2.1"
-              width="100%"
-            />
-            <p class="image-text">After</p>
-          </div>
-          <div class="image-container">
-            <img
-              src="images/task2-1man_before.png"
-              alt="Task 2.1"
-              width="100%"
-            />
-            <p class="image-text">After</p>
-          </div>
-          <div class="image-container">
-            <img
-              src="images/task2-1man_after.png"
-              alt="Task 2.1"
-              width="100%"
-            />
-            <p class="image-text">After</p>
-          </div>
-        </div>
+                <div class="images-container">
+                    <div class="image-container">
+                        <img
+                            src="images/task2-1taj_before.png"
+                            alt="Task 2.1"
+                            width="100%"
+                        />
+                        <p class="image-text">Before</p>
+                    </div>
+                    <div class="image-container">
+                        <img
+                            src="images/task2-1taj_after.png"
+                            alt="Task 2.1"
+                            width="100%"
+                        />
+                        <p class="image-text">After</p>
+                    </div>
+                    <div class="image-container">
+                        <img
+                            src="images/task2-1cam_before.png"
+                            alt="Task 2.1"
+                            width="100%"
+                        />
+                        <p class="image-text">Before</p>
+                    </div>
+                    <div class="image-container">
+                        <img
+                            src="images/task2-1cam_after.png"
+                            alt="Task 2.1"
+                            width="100%"
+                        />
+                        <p class="image-text">After</p>
+                    </div>
+                    <div class="image-container">
+                        <img
+                            src="images/task2-1man_before.png"
+                            alt="Task 2.1"
+                            width="100%"
+                        />
+                        <p class="image-text">After</p>
+                    </div>
+                    <div class="image-container">
+                        <img
+                            src="images/task2-1man_after.png"
+                            alt="Task 2.1"
+                            width="100%"
+                        />
+                        <p class="image-text">After</p>
+                    </div>
+                </div>
 
-        <p>
-          I then blurred an image of cobblestone and sharpened it again to be
-          able to see how the sharpening affects the image.
-        </p>
-        <div class="images-container">
-          <div class="image-container">
-            <img
-              src="images/task2-1cob_before.png"
-              alt="Task 2.1"
-              width="100%"
-            />
-            <p class="image-text">Original</p>
-          </div>
-          <div class="image-container">
-            <img src="images/task2-1cob_blur.png" alt="Task 2.1" width="100%" />
-            <p class="image-text">Blurred</p>
-          </div>
-          <div class="image-container">
-            <img
-              src="images/task2-1cob_before.png"
-              alt="Task 2.1"
-              width="100%"
-            />
-            <p class="image-text">Original</p>
-          </div>
-          <div class="image-container">
-            <img
-              src="images/task2-1cob_sharp.png"
-              alt="Task 2.1"
-              width="100%"
-            />
-            <p class="image-text">Blurred and resharpened</p>
-          </div>
-        </div>
+                <p>
+                    I then blurred an image of cobblestone and sharpened it
+                    again to be able to see how the sharpening affects the
+                    image.
+                </p>
+                <div class="images-container">
+                    <div class="image-container">
+                        <img
+                            src="images/task2-1cob_before.png"
+                            alt="Task 2.1"
+                            width="100%"
+                        />
+                        <p class="image-text">Original</p>
+                    </div>
+                    <div class="image-container">
+                        <img
+                            src="images/task2-1cob_blur.png"
+                            alt="Task 2.1"
+                            width="100%"
+                        />
+                        <p class="image-text">Blurred</p>
+                    </div>
+                    <div class="image-container">
+                        <img
+                            src="images/task2-1cob_before.png"
+                            alt="Task 2.1"
+                            width="100%"
+                        />
+                        <p class="image-text">Original</p>
+                    </div>
+                    <div class="image-container">
+                        <img
+                            src="images/task2-1cob_sharp.png"
+                            alt="Task 2.1"
+                            width="100%"
+                        />
+                        <p class="image-text">Blurred and resharpened</p>
+                    </div>
+                </div>
 
-        <p>
-          As we can see, the image is much clearer after we unsharpen it.
-          However, it does not look the same as the original image. The original
-          image is more detailed. While the unsharpened image detects edges, it
-          is not able to revover the details that were present in the original
-          image. When we unsharpen the image, we are therefore not able to
-          reproduce the original image but we rather get an sharp image but with
-          less detail.
-        </p>
+                <p>
+                    As we can see, the image is much clearer after we unsharpen
+                    it. However, it does not look the same as the original
+                    image. The original image is more detailed. While the
+                    unsharpened image detects edges, it is not able to revover
+                    the details that were present in the original image. When we
+                    unsharpen the image, we are therefore not able to reproduce
+                    the original image but we rather get an sharp image but with
+                    less detail.
+                </p>
 
-        <br />
+                <br />
 
-        <h3>Part 2.2: Hybrid Images</h3>
-        <p>
-          In this part I created a hybrid image by combining a low-pass filtered
-          image with a high-pass filtered image. The low-pass filtered image was
-          created by convolving the image with a gaussian filter and the
-          high-pass filtered image was created by subtracting the low-pass
-          filtered image from the original image just as before.
-        </p>
+                <h3>Part 2.2: Hybrid Images</h3>
+                <p>
+                    In this part I created a hybrid image by combining a
+                    low-pass filtered image with a high-pass filtered image. The
+                    low-pass filtered image was created by convolving the image
+                    with a gaussian filter and the high-pass filtered image was
+                    created by subtracting the low-pass filtered image from the
+                    original image just as before.
+                </p>
 
-        <br />
+                <br />
 
-        <p>
-          Additionally, I implemented a cutoff frequency to be able to control
-          the amount of high and low frequencies in the image. This was done by
-          setting the amount of cycles the kernel would go through per image in
-          the gaussian filtering as described in the paper. In this way, we
-          could set a low cutoff frequency to remove most of the high
-          frequencies to get a blurry image or a high cutoff frequency to keep
-          most of the high frequencies and get a sharper image. The opposite
-          goes for the high-pass filter.
-        </p>
+                <p>
+                    Additionally, I implemented a cutoff frequency to be able to
+                    control the amount of high and low frequencies in the image.
+                    This was done by setting the amount of cycles the kernel
+                    would go through per image in the gaussian filtering as
+                    described in the paper. In this way, we could set a low
+                    cutoff frequency to remove most of the high frequencies to
+                    get a blurry image or a high cutoff frequency to keep most
+                    of the high frequencies and get a sharper image. The
+                    opposite goes for the high-pass filter.
+                </p>
 
-        <br />
+                <br />
 
-        <p>
-          Below are the results of the hybrid images I created. The first image
-          of Derek and Nutmeg looks like Derek up close but like Nutmeg from a
-          distance. The second image of the elephant and tiger looks like an
-          elephant up close but like a tiger from a distance. And the third
-          image of the orange and the bald man looks like an orange up close but
-          like a bald man from a far.
-        </p>
+                <p>
+                    Below are the results of the hybrid images I created. The
+                    first image of Derek and Nutmeg looks like Derek up close
+                    but like Nutmeg from a distance. The second image of the
+                    elephant and tiger looks like an elephant up close but like
+                    a tiger from a distance. And the third image of the orange
+                    and the bald man looks like an orange up close but like a
+                    bald man from a far.
+                </p>
 
-        <br />
+                <br />
 
-        <p>
-          However, the last image of the happy and angry man failed where the
-          man always looks angry. This is most likely because the cutoff
-          frequencies were set in a bad which goes to show how important the
-          cutoff frequencies are to get a satisfactory result. Additionally, it
-          may be that the features in the images that make the man look angry
-          are always a little visible which dominates the facial expression
-          making the man look angry even though you see more of the happy face.
-        </p>
+                <p>
+                    However, the last image of the happy and angry man failed
+                    where the man always looks angry. This is most likely
+                    because the cutoff frequencies were set in a bad which goes
+                    to show how important the cutoff frequencies are to get a
+                    satisfactory result. Additionally, it may be that the
+                    features in the images that make the man look angry are
+                    always a little visible which dominates the facial
+                    expression making the man look angry even though you see
+                    more of the happy face.
+                </p>
 
-        <div class="images-container">
-          <div class="three-width-image-container">
-            <img src="images/DerekPicture.jpg" alt="Task 2.2" width="100%" />
-            <p class="image-text">Derek</p>
-          </div>
-          <div class="three-width-image-container">
-            <img src="images/nutmeg.jpg" alt="Task 2.2" width="100%" />
-            <p class="image-text">Nutmeg</p>
-          </div>
-          <div class="three-width-image-container">
-            <img
-              src="images/hybrid_image_ nutmeg_derek.png"
-              alt="Task 2.2"
-              width="100%"
-            />
-            <p class="image-text">Hybrid</p>
-          </div>
+                <div class="images-container">
+                    <div class="three-width-image-container">
+                        <img
+                            src="images/DerekPicture.jpg"
+                            alt="Task 2.2"
+                            width="100%"
+                        />
+                        <p class="image-text">Derek</p>
+                    </div>
+                    <div class="three-width-image-container">
+                        <img
+                            src="images/nutmeg.jpg"
+                            alt="Task 2.2"
+                            width="100%"
+                        />
+                        <p class="image-text">Nutmeg</p>
+                    </div>
+                    <div class="three-width-image-container">
+                        <img
+                            src="images/hybrid_image_ nutmeg_derek.png"
+                            alt="Task 2.2"
+                            width="100%"
+                        />
+                        <p class="image-text">Hybrid</p>
+                    </div>
 
-          <div class="three-width-image-container">
-            <img src="images/Tiger.jpg" alt="Task 2.2" width="100%" />
-            <p class="image-text">Tiger</p>
-          </div>
-          <div class="three-width-image-container">
-            <img src="images/Elephant.jpg" alt="Task 2.2" width="100%" />
-            <p class="image-text">Elephant</p>
-          </div>
-          <div class="three-width-image-container">
-            <img
-              src="images/hybrid_image_ elephant_tiger.png"
-              alt="Task 2.2"
-              width="100%"
-            />
-            <p class="image-text">Hybrid</p>
-          </div>
+                    <div class="three-width-image-container">
+                        <img
+                            src="images/Tiger.jpg"
+                            alt="Task 2.2"
+                            width="100%"
+                        />
+                        <p class="image-text">Tiger</p>
+                    </div>
+                    <div class="three-width-image-container">
+                        <img
+                            src="images/Elephant.jpg"
+                            alt="Task 2.2"
+                            width="100%"
+                        />
+                        <p class="image-text">Elephant</p>
+                    </div>
+                    <div class="three-width-image-container">
+                        <img
+                            src="images/hybrid_image_ elephant_tiger.png"
+                            alt="Task 2.2"
+                            width="100%"
+                        />
+                        <p class="image-text">Hybrid</p>
+                    </div>
 
-          <div class="three-width-image-container">
-            <img src="images/orange_on_grass.png" alt="Task 2.2" width="100%" />
-            <p class="image-text">Orange</p>
-          </div>
-          <div class="three-width-image-container">
-            <img src="images/bald_man.png" alt="Task 2.2" width="100%" />
-            <p class="image-text">Bald man</p>
-          </div>
-          <div class="three-width-image-container">
-            <img
-              src="images/hybrid_image_ orange_bald.png"
-              alt="Task 2.2"
-              width="100%"
-            />
-            <p class="image-text">Hybrid</p>
-          </div>
+                    <div class="three-width-image-container">
+                        <img
+                            src="images/orange_on_grass.png"
+                            alt="Task 2.2"
+                            width="100%"
+                        />
+                        <p class="image-text">Orange</p>
+                    </div>
+                    <div class="three-width-image-container">
+                        <img
+                            src="images/bald_man.png"
+                            alt="Task 2.2"
+                            width="100%"
+                        />
+                        <p class="image-text">Bald man</p>
+                    </div>
+                    <div class="three-width-image-container">
+                        <img
+                            src="images/hybrid_image_ orange_bald.png"
+                            alt="Task 2.2"
+                            width="100%"
+                        />
+                        <p class="image-text">Hybrid</p>
+                    </div>
 
-          <div class="three-width-image-container">
-            <img src="images/happy_man.png" alt="Task 2.2" width="100%" />
-            <p class="image-text">Happy man</p>
-          </div>
-          <div class="three-width-image-container">
-            <img src="images/angry_man.png" alt="Task 2.2" width="100%" />
-            <p class="image-text">Angry man</p>
-          </div>
-          <div class="three-width-image-container">
-            <img
-              src="images/hybrid_image_ angry_happy.png"
-              alt="Task 2.2"
-              width="100%"
-            />
-            <p class="image-text">Hybrid</p>
-          </div>
-        </div>
+                    <div class="three-width-image-container">
+                        <img
+                            src="images/happy_man.png"
+                            alt="Task 2.2"
+                            width="100%"
+                        />
+                        <p class="image-text">Happy man</p>
+                    </div>
+                    <div class="three-width-image-container">
+                        <img
+                            src="images/angry_man.png"
+                            alt="Task 2.2"
+                            width="100%"
+                        />
+                        <p class="image-text">Angry man</p>
+                    </div>
+                    <div class="three-width-image-container">
+                        <img
+                            src="images/hybrid_image_ angry_happy.png"
+                            alt="Task 2.2"
+                            width="100%"
+                        />
+                        <p class="image-text">Hybrid</p>
+                    </div>
+                </div>
 
-        <p>
-          Even though I'm quite happy with the bald man and the orange, I still
-          think Derek and the cat is the hybrid image that looks the best so
-          I'll show the frequency plots for those.
-        </p>
-        <br />
-        <p>
-          First off, after taking the Fourier transform, we have the frequency
-          plot for the images before the high-pass and low-pass filtering. We
-          can see that the cat has a lot of diagonal lines which explains the
-          fact that the image is tilted. Derek on the other hand only has the
-          horizontal and vertical which can be explained by the fact that the
-          image doesn't have that many patterns except for the straight lines of
-          the background and the face.
-        </p>
+                <p>
+                    Even though I'm quite happy with the bald man and the
+                    orange, I still think Derek and the cat is the hybrid image
+                    that looks the best so I'll show the frequency plots for
+                    those.
+                </p>
+                <br />
+                <p>
+                    First off, after taking the Fourier transform, we have the
+                    frequency plot for the images before the high-pass and
+                    low-pass filtering. We can see that the cat has a lot of
+                    diagonal lines which explains the fact that the image is
+                    tilted. Derek on the other hand only has the horizontal and
+                    vertical which can be explained by the fact that the image
+                    doesn't have that many patterns except for the straight
+                    lines of the background and the face.
+                </p>
 
-        <div class="images-container">
-          <div class="image-container">
-            <img
-              src="images/im1_aligned_gray.png"
-              alt="Task 2.2"
-              width="100%"
-            />
-            <p class="image-text">Nutmeg</p>
-          </div>
-          <div class="image-container">
-            <img
-              src="images/im2_aligned_gray.png"
-              alt="Task 2.2"
-              width="100%"
-            />
-            <p class="image-text">Derek</p>
-          </div>
-        </div>
+                <div class="images-container">
+                    <div class="image-container">
+                        <img
+                            src="images/im1_aligned_gray.png"
+                            alt="Task 2.2"
+                            width="100%"
+                        />
+                        <p class="image-text">Nutmeg</p>
+                    </div>
+                    <div class="image-container">
+                        <img
+                            src="images/im2_aligned_gray.png"
+                            alt="Task 2.2"
+                            width="100%"
+                        />
+                        <p class="image-text">Derek</p>
+                    </div>
+                </div>
 
-        <p>
-          After filtering the images, we can see that Nutmeg has stayed mostly
-          the same. However, Derek has now gotten a lot of horizontal and
-          vertical lines spread across the Fourier space. This is because the
-          high-pass filter has removed most of the low frequencies in the image.
-        </p>
+                <p>
+                    After filtering the images, we can see that Nutmeg has
+                    stayed mostly the same. However, Derek has now gotten a lot
+                    of horizontal and vertical lines spread across the Fourier
+                    space. This is because the high-pass filter has removed most
+                    of the low frequencies in the image.
+                </p>
 
-        <div class="images-container">
-          <div class="image-container">
-            <img
-              src="images/high_pass_image_ nutmeg_derek.png"
-              alt="Task 2.2"
-              width="100%"
-            />
-            <p class="image-text">Nutmeg</p>
-          </div>
-          <div class="image-container">
-            <img
-              src="images/low_pass_image_ nutmeg_derek.png"
-              alt="Task 2.2"
-              width="100%"
-            />
-            <p class="image-text">Derek</p>
-          </div>
-        </div>
+                <div class="images-container">
+                    <div class="image-container">
+                        <img
+                            src="images/high_pass_image_ nutmeg_derek.png"
+                            alt="Task 2.2"
+                            width="100%"
+                        />
+                        <p class="image-text">Nutmeg</p>
+                    </div>
+                    <div class="image-container">
+                        <img
+                            src="images/low_pass_image_ nutmeg_derek.png"
+                            alt="Task 2.2"
+                            width="100%"
+                        />
+                        <p class="image-text">Derek</p>
+                    </div>
+                </div>
 
-        <p>
-          The hybrid image is a combination of the high-pass and low-pass
-          filtered images. We can see that the image is a combination of the
-          horizontal and vertical lines from Derek and the diagonal lines from
-          Nutmeg. This is because the high-pass filter has removed the diagonal
-          lines from Derek and the low-pass filter has removed the horizontal
-          and vertical lines from Nutmeg.
-        </p>
+                <p>
+                    The hybrid image is a combination of the high-pass and
+                    low-pass filtered images. We can see that the image is a
+                    combination of the horizontal and vertical lines from Derek
+                    and the diagonal lines from Nutmeg. This is because the
+                    high-pass filter has removed the diagonal lines from Derek
+                    and the low-pass filter has removed the horizontal and
+                    vertical lines from Nutmeg.
+                </p>
 
-        <div class="images-container">
-          <div class="image-container">
-            <img
-              src="images/hybrid_image_frequency_ nutmeg_derek.png"
-              alt="Task 2.2"
-              width="100%"
-            />
-            <p class="image-text">Hybrid</p>
-          </div>
-        </div>
+                <div class="images-container">
+                    <div class="image-container">
+                        <img
+                            src="images/hybrid_image_frequency_ nutmeg_derek.png"
+                            alt="Task 2.2"
+                            width="100%"
+                        />
+                        <p class="image-text">Hybrid</p>
+                    </div>
+                </div>
 
-        <h3>Part 2.3: Gaussian and Laplacian Stacks</h3>
-        <p>
-          To create a gaussian stack, I convolved the input image with a
-          gaussian with a kernel width of 40 pixels and a sigma of 5. I then
-          added the result to the stack. I repeated the process on the resulting
-          image. I did this 5 times to get a stack of 5 gaussian blurred images.
-        </p>
-        <br />
-        <p>
-          For the laplacian stack, I subtracted the gaussian blurred image from
-          the next gaussian blurred image in the stack to get the high
-          frequencies in the images.
-        </p>
-        <br />
-        <p>
-          I created a mask with 0's on the left side and 1's on the right side.
-          I then created a gaussian stack for the mask and multiplied the mask
-          with the laplacian stack on each level get a blended image on each
-          level.
-        </p>
-        <br />
-        <p>
-          Due to normalization errors, the colors of the images are off. The
-          gaussian blur also blurs the edges of the mask which makes the stages
-          look weird.
-        </p>
+                <h3>Part 2.3: Gaussian and Laplacian Stacks</h3>
+                <p>
+                    To create a gaussian stack, I convolved the input image with
+                    a gaussian with a kernel width of 40 pixels and a sigma of
+                    5. I then added the result to the stack. I repeated the
+                    process on the resulting image. I did this 5 times to get a
+                    stack of 5 gaussian blurred images.
+                </p>
+                <br />
+                <p>
+                    For the laplacian stack, I subtracted the gaussian blurred
+                    image from the next gaussian blurred image in the stack to
+                    get the high frequencies in the images.
+                </p>
+                <br />
+                <p>
+                    I created a mask with 0's on the left side and 1's on the
+                    right side. I then created a gaussian stack for the mask and
+                    multiplied the mask with the laplacian stack on each level
+                    get a blended image on each level.
+                </p>
+                <br />
+                <p>
+                    Due to normalization errors, the colors of the images are
+                    off. The gaussian blur also blurs the edges of the mask
+                    which makes the stages look weird.
+                </p>
 
-        <img src="images/task2-3layer1.png" alt="Task 2.3" />
-        <img src="images/task2-3layer2.png" alt="Task 2.3" />
-        <img src="images/task2-3layer3.png" alt="Task 2.3" />
-        <img src="images/task2-3layer4.png" alt="Task 2.3" />
-        <img src="images/task2-3layer5.png" alt="Task 2.3" />
+                <img src="images/task2-3layer1.png" alt="Task 2.3" />
+                <img src="images/task2-3layer2.png" alt="Task 2.3" />
+                <img src="images/task2-3layer3.png" alt="Task 2.3" />
+                <img src="images/task2-3layer4.png" alt="Task 2.3" />
+                <img src="images/task2-3layer5.png" alt="Task 2.3" />
 
-        <p>
-          Here is two images of space that I blended together in the same way.
-        </p>
+                <p>
+                    Here is two images of space that I blended together in the
+                    same way.
+                </p>
 
-        <div class="images-container">
-          <div class="image-container">
-            <img src="images/space1.png" alt="Task 2.3" width="100%" />
-            <p class="image-text">Space 1</p>
-          </div>
-          <div class="image-container">
-            <img src="images/space2.png" alt="Task 2.3" width="100%" />
-            <p class="image-text">Space 2</p>
-          </div>
-          <div class="image-container">
-            <img src="images/space_blended.png" alt="Task 2.3" width="100%" />
-            <p class="image-text">Blended</p>
-          </div>
-        </div>
+                <div class="images-container">
+                    <div class="image-container">
+                        <img
+                            src="images/space1.png"
+                            alt="Task 2.3"
+                            width="100%"
+                        />
+                        <p class="image-text">Space 1</p>
+                    </div>
+                    <div class="image-container">
+                        <img
+                            src="images/space2.png"
+                            alt="Task 2.3"
+                            width="100%"
+                        />
+                        <p class="image-text">Space 2</p>
+                    </div>
+                    <div class="image-container">
+                        <img
+                            src="images/space_blended.png"
+                            alt="Task 2.3"
+                            width="100%"
+                        />
+                        <p class="image-text">Blended</p>
+                    </div>
+                </div>
 
-        <h3>Part 2.4: Multiresolution Blending (a.k.a. the oraple!)</h3>
-        <p>
-          For the multiresolution blending, I started by scaling the images to
-          the same size. I then created a gaussian stack for the mask and used
-          the formula
-          <br />
-          blended image = mask * image1 + (1 - mask) * image2
-          <br />
-          to blend the two images together on each of the layers in the
-          laplacian stacks. In the end, I summed the layers in the laplacian
-          stack to get the final blended image. This gave me this result.
-        </p>
+                <h3>Part 2.4: Multiresolution Blending (a.k.a. the oraple!)</h3>
+                <p>
+                    For the multiresolution blending, I started by scaling the
+                    images to the same size. I then created a gaussian stack for
+                    the mask and used the formula
+                    <br />
+                    blended image = mask * image1 + (1 - mask) * image2
+                    <br />
+                    to blend the two images together on each of the layers in
+                    the laplacian stacks. In the end, I summed the layers in the
+                    laplacian stack to get the final blended image. This gave me
+                    this result.
+                </p>
 
-        <img src="images/task2-3blended_image.png" alt="Task 2.4" />
+                <img src="images/task2-3blended_image.png" alt="Task 2.4" />
 
-        <br />
+                <br />
 
-        <p>
-          For the irregular mask, I used the PolygonSelector library to manually
-          create a mask around the objects in the images I wanted to blend. This
-          worked by showing the image and letting the user click points that
-          were going to make up the mask. To finish the mask, you could select
-          the first point again. The mask was then created by filling the
-          polygon with 1's and the rest with 0's. To get a smooth transition
-          between the mask and the rest of the image, I aslo gaussian blurred
-          the mask. I got a much better result when using the GaussianBlur
-          function from the cv2 library in this task so I used that instead of
-          the gaussian blend I created in a previous task.
-        </p>
-        <br />
-        <p>
-          For the Peter Parker and Spiderman image, I noticed that choosing a
-          mask that both would fit the face of Peter Parker and the face of
-          Spiderman was difficult. I therefore chose to make it possible to
-          select points for the mask in both images. The masks are then added
-          together to get the final mask and the procedure from there is the
-          same as before.
-        </p>
-        <br />
-        <p>The result of the blending can be seen below.</p>
+                <p>
+                    For the irregular mask, I used the PolygonSelector library
+                    to manually create a mask around the objects in the images I
+                    wanted to blend. This worked by showing the image and
+                    letting the user click points that were going to make up the
+                    mask. To finish the mask, you could select the first point
+                    again. The mask was then created by filling the polygon with
+                    1's and the rest with 0's. To get a smooth transition
+                    between the mask and the rest of the image, I aslo gaussian
+                    blurred the mask. I got a much better result when using the
+                    GaussianBlur function from the cv2 library in this task so I
+                    used that instead of the gaussian blend I created in a
+                    previous task.
+                </p>
+                <br />
+                <p>
+                    For the Peter Parker and Spiderman image, I noticed that
+                    choosing a mask that both would fit the face of Peter Parker
+                    and the face of Spiderman was difficult. I therefore chose
+                    to make it possible to select points for the mask in both
+                    images. The masks are then added together to get the final
+                    mask and the procedure from there is the same as before.
+                </p>
+                <br />
+                <p>The result of the blending can be seen below.</p>
 
-        <div class="images-container">
-          <div class="three-width-image-container">
-            <img src="images/spiderman.png" alt="Task 2.4" width="100%" />
-            <p class="image-text">Spiderman</p>
-          </div>
-          <div class="three-width-image-container">
-            <img src="images/peter_parker.png" alt="Task 2.4" width="100%" />
-            <p class="image-text">Peter Parker</p>
-          </div>
-          <div class="three-width-image-container">
-            <img
-              src="images/spiderman_peter_parker.png"
-              alt="Task 2.4"
-              width="100%"
-            />
-            <p class="image-text">Proving Peter Parker is Spiderman</p>
-          </div>
+                <div class="images-container">
+                    <div class="three-width-image-container">
+                        <img
+                            src="images/spiderman.png"
+                            alt="Task 2.4"
+                            width="100%"
+                        />
+                        <p class="image-text">Spiderman</p>
+                    </div>
+                    <div class="three-width-image-container">
+                        <img
+                            src="images/peter_parker.png"
+                            alt="Task 2.4"
+                            width="100%"
+                        />
+                        <p class="image-text">Peter Parker</p>
+                    </div>
+                    <div class="three-width-image-container">
+                        <img
+                            src="images/spiderman_peter_parker.png"
+                            alt="Task 2.4"
+                            width="100%"
+                        />
+                        <p class="image-text">
+                            Proving Peter Parker is Spiderman
+                        </p>
+                    </div>
 
-          <div class="three-width-image-container">
-            <img src="images/me_working.png" alt="Task 2.4" width="100%" />
-            <p class="image-text">Me working</p>
-          </div>
-          <div class="three-width-image-container">
-            <img src="images/elon_musk.png" alt="Task 2.4" width="100%" />
-            <p class="image-text">Elon Musk</p>
-          </div>
-          <div class="three-width-image-container">
-            <img src="images/elon_musk_image.png" alt="Task 2.4" width="100%" />
-            <p class="image-text">Us working together</p>
-          </div>
+                    <div class="three-width-image-container">
+                        <img
+                            src="images/me_working.png"
+                            alt="Task 2.4"
+                            width="100%"
+                        />
+                        <p class="image-text">Me working</p>
+                    </div>
+                    <div class="three-width-image-container">
+                        <img
+                            src="images/elon_musk.png"
+                            alt="Task 2.4"
+                            width="100%"
+                        />
+                        <p class="image-text">Elon Musk</p>
+                    </div>
+                    <div class="three-width-image-container">
+                        <img
+                            src="images/elon_musk_image.png"
+                            alt="Task 2.4"
+                            width="100%"
+                        />
+                        <p class="image-text">Us working together</p>
+                    </div>
 
-          <div class="three-width-image-container">
-            <img src="images/teletubbies_sun.png" alt="Task 2.4" width="100%" />
-            <p class="image-text">The Teletubbies sun</p>
-          </div>
-          <div class="three-width-image-container">
-            <img src="images/happy_baby.png" alt="Task 2.4" width="100%" />
-            <p class="image-text">Me as a baby</p>
-          </div>
-          <div class="three-width-image-container">
-            <img
-              src="images/teletubbies_baby.png"
-              alt="Task 2.4"
-              width="100%"
-            />
-            <p class="image-text">Me as the Teletubbies sun</p>
-          </div>
-        </div>
-      </section>
-    </main>
-  </body>
+                    <div class="three-width-image-container">
+                        <img
+                            src="images/teletubbies_sun.png"
+                            alt="Task 2.4"
+                            width="100%"
+                        />
+                        <p class="image-text">The Teletubbies sun</p>
+                    </div>
+                    <div class="three-width-image-container">
+                        <img
+                            src="images/happy_baby.png"
+                            alt="Task 2.4"
+                            width="100%"
+                        />
+                        <p class="image-text">Me as a baby</p>
+                    </div>
+                    <div class="three-width-image-container">
+                        <img
+                            src="images/teletubbies_baby.png"
+                            alt="Task 2.4"
+                            width="100%"
+                        />
+                        <p class="image-text">Me as the Teletubbies sun</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+        <button id="back-to-top">↑</button>
+        <script>
+            window.addEventListener("scroll", () => {
+                const scrollTop = window.scrollY;
+                const docHeight =
+                    document.documentElement.scrollHeight - window.innerHeight;
+                const scrollPercent = (scrollTop / docHeight) * 100;
+                document.getElementById("progress-bar").style.width =
+                    scrollPercent + "%";
+            });
+
+            const btn = document.getElementById("back-to-top");
+
+            window.addEventListener("scroll", () => {
+                if (window.scrollY > 300) {
+                    btn.classList.add("show");
+                } else {
+                    btn.classList.remove("show");
+                }
+            });
+
+            btn.addEventListener("click", () => {
+                window.scrollTo({ top: 0, behavior: "smooth" });
+            });
+        </script>
+    </body>
 </html>

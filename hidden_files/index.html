@@ -1,23 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Bendik Norli - CS180 Project 1</title>
-    <link rel="stylesheet" href="styles.css" />
-  </head>
-  <body>
-    <main>
-      <p>
-        親愛なるアンドレアスさん、 ก่อนอื่น ขอแสดงความยินดีที่คุณมาถึงจุดนี้
-        再次感谢您的圣诞礼物！ オーストラリアに行くのが本当に楽しみです。
-        நீங்கள் ஒரு அருமையான மனிதர் மற்றும் எனக்குக் கைவசம் சிறந்த பயண துணை
-        இல்லாமல் இருக்கும் என்று நம்புகிறேன்。
-        การเดินทางครั้งนี้จะเป็นการเดินทางที่ยากจะลืมเลือนแน่นอน
-        我们将一起经历彼此的优点和缺点。 안 그래도 이번 여정이 끝날 때쯤, 우리는
-        더 가까운 친구가 될 것입니다。
-        もしオーストラリアでパートナーを探したいのなら、私はウィングマンとして喜んで手伝います。
-        最後の手がかりは「言語の数」です。
-      </p>
-    </main>
-  </body>
+    <head>
+        <meta charset="UTF-8" />
+        <title>Bendik Norli - CS180 Project 1</title>
+        <link rel="stylesheet" href="../styles.css" />
+    </head>
+    <body>
+        <main>
+            <p>
+                親愛なるアンドレアスさん、 ก่อนอื่น
+                ขอแสดงความยินดีที่คุณมาถึงจุดนี้ 再次感谢您的圣诞礼物！
+                オーストラリアに行くのが本当に楽しみです。 நீங்கள் ஒரு அருமையான
+                மனிதர் மற்றும் எனக்குக் கைவசம் சிறந்த பயண துணை இல்லாமல்
+                இருக்கும் என்று நம்புகிறேன்。
+                การเดินทางครั้งนี้จะเป็นการเดินทางที่ยากจะลืมเลือนแน่นอน
+                我们将一起经历彼此的优点和缺点。 안 그래도 이번 여정이 끝날
+                때쯤, 우리는 더 가까운 친구가 될 것입니다。
+                もしオーストラリアでパートナーを探したいのなら、私はウィングマンとして喜んで手伝います。
+                最後の手がかりは「言語の数」です。
+            </p>
+        </main>
+        <button id="back-to-top">↑</button>
+        <script>
+            window.addEventListener("scroll", () => {
+                const scrollTop = window.scrollY;
+                const docHeight =
+                    document.documentElement.scrollHeight - window.innerHeight;
+                const scrollPercent = (scrollTop / docHeight) * 100;
+                document.getElementById("progress-bar").style.width =
+                    scrollPercent + "%";
+            });
+
+            const btn = document.getElementById("back-to-top");
+
+            window.addEventListener("scroll", () => {
+                if (window.scrollY > 300) {
+                    btn.classList.add("show");
+                } else {
+                    btn.classList.remove("show");
+                }
+            });
+
+            btn.addEventListener("click", () => {
+                window.scrollTo({ top: 0, behavior: "smooth" });
+            });
+        </script>
+    </body>
 </html>

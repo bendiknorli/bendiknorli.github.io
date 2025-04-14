@@ -1,1404 +1,1628 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Bendik Norli - CS180 Project 5</title>
-    <link rel="stylesheet" href="styles.css" />
-  </head>
-  <body>
-    <header>
-      <div class="navbar">
-        <a class="logo" href="../index.html">CS180</a>
-        <nav>
-          <ul>
-            <li><a href="../1/index.html">Project 1</a></li>
-            <li><a href="../2/index.html">Project 2</a></li>
-            <li><a href="../3/index.html">Project 3</a></li>
-            <li><a href="../4/index.html">Project 4</a></li>
-            <li><a href="../5/index.html">Project 5</a></li>
-          </ul>
-        </nav>
-      </div>
-    </header>
-    <main>
-      <section class="content">
-        <h1>Project 5</h1>
-        <p class="note">Using diffusion models to generate images</p>
-        <h2>Part A</h2>
-        <p>
-          For this project we were supposed to generate images by using
-          diffusion models. The first part of the project was to run an already
-          made model with three pre-written prompts. When I ran the code with
-          seed 200 and 20 inference steps this was the output I got from the
-          three prompts:
-        </p>
+    <head>
+        <meta charset="UTF-8" />
+        <title>Bendik Norli - CS180 Project 5</title>
+        <link rel="stylesheet" href="../styles.css" />
+    </head>
+    <body>
+        <header>
+            <div class="navbar">
+                <a class="logo" href="../index.html">Bendik Norli
+                <nav>
+                    <ul>
+                        <li><a href="../ELEC4630/index.html">ELEC4630</a></li>
+                        <li><a href="../1/index.html">Project 1</a></li>
+                        <li><a href="../2/index.html">Project 2</a></li>
+                        <li><a href="../3/index.html">Project 3</a></li>
+                        <li><a href="../4/index.html">Project 4</a></li>
+                        <li><a href="../5/index.html">Project 5</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </header>
+        <div id="progress-bar"></div>
+        <main>
+            <section class="content">
+                <h1>Project 5</h1>
+                <p class="note">Using diffusion models to generate images</p>
+                <h2>Part A</h2>
+                <p>
+                    For this project we were supposed to generate images by
+                    using diffusion models. The first part of the project was to
+                    run an already made model with three pre-written prompts.
+                    When I ran the code with seed 200 and 20 inference steps
+                    this was the output I got from the three prompts:
+                </p>
 
-        <div class="images-container">
-          <div class="three-width-image-container">
-            <img
-              src="images/setup/snowy_mountain_village.png"
-              alt="Snowy mountain village"
-              width="100%"
-            />
-            <p class="image-text">
-              an oil painting of a snowy mountain village
-            </p>
-          </div>
-          <div class="three-width-image-container">
-            <img
-              src="images/setup/man_wearing_hat.png"
-              alt="Man wearing a hat"
-              width="100%"
-            />
-            <p class="image-text">a man wearing a hat</p>
-          </div>
-          <div class="three-width-image-container">
-            <img
-              src="images/setup/rocket_ship.png"
-              alt="Rocket ship"
-              width="100%"
-            />
-            <p class="image-text">a rocket ship</p>
-          </div>
-        </div>
-        <p>
-          As we see, the quality of the output is quite good. All the images
-          relate to their prompt. With such limited and short prompts as given
-          here, the model has a lot of freedom so it can generate a lot of
-          different images satisfying the prompt. However, the model clearly
-          focuses on what the prompt aims to capture which is good.
-        </p>
-        <br />
-        <p>
-          One issue that appears is artifacts. For example, we can see that in
-          the image of the man wearing a hat, the man has something that seems
-          to be the beggining of a second hat beneath his main one.
-          Additionally, none of the images look particularly realistic where
-          they all have a certain cartoonish look to them.
-        </p>
-        <br />
-        <p>
-          If we now try to run the same code with the same seed but with 50
-          inference steps, we get this result when we put the images side by
-          side:
-        </p>
-        <div class="images-container">
-          <div class="image-container">
-            <img
-              src="images/setup/snowy_mountain_village.png"
-              alt="Snowy mountain village"
-              width="100%"
-            />
-            <p class="image-text">
-              an oil painting of a snowy mountain village
-            </p>
-          </div>
-          <div class="image-container">
-            <img
-              src="images/setup/snowy_mountain_village_50.png"
-              alt="Snowy mountain village"
-              width="100%"
-            />
-            <p class="image-text">same prompt but with 50 inference steps</p>
-          </div>
-        </div>
-        <div class="images-container">
-          <div class="image-container">
-            <img
-              src="images/setup/man_wearing_hat.png"
-              alt="Man wearing a hat"
-              width="100%"
-            />
-            <p class="image-text">a man wearing a hat</p>
-          </div>
-          <div class="image-container">
-            <img
-              src="images/setup/man_wearing_hat_50.png"
-              alt="Man wearing a hat 50"
-              width="100%"
-            />
-            <p class="image-text">same prompt but with 50 inference steps</p>
-          </div>
-        </div>
-        <div class="images-container">
-          <div class="image-container">
-            <img
-              src="images/setup/rocket_ship.png"
-              alt="Rocket ship"
-              width="100%"
-            />
-            <p class="image-text">a rocket ship</p>
-          </div>
-          <div class="image-container">
-            <img
-              src="images/setup/rocket_ship_50.png"
-              alt="Rocket ship 50"
-              width="100%"
-            />
-            <p class="image-text">same prompt but with 50 inference steps</p>
-          </div>
-        </div>
+                <div class="images-container">
+                    <div class="three-width-image-container">
+                        <img
+                            src="images/setup/snowy_mountain_village.png"
+                            alt="Snowy mountain village"
+                            width="100%"
+                        />
+                        <p class="image-text">
+                            an oil painting of a snowy mountain village
+                        </p>
+                    </div>
+                    <div class="three-width-image-container">
+                        <img
+                            src="images/setup/man_wearing_hat.png"
+                            alt="Man wearing a hat"
+                            width="100%"
+                        />
+                        <p class="image-text">a man wearing a hat</p>
+                    </div>
+                    <div class="three-width-image-container">
+                        <img
+                            src="images/setup/rocket_ship.png"
+                            alt="Rocket ship"
+                            width="100%"
+                        />
+                        <p class="image-text">a rocket ship</p>
+                    </div>
+                </div>
+                <p>
+                    As we see, the quality of the output is quite good. All the
+                    images relate to their prompt. With such limited and short
+                    prompts as given here, the model has a lot of freedom so it
+                    can generate a lot of different images satisfying the
+                    prompt. However, the model clearly focuses on what the
+                    prompt aims to capture which is good.
+                </p>
+                <br />
+                <p>
+                    One issue that appears is artifacts. For example, we can see
+                    that in the image of the man wearing a hat, the man has
+                    something that seems to be the beggining of a second hat
+                    beneath his main one. Additionally, none of the images look
+                    particularly realistic where they all have a certain
+                    cartoonish look to them.
+                </p>
+                <br />
+                <p>
+                    If we now try to run the same code with the same seed but
+                    with 50 inference steps, we get this result when we put the
+                    images side by side:
+                </p>
+                <div class="images-container">
+                    <div class="image-container">
+                        <img
+                            src="images/setup/snowy_mountain_village.png"
+                            alt="Snowy mountain village"
+                            width="100%"
+                        />
+                        <p class="image-text">
+                            an oil painting of a snowy mountain village
+                        </p>
+                    </div>
+                    <div class="image-container">
+                        <img
+                            src="images/setup/snowy_mountain_village_50.png"
+                            alt="Snowy mountain village"
+                            width="100%"
+                        />
+                        <p class="image-text">
+                            same prompt but with 50 inference steps
+                        </p>
+                    </div>
+                </div>
+                <div class="images-container">
+                    <div class="image-container">
+                        <img
+                            src="images/setup/man_wearing_hat.png"
+                            alt="Man wearing a hat"
+                            width="100%"
+                        />
+                        <p class="image-text">a man wearing a hat</p>
+                    </div>
+                    <div class="image-container">
+                        <img
+                            src="images/setup/man_wearing_hat_50.png"
+                            alt="Man wearing a hat 50"
+                            width="100%"
+                        />
+                        <p class="image-text">
+                            same prompt but with 50 inference steps
+                        </p>
+                    </div>
+                </div>
+                <div class="images-container">
+                    <div class="image-container">
+                        <img
+                            src="images/setup/rocket_ship.png"
+                            alt="Rocket ship"
+                            width="100%"
+                        />
+                        <p class="image-text">a rocket ship</p>
+                    </div>
+                    <div class="image-container">
+                        <img
+                            src="images/setup/rocket_ship_50.png"
+                            alt="Rocket ship 50"
+                            width="100%"
+                        />
+                        <p class="image-text">
+                            same prompt but with 50 inference steps
+                        </p>
+                    </div>
+                </div>
 
-        <p>
-          As we see, the artifact of the man wearing a second hat is gone. That
-          image also looks more realistic in general. The other images have been
-          able to capture more details and look sharper overall now that we have
-          increased the number of inference steps.
-        </p>
-        <h2>Implementing the Forward Process</h2>
-        <p>
-          To now implement my own forward process, I iteratively computed x and
-          timestep t given the following formula:
-        </p>
-        <img
-          src="images/equations/forward_process.png"
-          alt="Forward step"
-          width="50%"
-        />
-        <p>
-          I then took the image of the campanile and ran the forward process on
-          it to see how it would evolve over time. The result was that it became
-          more and more noisy as time went on.
-        </p>
-        <div class="images-container">
-          <div class="four-width-image-container">
-            <img
-              src="images/1.1-1.3/tower_org.png"
-              alt="Campanile"
-              width="100%"
-            />
-            <p class="image-text">Original image</p>
-          </div>
-          <div class="four-width-image-container">
-            <img
-              src="images/1.1-1.3/tower_noise1.png"
-              alt="Campanile 1"
-              width="100%"
-            />
-            <p class="image-text">Noise after 250 step</p>
-          </div>
-          <div class="four-width-image-container">
-            <img
-              src="images/1.1-1.3/tower_noise2.png"
-              alt="Campanile 10"
-              width="100%"
-            />
-            <p class="image-text">Noise after 500 steps</p>
-          </div>
-          <div class="four-width-image-container">
-            <img
-              src="images/1.1-1.3/tower_noise3.png"
-              alt="Campanile 100"
-              width="100%"
-            />
-            <p class="image-text">Noise after 750 steps</p>
-          </div>
-        </div>
-        <h3>Classical Denoising</h3>
-        <p>
-          For the denoising i used the
-          torchvision.transforms.functional.gaussian_blur function with a kernel
-          of 3x3 to blur the image after each step. This made the image less
-          noisy. However, as we see below, the results were not very good.
-          Especially after 750 steps, the image is very blurry and it is hard to
-          see what the original image was.
-        </p>
+                <p>
+                    As we see, the artifact of the man wearing a second hat is
+                    gone. That image also looks more realistic in general. The
+                    other images have been able to capture more details and look
+                    sharper overall now that we have increased the number of
+                    inference steps.
+                </p>
+                <h2>Implementing the Forward Process</h2>
+                <p>
+                    To now implement my own forward process, I iteratively
+                    computed x and timestep t given the following formula:
+                </p>
+                <img
+                    src="images/equations/forward_process.png"
+                    alt="Forward step"
+                    width="50%"
+                />
+                <p>
+                    I then took the image of the campanile and ran the forward
+                    process on it to see how it would evolve over time. The
+                    result was that it became more and more noisy as time went
+                    on.
+                </p>
+                <div class="images-container">
+                    <div class="four-width-image-container">
+                        <img
+                            src="images/1.1-1.3/tower_org.png"
+                            alt="Campanile"
+                            width="100%"
+                        />
+                        <p class="image-text">Original image</p>
+                    </div>
+                    <div class="four-width-image-container">
+                        <img
+                            src="images/1.1-1.3/tower_noise1.png"
+                            alt="Campanile 1"
+                            width="100%"
+                        />
+                        <p class="image-text">Noise after 250 step</p>
+                    </div>
+                    <div class="four-width-image-container">
+                        <img
+                            src="images/1.1-1.3/tower_noise2.png"
+                            alt="Campanile 10"
+                            width="100%"
+                        />
+                        <p class="image-text">Noise after 500 steps</p>
+                    </div>
+                    <div class="four-width-image-container">
+                        <img
+                            src="images/1.1-1.3/tower_noise3.png"
+                            alt="Campanile 100"
+                            width="100%"
+                        />
+                        <p class="image-text">Noise after 750 steps</p>
+                    </div>
+                </div>
+                <h3>Classical Denoising</h3>
+                <p>
+                    For the denoising i used the
+                    torchvision.transforms.functional.gaussian_blur function
+                    with a kernel of 3x3 to blur the image after each step. This
+                    made the image less noisy. However, as we see below, the
+                    results were not very good. Especially after 750 steps, the
+                    image is very blurry and it is hard to see what the original
+                    image was.
+                </p>
 
-        <div class="images-container">
-          <div class="image-container">
-            <img
-              src="images/1.1-1.3/tower_noise1.png"
-              alt="Campanile 1"
-              width="100%"
-            />
-            <p class="image-text">Noise after 250 step</p>
-          </div>
-          <div class="image-container">
-            <img
-              src="images/1.1-1.3/tower_denoised1.png"
-              alt="Campanile denoised 1"
-              width="100%"
-            />
-            <p class="image-text">Denoising after 250 steps</p>
-          </div>
-        </div>
-        <div class="images-container">
-          <div class="image-container">
-            <img
-              src="images/1.1-1.3/tower_noise2.png"
-              alt="Campanile 10"
-              width="100%"
-            />
-            <p class="image-text">Noise after 500 steps</p>
-          </div>
-          <div class="image-container">
-            <img
-              src="images/1.1-1.3/tower_denoised2.png"
-              alt="Campanile denoised 10"
-              width="100%"
-            />
-            <p class="image-text">Denoising after 500 steps</p>
-          </div>
-        </div>
+                <div class="images-container">
+                    <div class="image-container">
+                        <img
+                            src="images/1.1-1.3/tower_noise1.png"
+                            alt="Campanile 1"
+                            width="100%"
+                        />
+                        <p class="image-text">Noise after 250 step</p>
+                    </div>
+                    <div class="image-container">
+                        <img
+                            src="images/1.1-1.3/tower_denoised1.png"
+                            alt="Campanile denoised 1"
+                            width="100%"
+                        />
+                        <p class="image-text">Denoising after 250 steps</p>
+                    </div>
+                </div>
+                <div class="images-container">
+                    <div class="image-container">
+                        <img
+                            src="images/1.1-1.3/tower_noise2.png"
+                            alt="Campanile 10"
+                            width="100%"
+                        />
+                        <p class="image-text">Noise after 500 steps</p>
+                    </div>
+                    <div class="image-container">
+                        <img
+                            src="images/1.1-1.3/tower_denoised2.png"
+                            alt="Campanile denoised 10"
+                            width="100%"
+                        />
+                        <p class="image-text">Denoising after 500 steps</p>
+                    </div>
+                </div>
 
-        <div class="images-container">
-          <div class="image-container">
-            <img
-              src="images/1.1-1.3/tower_noise3.png"
-              alt="Campanile 100"
-              width="100%"
-            />
-            <p class="image-text">Noise after 750 steps</p>
-          </div>
-          <div class="image-container">
-            <img
-              src="images/1.1-1.3/tower_denoised3.png"
-              alt="Campanile denoised 100"
-              width="100%"
-            />
-            <p class="image-text">Denoising after 750 steps</p>
-          </div>
-        </div>
+                <div class="images-container">
+                    <div class="image-container">
+                        <img
+                            src="images/1.1-1.3/tower_noise3.png"
+                            alt="Campanile 100"
+                            width="100%"
+                        />
+                        <p class="image-text">Noise after 750 steps</p>
+                    </div>
+                    <div class="image-container">
+                        <img
+                            src="images/1.1-1.3/tower_denoised3.png"
+                            alt="Campanile denoised 100"
+                            width="100%"
+                        />
+                        <p class="image-text">Denoising after 750 steps</p>
+                    </div>
+                </div>
 
-        <h3>One Step Denoising</h3>
-        <p>
-          To implement one step denoising, I used the pre-trained UNet model and
-          estimated the noise in the new noisy image, with the stage_1.unet. I
-          could then remove the noise from the image to get a denoised image.
-          Below are the results of the denoising after 250, 500, and 750 steps
-          showing the original image, the noisy image, and the denoised image
-          respectively.
-        </p>
-        <img
-          src="images/1.1-1.3/tower_noise_est1.png"
-          alt="Noise estimation"
-          width="100%"
-        />
-        <img
-          src="images/1.1-1.3/tower_noise_est2.png"
-          alt="Noise estimation"
-          width="100%"
-        />
-        <img
-          src="images/1.1-1.3/tower_noise_est3.png"
-          alt="Noise estimation"
-          width="100%"
-        />
+                <h3>One Step Denoising</h3>
+                <p>
+                    To implement one step denoising, I used the pre-trained UNet
+                    model and estimated the noise in the new noisy image, with
+                    the stage_1.unet. I could then remove the noise from the
+                    image to get a denoised image. Below are the results of the
+                    denoising after 250, 500, and 750 steps showing the original
+                    image, the noisy image, and the denoised image respectively.
+                </p>
+                <img
+                    src="images/1.1-1.3/tower_noise_est1.png"
+                    alt="Noise estimation"
+                    width="100%"
+                />
+                <img
+                    src="images/1.1-1.3/tower_noise_est2.png"
+                    alt="Noise estimation"
+                    width="100%"
+                />
+                <img
+                    src="images/1.1-1.3/tower_noise_est3.png"
+                    alt="Noise estimation"
+                    width="100%"
+                />
 
-        <h3>Iterative Denoising</h3>
-        <p>
-          To implement iterative denoising, I used the UNet model as before, but
-          now denoised the image bit by bit. I did this by going from timestep
-          690 and down with a stride of 30. Below is every fifth image in the
-          process. As we see, the results are way better with this approach than
-          denoising the image with one large step or by gaussian blurring.
-        </p>
-        <div class="images-container">
-          <div class="three-width-image-container">
-            <img
-              src="images/1.4/denoised690.png"
-              alt="Denoised 690"
-              width="100%"
-            />
-            <p class="image-text">Timestep 690</p>
-          </div>
-          <div class="three-width-image-container">
-            <img
-              src="images/1.4/denoised540.png"
-              alt="Denoised 540"
-              width="100%"
-            />
-            <p class="image-text">Timestep 540</p>
-          </div>
-          <div class="three-width-image-container">
-            <img
-              src="images/1.4/denoised390.png"
-              alt="Denoised 390"
-              width="100%"
-            />
-            <p class="image-text">Timestep 390</p>
-          </div>
-        </div>
+                <h3>Iterative Denoising</h3>
+                <p>
+                    To implement iterative denoising, I used the UNet model as
+                    before, but now denoised the image bit by bit. I did this by
+                    going from timestep 690 and down with a stride of 30. Below
+                    is every fifth image in the process. As we see, the results
+                    are way better with this approach than denoising the image
+                    with one large step or by gaussian blurring.
+                </p>
+                <div class="images-container">
+                    <div class="three-width-image-container">
+                        <img
+                            src="images/1.4/denoised690.png"
+                            alt="Denoised 690"
+                            width="100%"
+                        />
+                        <p class="image-text">Timestep 690</p>
+                    </div>
+                    <div class="three-width-image-container">
+                        <img
+                            src="images/1.4/denoised540.png"
+                            alt="Denoised 540"
+                            width="100%"
+                        />
+                        <p class="image-text">Timestep 540</p>
+                    </div>
+                    <div class="three-width-image-container">
+                        <img
+                            src="images/1.4/denoised390.png"
+                            alt="Denoised 390"
+                            width="100%"
+                        />
+                        <p class="image-text">Timestep 390</p>
+                    </div>
+                </div>
 
-        <div class="images-container">
-          <div class="three-width-image-container">
-            <img
-              src="images/1.4/denoised240.png"
-              alt="Denoised 240"
-              width="100%"
-            />
-            <p class="image-text">Timestep 240</p>
-          </div>
-          <div class="three-width-image-container">
-            <img
-              src="images/1.4/denoised90.png"
-              alt="Denoised 90"
-              width="100%"
-            />
-            <p class="image-text">Timestep 90</p>
-          </div>
-          <div class="three-width-image-container">
-            <img
-              src="images/1.4/denoised30.png"
-              alt="Denoised 30"
-              width="100%"
-            />
-            <p class="image-text">Final predicted image</p>
-          </div>
-        </div>
+                <div class="images-container">
+                    <div class="three-width-image-container">
+                        <img
+                            src="images/1.4/denoised240.png"
+                            alt="Denoised 240"
+                            width="100%"
+                        />
+                        <p class="image-text">Timestep 240</p>
+                    </div>
+                    <div class="three-width-image-container">
+                        <img
+                            src="images/1.4/denoised90.png"
+                            alt="Denoised 90"
+                            width="100%"
+                        />
+                        <p class="image-text">Timestep 90</p>
+                    </div>
+                    <div class="three-width-image-container">
+                        <img
+                            src="images/1.4/denoised30.png"
+                            alt="Denoised 30"
+                            width="100%"
+                        />
+                        <p class="image-text">Final predicted image</p>
+                    </div>
+                </div>
 
-        <div class="images-container">
-          <div class="three-width-image-container">
-            <img src="images/1.4/one_step.png" alt="One Step" width="100%" />
-            <p class="image-text">One step denoising</p>
-          </div>
-          <div class="three-width-image-container">
-            <img
-              src="images/1.4/gaussian_blur.png"
-              alt="Gaussian Blur"
-              width="100%"
-            />
-            <p class="image-text">Gaussian blur denoising</p>
-          </div>
-          <div class="three-width-image-container">
-            <img src="images/1.4/tower_org.png" alt="Original" width="100%" />
-            <p class="image-text">Original image</p>
-          </div>
-        </div>
-        <h3>Diffusion Model Sampling</h3>
-        <p>
-          To make the diffusion model create a brand new image from scratch, I
-          generated some random noise and used the iterative_denoise function
-          from before. Doing this five times gave me the images below. They are
-          not great quality, but they show the power of diffusion models to
-          generate brand new images.
-        </p>
-        <div class="images-container">
-          <div class="three-width-image-container">
-            <img
-              src="images/1.5/generated1.png"
-              alt="Generated 1"
-              width="100%"
-            />
-            <p class="image-text">Generated image 1</p>
-          </div>
-          <div class="three-width-image-container">
-            <img
-              src="images/1.5/generated2.png"
-              alt="Generated 2"
-              width="100%"
-            />
-            <p class="image-text">Generated image 2</p>
-          </div>
-          <div class="three-width-image-container">
-            <img
-              src="images/1.5/generated3.png"
-              alt="Generated 3"
-              width="100%"
-            />
-            <p class="image-text">Generated image 3</p>
-          </div>
-        </div>
-        <div class="images-container">
-          <div class="image-container">
-            <img
-              src="images/1.5/generated4.png"
-              alt="Generated 4"
-              width="100%"
-            />
-            <p class="image-text">Generated image 4</p>
-          </div>
-          <div class="image-container">
-            <img
-              src="images/1.5/generated5.png"
-              alt="Generated 5"
-              width="100%"
-            />
-            <p class="image-text">Generated image 5</p>
-          </div>
-        </div>
-        <h3>Classifier Free Guidance</h3>
-        <p>
-          To tackle the issue with the image quality, we can use classifier-free
-          guidance. This is done by estimating noise conditioned on a text
-          prompt (ε<sub>c</sub>), and an unconditional noise estimate
-          (ε<sub>u</sub>) and then use the following formula with gamma = 7.
-        </p>
-        <p>ε = ε<sub>u</sub> + &gamma; (ε<sub>c</sub> - ε<sub>u</sub>)</p>
-        <p>
-          With everything else in the iterative denoising staying the same, the
-          results are way better. The images are now much clearer and the
-          quality is way better. The model is not as diverse as before since it
-          is now being more guided and directed towards a certain image but for
-          our use case where we just want high quality images, this is a great
-          way to do so. Here are the results.
-        </p>
-        <div class="images-container">
-          <div class="three-width-image-container">
-            <img
-              src="images/1.6/generated1.png"
-              alt="Generated 1"
-              width="100%"
-            />
-            <p class="image-text">Generated image 1</p>
-          </div>
-          <div class="three-width-image-container">
-            <img
-              src="images/1.6/generated2.png"
-              alt="Generated 2"
-              width="100%"
-            />
-            <p class="image-text">Generated image 2</p>
-          </div>
-          <div class="three-width-image-container">
-            <img
-              src="images/1.6/generated3.png"
-              alt="Generated 3"
-              width="100%"
-            />
-            <p class="image-text">Generated image 3</p>
-          </div>
-        </div>
+                <div class="images-container">
+                    <div class="three-width-image-container">
+                        <img
+                            src="images/1.4/one_step.png"
+                            alt="One Step"
+                            width="100%"
+                        />
+                        <p class="image-text">One step denoising</p>
+                    </div>
+                    <div class="three-width-image-container">
+                        <img
+                            src="images/1.4/gaussian_blur.png"
+                            alt="Gaussian Blur"
+                            width="100%"
+                        />
+                        <p class="image-text">Gaussian blur denoising</p>
+                    </div>
+                    <div class="three-width-image-container">
+                        <img
+                            src="images/1.4/tower_org.png"
+                            alt="Original"
+                            width="100%"
+                        />
+                        <p class="image-text">Original image</p>
+                    </div>
+                </div>
+                <h3>Diffusion Model Sampling</h3>
+                <p>
+                    To make the diffusion model create a brand new image from
+                    scratch, I generated some random noise and used the
+                    iterative_denoise function from before. Doing this five
+                    times gave me the images below. They are not great quality,
+                    but they show the power of diffusion models to generate
+                    brand new images.
+                </p>
+                <div class="images-container">
+                    <div class="three-width-image-container">
+                        <img
+                            src="images/1.5/generated1.png"
+                            alt="Generated 1"
+                            width="100%"
+                        />
+                        <p class="image-text">Generated image 1</p>
+                    </div>
+                    <div class="three-width-image-container">
+                        <img
+                            src="images/1.5/generated2.png"
+                            alt="Generated 2"
+                            width="100%"
+                        />
+                        <p class="image-text">Generated image 2</p>
+                    </div>
+                    <div class="three-width-image-container">
+                        <img
+                            src="images/1.5/generated3.png"
+                            alt="Generated 3"
+                            width="100%"
+                        />
+                        <p class="image-text">Generated image 3</p>
+                    </div>
+                </div>
+                <div class="images-container">
+                    <div class="image-container">
+                        <img
+                            src="images/1.5/generated4.png"
+                            alt="Generated 4"
+                            width="100%"
+                        />
+                        <p class="image-text">Generated image 4</p>
+                    </div>
+                    <div class="image-container">
+                        <img
+                            src="images/1.5/generated5.png"
+                            alt="Generated 5"
+                            width="100%"
+                        />
+                        <p class="image-text">Generated image 5</p>
+                    </div>
+                </div>
+                <h3>Classifier Free Guidance</h3>
+                <p>
+                    To tackle the issue with the image quality, we can use
+                    classifier-free guidance. This is done by estimating noise
+                    conditioned on a text prompt (ε<sub>c</sub>), and an
+                    unconditional noise estimate (ε<sub>u</sub>) and then use
+                    the following formula with gamma = 7.
+                </p>
+                <p>
+                    ε = ε<sub>u</sub> + &gamma; (ε<sub>c</sub> - ε<sub>u</sub>)
+                </p>
+                <p>
+                    With everything else in the iterative denoising staying the
+                    same, the results are way better. The images are now much
+                    clearer and the quality is way better. The model is not as
+                    diverse as before since it is now being more guided and
+                    directed towards a certain image but for our use case where
+                    we just want high quality images, this is a great way to do
+                    so. Here are the results.
+                </p>
+                <div class="images-container">
+                    <div class="three-width-image-container">
+                        <img
+                            src="images/1.6/generated1.png"
+                            alt="Generated 1"
+                            width="100%"
+                        />
+                        <p class="image-text">Generated image 1</p>
+                    </div>
+                    <div class="three-width-image-container">
+                        <img
+                            src="images/1.6/generated2.png"
+                            alt="Generated 2"
+                            width="100%"
+                        />
+                        <p class="image-text">Generated image 2</p>
+                    </div>
+                    <div class="three-width-image-container">
+                        <img
+                            src="images/1.6/generated3.png"
+                            alt="Generated 3"
+                            width="100%"
+                        />
+                        <p class="image-text">Generated image 3</p>
+                    </div>
+                </div>
 
-        <div class="images-container">
-          <div class="image-container">
-            <img
-              src="images/1.6/generated4.png"
-              alt="Generated 4"
-              width="100%"
-            />
-            <p class="image-text">Generated image 4</p>
-          </div>
-          <div class="image-container">
-            <img
-              src="images/1.6/generated5.png"
-              alt="Generated 5"
-              width="100%"
-            />
-            <p class="image-text">Generated image 5</p>
-          </div>
-        </div>
-        <h3>Image-to-image Translation</h3>
-        <p>
-          For this section, I used the iterative classifier-free guidance
-          denoising to recreate the image of the campanile. I used the prompt "a
-          high quality photo" and noise levels from 1 to 20. The results show
-          that we get images closer and closer to the original image as the
-          noise level increases.
-        </p>
+                <div class="images-container">
+                    <div class="image-container">
+                        <img
+                            src="images/1.6/generated4.png"
+                            alt="Generated 4"
+                            width="100%"
+                        />
+                        <p class="image-text">Generated image 4</p>
+                    </div>
+                    <div class="image-container">
+                        <img
+                            src="images/1.6/generated5.png"
+                            alt="Generated 5"
+                            width="100%"
+                        />
+                        <p class="image-text">Generated image 5</p>
+                    </div>
+                </div>
+                <h3>Image-to-image Translation</h3>
+                <p>
+                    For this section, I used the iterative classifier-free
+                    guidance denoising to recreate the image of the campanile. I
+                    used the prompt "a high quality photo" and noise levels from
+                    1 to 20. The results show that we get images closer and
+                    closer to the original image as the noise level increases.
+                </p>
 
-        <div class="images-container">
-          <div class="seven-width-image-container">
-            <img
-              src="images/1.7/campanile/campanile2.png"
-              alt="Campanile 2"
-              width="100%"
-            />
-            <p class="image-text">Campanile from noise level 1</p>
-          </div>
-          <div class="seven-width-image-container">
-            <img
-              src="images/1.7/campanile/campanile3.png"
-              alt="Campanile 3"
-              width="100%"
-            />
-            <p class="image-text">Campanile from noise level 3</p>
-          </div>
-          <div class="seven-width-image-container">
-            <img
-              src="images/1.7/campanile/campanile4.png"
-              alt="Campanile 5"
-              width="100%"
-            />
-            <p class="image-text">Campanile from noise level 5</p>
-          </div>
-          <div class="seven-width-image-container">
-            <img
-              src="images/1.7/campanile/campanile5.png"
-              alt="Campanile 7"
-              width="100%"
-            />
-            <p class="image-text">Campanile from noise level 7</p>
-          </div>
-          <div class="seven-width-image-container">
-            <img
-              src="images/1.7/campanile/campanile6.png"
-              alt="Campanile 10"
-              width="100%"
-            />
-            <p class="image-text">Campanile from noise level 10</p>
-          </div>
-          <div class="seven-width-image-container">
-            <img
-              src="images/1.7/campanile/campanile7.png"
-              alt="Campanile 20"
-              width="100%"
-            />
-            <p class="image-text">Campanile from noise level 20</p>
-          </div>
-          <div class="seven-width-image-container">
-            <img
-              src="images/1.7/campanile/campanile.png"
-              alt="Campanile"
-              width="100%"
-            />
-            <p class="image-text">Original image</p>
-          </div>
-        </div>
+                <div class="images-container">
+                    <div class="seven-width-image-container">
+                        <img
+                            src="images/1.7/campanile/campanile2.png"
+                            alt="Campanile 2"
+                            width="100%"
+                        />
+                        <p class="image-text">Campanile from noise level 1</p>
+                    </div>
+                    <div class="seven-width-image-container">
+                        <img
+                            src="images/1.7/campanile/campanile3.png"
+                            alt="Campanile 3"
+                            width="100%"
+                        />
+                        <p class="image-text">Campanile from noise level 3</p>
+                    </div>
+                    <div class="seven-width-image-container">
+                        <img
+                            src="images/1.7/campanile/campanile4.png"
+                            alt="Campanile 5"
+                            width="100%"
+                        />
+                        <p class="image-text">Campanile from noise level 5</p>
+                    </div>
+                    <div class="seven-width-image-container">
+                        <img
+                            src="images/1.7/campanile/campanile5.png"
+                            alt="Campanile 7"
+                            width="100%"
+                        />
+                        <p class="image-text">Campanile from noise level 7</p>
+                    </div>
+                    <div class="seven-width-image-container">
+                        <img
+                            src="images/1.7/campanile/campanile6.png"
+                            alt="Campanile 10"
+                            width="100%"
+                        />
+                        <p class="image-text">Campanile from noise level 10</p>
+                    </div>
+                    <div class="seven-width-image-container">
+                        <img
+                            src="images/1.7/campanile/campanile7.png"
+                            alt="Campanile 20"
+                            width="100%"
+                        />
+                        <p class="image-text">Campanile from noise level 20</p>
+                    </div>
+                    <div class="seven-width-image-container">
+                        <img
+                            src="images/1.7/campanile/campanile.png"
+                            alt="Campanile"
+                            width="100%"
+                        />
+                        <p class="image-text">Original image</p>
+                    </div>
+                </div>
 
-        <p>
-          Afterwards, I used the generative model to recreate an image of my dog
-          Timmi. For lower start levels where the noise is closer to the random
-          noise, the model generated random images that were not even related to
-          dogs. For higher noise levels, however, the model started to generate
-          images of dogs. I did the same for an image of Paddy, an Irish man,
-          standing on a cliff and here the images were always depicting some
-          kind of landscape, which may indicate that there are more picutres of
-          landscapes in the training data than pictures of dogs. The same thing
-          held for that image where the recreations with higher noise level
-          where more similar to the originial image. These were the results I
-          got.
-        </p>
+                <p>
+                    Afterwards, I used the generative model to recreate an image
+                    of my dog Timmi. For lower start levels where the noise is
+                    closer to the random noise, the model generated random
+                    images that were not even related to dogs. For higher noise
+                    levels, however, the model started to generate images of
+                    dogs. I did the same for an image of Paddy, an Irish man,
+                    standing on a cliff and here the images were always
+                    depicting some kind of landscape, which may indicate that
+                    there are more picutres of landscapes in the training data
+                    than pictures of dogs. The same thing held for that image
+                    where the recreations with higher noise level where more
+                    similar to the originial image. These were the results I
+                    got.
+                </p>
 
-        <div class="images-container">
-          <div class="image-container">
-            <img src="images/1.7/timmi/timmi.png" alt="Timmi" width="100%" />
-            <p class="image-text">Original image of Timmi</p>
-          </div>
-          <div class="image-container">
-            <img src="images/1.7/paddy/paddy.png" alt="Paddy" width="100%" />
-            <p class="image-text">
-              Original image of Paddy standing on a cliff
-            </p>
-          </div>
-        </div>
+                <div class="images-container">
+                    <div class="image-container">
+                        <img
+                            src="images/1.7/timmi/timmi.png"
+                            alt="Timmi"
+                            width="100%"
+                        />
+                        <p class="image-text">Original image of Timmi</p>
+                    </div>
+                    <div class="image-container">
+                        <img
+                            src="images/1.7/paddy/paddy.png"
+                            alt="Paddy"
+                            width="100%"
+                        />
+                        <p class="image-text">
+                            Original image of Paddy standing on a cliff
+                        </p>
+                    </div>
+                </div>
 
-        <div class="images-container">
-          <div class="three-width-image-container">
-            <img src="images/1.7/timmi/timmi2.png" alt="Timmi 1" width="100%" />
-            <p class="image-text">Timmi from noise level 1</p>
-          </div>
-          <div class="three-width-image-container">
-            <img src="images/1.7/timmi/timmi3.png" alt="Timmi 3" width="100%" />
-            <p class="image-text">Timmi from noise level 3</p>
-          </div>
-          <div class="three-width-image-container">
-            <img src="images/1.7/timmi/timmi4.png" alt="Timmi 5" width="100%" />
-            <p class="image-text">Timmi from noise level 5</p>
-          </div>
-        </div>
+                <div class="images-container">
+                    <div class="three-width-image-container">
+                        <img
+                            src="images/1.7/timmi/timmi2.png"
+                            alt="Timmi 1"
+                            width="100%"
+                        />
+                        <p class="image-text">Timmi from noise level 1</p>
+                    </div>
+                    <div class="three-width-image-container">
+                        <img
+                            src="images/1.7/timmi/timmi3.png"
+                            alt="Timmi 3"
+                            width="100%"
+                        />
+                        <p class="image-text">Timmi from noise level 3</p>
+                    </div>
+                    <div class="three-width-image-container">
+                        <img
+                            src="images/1.7/timmi/timmi4.png"
+                            alt="Timmi 5"
+                            width="100%"
+                        />
+                        <p class="image-text">Timmi from noise level 5</p>
+                    </div>
+                </div>
 
-        <div class="images-container">
-          <div class="three-width-image-container">
-            <img src="images/1.7/timmi/timmi5.png" alt="Timmi 7" width="100%" />
-            <p class="image-text">Timmi from noise level 7</p>
-          </div>
-          <div class="three-width-image-container">
-            <img
-              src="images/1.7/timmi/timmi6.png"
-              alt="Timmi 10"
-              width="100%"
-            />
-            <p class="image-text">Timmi from noise level 10</p>
-          </div>
-          <div class="three-width-image-container">
-            <img
-              src="images/1.7/timmi/timmi7.png"
-              alt="Timmi 20"
-              width="100%"
-            />
-            <p class="image-text">Timmi from noise level 20</p>
-          </div>
-        </div>
+                <div class="images-container">
+                    <div class="three-width-image-container">
+                        <img
+                            src="images/1.7/timmi/timmi5.png"
+                            alt="Timmi 7"
+                            width="100%"
+                        />
+                        <p class="image-text">Timmi from noise level 7</p>
+                    </div>
+                    <div class="three-width-image-container">
+                        <img
+                            src="images/1.7/timmi/timmi6.png"
+                            alt="Timmi 10"
+                            width="100%"
+                        />
+                        <p class="image-text">Timmi from noise level 10</p>
+                    </div>
+                    <div class="three-width-image-container">
+                        <img
+                            src="images/1.7/timmi/timmi7.png"
+                            alt="Timmi 20"
+                            width="100%"
+                        />
+                        <p class="image-text">Timmi from noise level 20</p>
+                    </div>
+                </div>
 
-        <div class="images-container">
-          <div class="three-width-image-container">
-            <img src="images/1.7/paddy/paddy2.png" alt="Paddy 1" width="100%" />
-            <p class="image-text">Paddy from noise level 1</p>
-          </div>
-          <div class="three-width-image-container">
-            <img src="images/1.7/paddy/paddy3.png" alt="Paddy 3" width="100%" />
-            <p class="image-text">Paddy from noise level 3</p>
-          </div>
-          <div class="three-width-image-container">
-            <img src="images/1.7/paddy/paddy4.png" alt="Paddy 5" width="100%" />
-            <p class="image-text">Paddy from noise level 5</p>
-          </div>
-        </div>
+                <div class="images-container">
+                    <div class="three-width-image-container">
+                        <img
+                            src="images/1.7/paddy/paddy2.png"
+                            alt="Paddy 1"
+                            width="100%"
+                        />
+                        <p class="image-text">Paddy from noise level 1</p>
+                    </div>
+                    <div class="three-width-image-container">
+                        <img
+                            src="images/1.7/paddy/paddy3.png"
+                            alt="Paddy 3"
+                            width="100%"
+                        />
+                        <p class="image-text">Paddy from noise level 3</p>
+                    </div>
+                    <div class="three-width-image-container">
+                        <img
+                            src="images/1.7/paddy/paddy4.png"
+                            alt="Paddy 5"
+                            width="100%"
+                        />
+                        <p class="image-text">Paddy from noise level 5</p>
+                    </div>
+                </div>
 
-        <div class="images-container">
-          <div class="three-width-image-container">
-            <img src="images/1.7/paddy/paddy5.png" alt="Paddy 7" width="100%" />
-            <p class="image-text">Paddy from noise level 7</p>
-          </div>
-          <div class="three-width-image-container">
-            <img
-              src="images/1.7/paddy/paddy6.png"
-              alt="Paddy 10"
-              width="100%"
-            />
-            <p class="image-text">Paddy from noise level 10</p>
-          </div>
-          <div class="three-width-image-container">
-            <img
-              src="images/1.7/paddy/paddy7.png"
-              alt="Padddy 20"
-              width="100%"
-            />
-            <p class="image-text">Paddy from noise level 20</p>
-          </div>
-        </div>
-        <h3>Editing Hand-Drawn and Web Images</h3>
-        <p>
-          Now, to edit hand-drawn and web images, I first drew a beatiful image
-          of a guy on a field with an axe in front of a tree. In the beginning,
-          we are getting more realistic images, but of more irrelevant things.
-          As the noise level increases, the images start to look more like the
-          original drawing and it looks more and more cartoonish. The same thing
-          is observed with my other very impressive drawing of a plane soaring
-          through the skies. Here are the results.
-        </p>
-        <div class="images-container">
-          <div class="seven-width-image-container">
-            <img src="images/1.7/1.7.1/field2.png" alt="Field" width="100%" />
-            <p class="image-text">Field from noise level 1</p>
-          </div>
-          <div class="seven-width-image-container">
-            <img src="images/1.7/1.7.1/field3.png" alt="Field" width="100%" />
-            <p class="image-text">Field from noise level 3</p>
-          </div>
-          <div class="seven-width-image-container">
-            <img src="images/1.7/1.7.1/field4.png" alt="Field" width="100%" />
-            <p class="image-text">Field from noise level 5</p>
-          </div>
-          <div class="seven-width-image-container">
-            <img src="images/1.7/1.7.1/field5.png" alt="Field" width="100%" />
-            <p class="image-text">Field from noise level 7</p>
-          </div>
-          <div class="seven-width-image-container">
-            <img src="images/1.7/1.7.1/field6.png" alt="Field" width="100%" />
-            <p class="image-text">Field from noise level 10</p>
-          </div>
-          <div class="seven-width-image-container">
-            <img src="images/1.7/1.7.1/field7.png" alt="Field" width="100%" />
-            <p class="image-text">Field from noise level 20</p>
-          </div>
-          <div class="seven-width-image-container">
-            <img src="images/1.7/1.7.1/field.png" alt="Field" width="100%" />
-            <p class="image-text">Original image</p>
-          </div>
-        </div>
+                <div class="images-container">
+                    <div class="three-width-image-container">
+                        <img
+                            src="images/1.7/paddy/paddy5.png"
+                            alt="Paddy 7"
+                            width="100%"
+                        />
+                        <p class="image-text">Paddy from noise level 7</p>
+                    </div>
+                    <div class="three-width-image-container">
+                        <img
+                            src="images/1.7/paddy/paddy6.png"
+                            alt="Paddy 10"
+                            width="100%"
+                        />
+                        <p class="image-text">Paddy from noise level 10</p>
+                    </div>
+                    <div class="three-width-image-container">
+                        <img
+                            src="images/1.7/paddy/paddy7.png"
+                            alt="Padddy 20"
+                            width="100%"
+                        />
+                        <p class="image-text">Paddy from noise level 20</p>
+                    </div>
+                </div>
+                <h3>Editing Hand-Drawn and Web Images</h3>
+                <p>
+                    Now, to edit hand-drawn and web images, I first drew a
+                    beatiful image of a guy on a field with an axe in front of a
+                    tree. In the beginning, we are getting more realistic
+                    images, but of more irrelevant things. As the noise level
+                    increases, the images start to look more like the original
+                    drawing and it looks more and more cartoonish. The same
+                    thing is observed with my other very impressive drawing of a
+                    plane soaring through the skies. Here are the results.
+                </p>
+                <div class="images-container">
+                    <div class="seven-width-image-container">
+                        <img
+                            src="images/1.7/1.7.1/field2.png"
+                            alt="Field"
+                            width="100%"
+                        />
+                        <p class="image-text">Field from noise level 1</p>
+                    </div>
+                    <div class="seven-width-image-container">
+                        <img
+                            src="images/1.7/1.7.1/field3.png"
+                            alt="Field"
+                            width="100%"
+                        />
+                        <p class="image-text">Field from noise level 3</p>
+                    </div>
+                    <div class="seven-width-image-container">
+                        <img
+                            src="images/1.7/1.7.1/field4.png"
+                            alt="Field"
+                            width="100%"
+                        />
+                        <p class="image-text">Field from noise level 5</p>
+                    </div>
+                    <div class="seven-width-image-container">
+                        <img
+                            src="images/1.7/1.7.1/field5.png"
+                            alt="Field"
+                            width="100%"
+                        />
+                        <p class="image-text">Field from noise level 7</p>
+                    </div>
+                    <div class="seven-width-image-container">
+                        <img
+                            src="images/1.7/1.7.1/field6.png"
+                            alt="Field"
+                            width="100%"
+                        />
+                        <p class="image-text">Field from noise level 10</p>
+                    </div>
+                    <div class="seven-width-image-container">
+                        <img
+                            src="images/1.7/1.7.1/field7.png"
+                            alt="Field"
+                            width="100%"
+                        />
+                        <p class="image-text">Field from noise level 20</p>
+                    </div>
+                    <div class="seven-width-image-container">
+                        <img
+                            src="images/1.7/1.7.1/field.png"
+                            alt="Field"
+                            width="100%"
+                        />
+                        <p class="image-text">Original image</p>
+                    </div>
+                </div>
 
-        <div class="images-container">
-          <div class="seven-width-image-container">
-            <img src="images/1.7/1.7.1/plane2.png" alt="Plane" width="100%" />
-            <p class="image-text">Plane from noise level 1</p>
-          </div>
-          <div class="seven-width-image-container">
-            <img src="images/1.7/1.7.1/plane3.png" alt="Plane" width="100%" />
-            <p class="image-text">Plane from noise level 3</p>
-          </div>
-          <div class="seven-width-image-container">
-            <img src="images/1.7/1.7.1/plane4.png" alt="Plane" width="100%" />
-            <p class="image-text">Plane from noise level 5</p>
-          </div>
-          <div class="seven-width-image-container">
-            <img src="images/1.7/1.7.1/plane5.png" alt="Plane" width="100%" />
-            <p class="image-text">Plane from noise level 7</p>
-          </div>
-          <div class="seven-width-image-container">
-            <img src="images/1.7/1.7.1/plane6.png" alt="Plane" width="100%" />
-            <p class="image-text">Plane from noise level 10</p>
-          </div>
-          <div class="seven-width-image-container">
-            <img src="images/1.7/1.7.1/plane7.png" alt="Plane" width="100%" />
-            <p class="image-text">Plane from noise level 20</p>
-          </div>
-          <div class="seven-width-image-container">
-            <img src="images/1.7/1.7.1/plane.png" alt="Plane" width="100%" />
-            <p class="image-text">Original image</p>
-          </div>
-        </div>
+                <div class="images-container">
+                    <div class="seven-width-image-container">
+                        <img
+                            src="images/1.7/1.7.1/plane2.png"
+                            alt="Plane"
+                            width="100%"
+                        />
+                        <p class="image-text">Plane from noise level 1</p>
+                    </div>
+                    <div class="seven-width-image-container">
+                        <img
+                            src="images/1.7/1.7.1/plane3.png"
+                            alt="Plane"
+                            width="100%"
+                        />
+                        <p class="image-text">Plane from noise level 3</p>
+                    </div>
+                    <div class="seven-width-image-container">
+                        <img
+                            src="images/1.7/1.7.1/plane4.png"
+                            alt="Plane"
+                            width="100%"
+                        />
+                        <p class="image-text">Plane from noise level 5</p>
+                    </div>
+                    <div class="seven-width-image-container">
+                        <img
+                            src="images/1.7/1.7.1/plane5.png"
+                            alt="Plane"
+                            width="100%"
+                        />
+                        <p class="image-text">Plane from noise level 7</p>
+                    </div>
+                    <div class="seven-width-image-container">
+                        <img
+                            src="images/1.7/1.7.1/plane6.png"
+                            alt="Plane"
+                            width="100%"
+                        />
+                        <p class="image-text">Plane from noise level 10</p>
+                    </div>
+                    <div class="seven-width-image-container">
+                        <img
+                            src="images/1.7/1.7.1/plane7.png"
+                            alt="Plane"
+                            width="100%"
+                        />
+                        <p class="image-text">Plane from noise level 20</p>
+                    </div>
+                    <div class="seven-width-image-container">
+                        <img
+                            src="images/1.7/1.7.1/plane.png"
+                            alt="Plane"
+                            width="100%"
+                        />
+                        <p class="image-text">Original image</p>
+                    </div>
+                </div>
 
-        <p>
-          I then used the same process to generate images from a web image. For
-          this I chose an image from my game Elementalist where the character is
-          fighting a monster in a desert. As the noise level increases, the
-          image looks more and more like a desert landscape with a monster in
-          it. The results are below.
-        </p>
+                <p>
+                    I then used the same process to generate images from a web
+                    image. For this I chose an image from my game Elementalist
+                    where the character is fighting a monster in a desert. As
+                    the noise level increases, the image looks more and more
+                    like a desert landscape with a monster in it. The results
+                    are below.
+                </p>
 
-        <div class="images-container">
-          <div class="seven-width-image-container">
-            <img
-              src="images/1.7/1.7.1/elementalist2.png"
-              alt="Elementalist"
-              width="100%"
-            />
-            <p class="image-text">Elementalist from noise level 1</p>
-          </div>
-          <div class="seven-width-image-container">
-            <img
-              src="images/1.7/1.7.1/elementalist3.png"
-              alt="Elementalist"
-              width="100%"
-            />
-            <p class="image-text">Elementalist from noise level 3</p>
-          </div>
-          <div class="seven-width-image-container">
-            <img
-              src="images/1.7/1.7.1/elementalist4.png"
-              alt="Elementalist"
-              width="100%"
-            />
-            <p class="image-text">Elementalist from noise level 5</p>
-          </div>
-          <div class="seven-width-image-container">
-            <img
-              src="images/1.7/1.7.1/elementalist5.png"
-              alt="Elementalist"
-              width="100%"
-            />
-            <p class="image-text">Elementalist from noise level 7</p>
-          </div>
-          <div class="seven-width-image-container">
-            <img
-              src="images/1.7/1.7.1/elementalist6.png"
-              alt="Elementalist"
-              width="100%"
-            />
-            <p class="image-text">Elementalist from noise level 10</p>
-          </div>
-          <div class="seven-width-image-container">
-            <img
-              src="images/1.7/1.7.1/elementalist7.png"
-              alt="Elementalist"
-              width="100%"
-            />
-            <p class="image-text">Elementalist from noise level 20</p>
-          </div>
-          <div class="seven-width-image-container">
-            <img
-              src="images/1.7/1.7.1/elementalist.png"
-              alt="Elementalist"
-              width="100%"
-            />
-            <p class="image-text">Original image</p>
-          </div>
-        </div>
-        <h3>Inpainting</h3>
-        <p>
-          For the inpainting, I used the mask we were given. Then I applied
-          noise to the entire image so that it could create a new image that
-          would fill in the missing mask. After each iteration, I made sure that
-          all other parts of the image stayed the same. Here are the images of
-          the Campanile, the mask and the cut out part of the image.
-        </p>
-        <div class="images-container">
-          <div class="three-width-image-container">
-            <img
-              src="images/1.7/1.7.2/campanile.png"
-              alt="Campanile"
-              width="100%"
-            />
-            <p class="image-text">Original image</p>
-          </div>
-          <div class="three-width-image-container">
-            <img src="images/1.7/1.7.2/mask.png" alt="Mask" width="100%" />
-            <p class="image-text">Mask</p>
-          </div>
-          <div class="three-width-image-container">
-            <img src="images/1.7/1.7.2/cutout.png" alt="Cutout" width="100%" />
-            <p class="image-text">Cutout</p>
-          </div>
-        </div>
+                <div class="images-container">
+                    <div class="seven-width-image-container">
+                        <img
+                            src="images/1.7/1.7.1/elementalist2.png"
+                            alt="Elementalist"
+                            width="100%"
+                        />
+                        <p class="image-text">
+                            Elementalist from noise level 1
+                        </p>
+                    </div>
+                    <div class="seven-width-image-container">
+                        <img
+                            src="images/1.7/1.7.1/elementalist3.png"
+                            alt="Elementalist"
+                            width="100%"
+                        />
+                        <p class="image-text">
+                            Elementalist from noise level 3
+                        </p>
+                    </div>
+                    <div class="seven-width-image-container">
+                        <img
+                            src="images/1.7/1.7.1/elementalist4.png"
+                            alt="Elementalist"
+                            width="100%"
+                        />
+                        <p class="image-text">
+                            Elementalist from noise level 5
+                        </p>
+                    </div>
+                    <div class="seven-width-image-container">
+                        <img
+                            src="images/1.7/1.7.1/elementalist5.png"
+                            alt="Elementalist"
+                            width="100%"
+                        />
+                        <p class="image-text">
+                            Elementalist from noise level 7
+                        </p>
+                    </div>
+                    <div class="seven-width-image-container">
+                        <img
+                            src="images/1.7/1.7.1/elementalist6.png"
+                            alt="Elementalist"
+                            width="100%"
+                        />
+                        <p class="image-text">
+                            Elementalist from noise level 10
+                        </p>
+                    </div>
+                    <div class="seven-width-image-container">
+                        <img
+                            src="images/1.7/1.7.1/elementalist7.png"
+                            alt="Elementalist"
+                            width="100%"
+                        />
+                        <p class="image-text">
+                            Elementalist from noise level 20
+                        </p>
+                    </div>
+                    <div class="seven-width-image-container">
+                        <img
+                            src="images/1.7/1.7.1/elementalist.png"
+                            alt="Elementalist"
+                            width="100%"
+                        />
+                        <p class="image-text">Original image</p>
+                    </div>
+                </div>
+                <h3>Inpainting</h3>
+                <p>
+                    For the inpainting, I used the mask we were given. Then I
+                    applied noise to the entire image so that it could create a
+                    new image that would fill in the missing mask. After each
+                    iteration, I made sure that all other parts of the image
+                    stayed the same. Here are the images of the Campanile, the
+                    mask and the cut out part of the image.
+                </p>
+                <div class="images-container">
+                    <div class="three-width-image-container">
+                        <img
+                            src="images/1.7/1.7.2/campanile.png"
+                            alt="Campanile"
+                            width="100%"
+                        />
+                        <p class="image-text">Original image</p>
+                    </div>
+                    <div class="three-width-image-container">
+                        <img
+                            src="images/1.7/1.7.2/mask.png"
+                            alt="Mask"
+                            width="100%"
+                        />
+                        <p class="image-text">Mask</p>
+                    </div>
+                    <div class="three-width-image-container">
+                        <img
+                            src="images/1.7/1.7.2/cutout.png"
+                            alt="Cutout"
+                            width="100%"
+                        />
+                        <p class="image-text">Cutout</p>
+                    </div>
+                </div>
 
-        <p>
-          As we can see from the images below, the model is able to fill in the
-          missing part of the image quite well. The generated part of the image
-          fits the rest of the image and it looks realistic. Here are two
-          inpaintings that ended up quite different.
-        </p>
+                <p>
+                    As we can see from the images below, the model is able to
+                    fill in the missing part of the image quite well. The
+                    generated part of the image fits the rest of the image and
+                    it looks realistic. Here are two inpaintings that ended up
+                    quite different.
+                </p>
 
-        <div class="images-container">
-          <div class="image-container">
-            <img
-              src="images/1.7/1.7.2/inpaint1.png"
-              alt="Inpaint 1"
-              width="100%"
-            />
-            <p class="image-text">Inpainting 1</p>
-          </div>
-          <div class="image-container">
-            <img
-              src="images/1.7/1.7.2/inpaint2.png"
-              alt="Inpaint 2"
-              width="100%"
-            />
-            <p class="image-text">Inpainting 2</p>
-          </div>
-        </div>
+                <div class="images-container">
+                    <div class="image-container">
+                        <img
+                            src="images/1.7/1.7.2/inpaint1.png"
+                            alt="Inpaint 1"
+                            width="100%"
+                        />
+                        <p class="image-text">Inpainting 1</p>
+                    </div>
+                    <div class="image-container">
+                        <img
+                            src="images/1.7/1.7.2/inpaint2.png"
+                            alt="Inpaint 2"
+                            width="100%"
+                        />
+                        <p class="image-text">Inpainting 2</p>
+                    </div>
+                </div>
 
-        <p>
-          For my own images, I here took an image of my friend jumping over a
-          river. I wanted to see what the model wanted him to jump over so I cut
-          out the river at the bottom and used the model to paint it. The result
-          is him jumping over a woman laying on the ground.
-        </p>
+                <p>
+                    For my own images, I here took an image of my friend jumping
+                    over a river. I wanted to see what the model wanted him to
+                    jump over so I cut out the river at the bottom and used the
+                    model to paint it. The result is him jumping over a woman
+                    laying on the ground.
+                </p>
 
-        <div class="images-container">
-          <div class="four-width-image-container">
-            <img
-              src="images/1.7/1.7.2/friend_jumping.png"
-              alt="Friend jumping"
-              width="100%"
-            />
-            <p class="image-text">Original image</p>
-          </div>
-          <div class="four-width-image-container">
-            <img
-              src="images/1.7/1.7.2/friend_jumping_mask.png"
-              alt="Friend jumping mask"
-              width="100%"
-            />
-            <p class="image-text">Mask</p>
-          </div>
-          <div class="four-width-image-container">
-            <img
-              src="images/1.7/1.7.2/friend_jumping_cutout.png"
-              alt="Friend jumping cutout"
-              width="100%"
-            />
-            <p class="image-text">Cutout</p>
-          </div>
-          <div class="four-width-image-container">
-            <img
-              src="images/1.7/1.7.2/friend_jumping_over_woman.png"
-              alt="Friend jumping inpaint"
-              width="100%"
-            />
-            <p class="image-text">Inpainting</p>
-          </div>
-        </div>
-        <p>
-          For my last image, I took a picture of myself looking at the ocean. I
-          then cut out parts of the ocean and used the model to inpaint it. The
-          result was that I was looking at an entirely different lake with no
-          boats or bridges in it.
-        </p>
-        <div class="images-container">
-          <div class="four-width-image-container">
-            <img src="images/1.7/1.7.2/view.png" alt="View" width="100%" />
-            <p class="image-text">Original image</p>
-          </div>
-          <div class="four-width-image-container">
-            <img
-              src="images/1.7/1.7.2/view_mask.png"
-              alt="View mask"
-              width="100%"
-            />
-            <p class="image-text">Mask</p>
-          </div>
-          <div class="four-width-image-container">
-            <img
-              src="images/1.7/1.7.2/view_cutout.png"
-              alt="View cutout"
-              width="100%"
-            />
-            <p class="image-text">Cutout</p>
-          </div>
-          <div class="four-width-image-container">
-            <img
-              src="images/1.7/1.7.2/view_inpaint.png"
-              alt="View inpaint"
-              width="100%"
-            />
-            <p class="image-text">Inpainting</p>
-          </div>
-        </div>
+                <div class="images-container">
+                    <div class="four-width-image-container">
+                        <img
+                            src="images/1.7/1.7.2/friend_jumping.png"
+                            alt="Friend jumping"
+                            width="100%"
+                        />
+                        <p class="image-text">Original image</p>
+                    </div>
+                    <div class="four-width-image-container">
+                        <img
+                            src="images/1.7/1.7.2/friend_jumping_mask.png"
+                            alt="Friend jumping mask"
+                            width="100%"
+                        />
+                        <p class="image-text">Mask</p>
+                    </div>
+                    <div class="four-width-image-container">
+                        <img
+                            src="images/1.7/1.7.2/friend_jumping_cutout.png"
+                            alt="Friend jumping cutout"
+                            width="100%"
+                        />
+                        <p class="image-text">Cutout</p>
+                    </div>
+                    <div class="four-width-image-container">
+                        <img
+                            src="images/1.7/1.7.2/friend_jumping_over_woman.png"
+                            alt="Friend jumping inpaint"
+                            width="100%"
+                        />
+                        <p class="image-text">Inpainting</p>
+                    </div>
+                </div>
+                <p>
+                    For my last image, I took a picture of myself looking at the
+                    ocean. I then cut out parts of the ocean and used the model
+                    to inpaint it. The result was that I was looking at an
+                    entirely different lake with no boats or bridges in it.
+                </p>
+                <div class="images-container">
+                    <div class="four-width-image-container">
+                        <img
+                            src="images/1.7/1.7.2/view.png"
+                            alt="View"
+                            width="100%"
+                        />
+                        <p class="image-text">Original image</p>
+                    </div>
+                    <div class="four-width-image-container">
+                        <img
+                            src="images/1.7/1.7.2/view_mask.png"
+                            alt="View mask"
+                            width="100%"
+                        />
+                        <p class="image-text">Mask</p>
+                    </div>
+                    <div class="four-width-image-container">
+                        <img
+                            src="images/1.7/1.7.2/view_cutout.png"
+                            alt="View cutout"
+                            width="100%"
+                        />
+                        <p class="image-text">Cutout</p>
+                    </div>
+                    <div class="four-width-image-container">
+                        <img
+                            src="images/1.7/1.7.2/view_inpaint.png"
+                            alt="View inpaint"
+                            width="100%"
+                        />
+                        <p class="image-text">Inpainting</p>
+                    </div>
+                </div>
 
-        <h3>Text-Conditioned Image-to-image Translation</h3>
-        <p>
-          For this task, I used the same denoising process as before, but now I
-          used other prompts. For the campanile, I used "a rocket ship" as the
-          prompt which made the model generate the images below at different
-          noise levels.
-        </p>
-        <div class="images-container">
-          <div class="seven-width-image-container">
-            <img
-              src="images/1.7/1.7.3/rocket1.png"
-              alt="Rocket 1"
-              width="100%"
-            />
-            <p class="image-text">Rocket from noise level 1</p>
-          </div>
-          <div class="seven-width-image-container">
-            <img
-              src="images/1.7/1.7.3/rocket2.png"
-              alt="Rocket 3"
-              width="100%"
-            />
-            <p class="image-text">Rocket from noise level 3</p>
-          </div>
-          <div class="seven-width-image-container">
-            <img
-              src="images/1.7/1.7.3/rocket3.png"
-              alt="Rocket 5"
-              width="100%"
-            />
-            <p class="image-text">Rocket from noise level 5</p>
-          </div>
-          <div class="seven-width-image-container">
-            <img
-              src="images/1.7/1.7.3/rocket4.png"
-              alt="Rocket 7"
-              width="100%"
-            />
-            <p class="image-text">Rocket from noise level 7</p>
-          </div>
-          <div class="seven-width-image-container">
-            <img
-              src="images/1.7/1.7.3/rocket5.png"
-              alt="Rocket 10"
-              width="100%"
-            />
-            <p class="image-text">Rocket from noise level 10</p>
-          </div>
-          <div class="seven-width-image-container">
-            <img
-              src="images/1.7/1.7.3/rocket6.png"
-              alt="Rocket 20"
-              width="100%"
-            />
-            <p class="image-text">Rocket from noise level 20</p>
-          </div>
-          <div class="seven-width-image-container">
-            <img
-              src="images/1.7/1.7.3/campanile.png"
-              alt="Campanile"
-              width="100%"
-            />
-            <p class="image-text">Original image</p>
-          </div>
-        </div>
+                <h3>Text-Conditioned Image-to-image Translation</h3>
+                <p>
+                    For this task, I used the same denoising process as before,
+                    but now I used other prompts. For the campanile, I used "a
+                    rocket ship" as the prompt which made the model generate the
+                    images below at different noise levels.
+                </p>
+                <div class="images-container">
+                    <div class="seven-width-image-container">
+                        <img
+                            src="images/1.7/1.7.3/rocket1.png"
+                            alt="Rocket 1"
+                            width="100%"
+                        />
+                        <p class="image-text">Rocket from noise level 1</p>
+                    </div>
+                    <div class="seven-width-image-container">
+                        <img
+                            src="images/1.7/1.7.3/rocket2.png"
+                            alt="Rocket 3"
+                            width="100%"
+                        />
+                        <p class="image-text">Rocket from noise level 3</p>
+                    </div>
+                    <div class="seven-width-image-container">
+                        <img
+                            src="images/1.7/1.7.3/rocket3.png"
+                            alt="Rocket 5"
+                            width="100%"
+                        />
+                        <p class="image-text">Rocket from noise level 5</p>
+                    </div>
+                    <div class="seven-width-image-container">
+                        <img
+                            src="images/1.7/1.7.3/rocket4.png"
+                            alt="Rocket 7"
+                            width="100%"
+                        />
+                        <p class="image-text">Rocket from noise level 7</p>
+                    </div>
+                    <div class="seven-width-image-container">
+                        <img
+                            src="images/1.7/1.7.3/rocket5.png"
+                            alt="Rocket 10"
+                            width="100%"
+                        />
+                        <p class="image-text">Rocket from noise level 10</p>
+                    </div>
+                    <div class="seven-width-image-container">
+                        <img
+                            src="images/1.7/1.7.3/rocket6.png"
+                            alt="Rocket 20"
+                            width="100%"
+                        />
+                        <p class="image-text">Rocket from noise level 20</p>
+                    </div>
+                    <div class="seven-width-image-container">
+                        <img
+                            src="images/1.7/1.7.3/campanile.png"
+                            alt="Campanile"
+                            width="100%"
+                        />
+                        <p class="image-text">Original image</p>
+                    </div>
+                </div>
 
-        <p>
-          Now doing the same thing for myself with the prompt "a man wearing a
-          hat" I got the results below. We can see that it generates arbitrary
-          images of men with hats at lower noise levels, but as the noise level
-          increases, the images start to look more like a person sitting in my
-          position with similar clothes on with a hat.
-        </p>
-        <div class="images-container">
-          <div class="seven-width-image-container">
-            <img src="images/1.7/1.7.3/hat1.png" alt="Hat 1" width="100%" />
-            <p class="image-text">Hat from noise level 1</p>
-          </div>
-          <div class="seven-width-image-container">
-            <img src="images/1.7/1.7.3/hat2.png" alt="Hat 3" width="100%" />
-            <p class="image-text">Hat from noise level 3</p>
-          </div>
-          <div class="seven-width-image-container">
-            <img src="images/1.7/1.7.3/hat3.png" alt="Hat 5" width="100%" />
-            <p class="image-text">Hat from noise level 5</p>
-          </div>
-          <div class="seven-width-image-container">
-            <img src="images/1.7/1.7.3/hat4.png" alt="Hat 7" width="100%" />
-            <p class="image-text">Hat from noise level 7</p>
-          </div>
-          <div class="seven-width-image-container">
-            <img src="images/1.7/1.7.3/hat5.png" alt="Hat 10" width="100%" />
-            <p class="image-text">Hat from noise level 10</p>
-          </div>
-          <div class="seven-width-image-container">
-            <img src="images/1.7/1.7.3/hat6.png" alt="Hat 20" width="100%" />
-            <p class="image-text">Hat from noise level 20</p>
-          </div>
-          <div class="seven-width-image-container">
-            <img src="images/1.7/1.7.3/view.png" alt="Hat" width="100%" />
-            <p class="image-text">Original image</p>
-          </div>
-        </div>
+                <p>
+                    Now doing the same thing for myself with the prompt "a man
+                    wearing a hat" I got the results below. We can see that it
+                    generates arbitrary images of men with hats at lower noise
+                    levels, but as the noise level increases, the images start
+                    to look more like a person sitting in my position with
+                    similar clothes on with a hat.
+                </p>
+                <div class="images-container">
+                    <div class="seven-width-image-container">
+                        <img
+                            src="images/1.7/1.7.3/hat1.png"
+                            alt="Hat 1"
+                            width="100%"
+                        />
+                        <p class="image-text">Hat from noise level 1</p>
+                    </div>
+                    <div class="seven-width-image-container">
+                        <img
+                            src="images/1.7/1.7.3/hat2.png"
+                            alt="Hat 3"
+                            width="100%"
+                        />
+                        <p class="image-text">Hat from noise level 3</p>
+                    </div>
+                    <div class="seven-width-image-container">
+                        <img
+                            src="images/1.7/1.7.3/hat3.png"
+                            alt="Hat 5"
+                            width="100%"
+                        />
+                        <p class="image-text">Hat from noise level 5</p>
+                    </div>
+                    <div class="seven-width-image-container">
+                        <img
+                            src="images/1.7/1.7.3/hat4.png"
+                            alt="Hat 7"
+                            width="100%"
+                        />
+                        <p class="image-text">Hat from noise level 7</p>
+                    </div>
+                    <div class="seven-width-image-container">
+                        <img
+                            src="images/1.7/1.7.3/hat5.png"
+                            alt="Hat 10"
+                            width="100%"
+                        />
+                        <p class="image-text">Hat from noise level 10</p>
+                    </div>
+                    <div class="seven-width-image-container">
+                        <img
+                            src="images/1.7/1.7.3/hat6.png"
+                            alt="Hat 20"
+                            width="100%"
+                        />
+                        <p class="image-text">Hat from noise level 20</p>
+                    </div>
+                    <div class="seven-width-image-container">
+                        <img
+                            src="images/1.7/1.7.3/view.png"
+                            alt="Hat"
+                            width="100%"
+                        />
+                        <p class="image-text">Original image</p>
+                    </div>
+                </div>
 
-        <p>
-          I then did the same thing for the image of my friend jumping over the
-          river. Here I gave it the prompt "a photo of a hipster barista".
-          However, since the image and the prompt are so different, the model
-          has a hard time making a connection between the two, especially at
-          lower noise levels. At higher noise levels, the model starts to
-          generate images of a barista standing in the same position as my
-          friend but up until that he is only transformed into a part of the
-          background or not visible at all.
-        </p>
+                <p>
+                    I then did the same thing for the image of my friend jumping
+                    over the river. Here I gave it the prompt "a photo of a
+                    hipster barista". However, since the image and the prompt
+                    are so different, the model has a hard time making a
+                    connection between the two, especially at lower noise
+                    levels. At higher noise levels, the model starts to generate
+                    images of a barista standing in the same position as my
+                    friend but up until that he is only transformed into a part
+                    of the background or not visible at all.
+                </p>
 
-        <div class="images-container">
-          <div class="seven-width-image-container">
-            <img
-              src="images/1.7/1.7.3/barista1.png"
-              alt="Barista 1"
-              width="100%"
-            />
-            <p class="image-text">Barista from noise level 1</p>
-          </div>
-          <div class="seven-width-image-container">
-            <img
-              src="images/1.7/1.7.3/barista2.png"
-              alt="Barista 3"
-              width="100%"
-            />
-            <p class="image-text">Barista from noise level 3</p>
-          </div>
-          <div class="seven-width-image-container">
-            <img
-              src="images/1.7/1.7.3/barista3.png"
-              alt="Barista 5"
-              width="100%"
-            />
-            <p class="image-text">Barista from noise level 5</p>
-          </div>
-          <div class="seven-width-image-container">
-            <img
-              src="images/1.7/1.7.3/barista4.png"
-              alt="Barista 7"
-              width="100%"
-            />
-            <p class="image-text">Barista from noise level 7</p>
-          </div>
-          <div class="seven-width-image-container">
-            <img
-              src="images/1.7/1.7.3/barista5.png"
-              alt="Barista 10"
-              width="100%"
-            />
-            <p class="image-text">Barista from noise level 10</p>
-          </div>
-          <div class="seven-width-image-container">
-            <img
-              src="images/1.7/1.7.3/barista6.png"
-              alt="Barista 20"
-              width="100%"
-            />
-            <p class="image-text">Barista from noise level 20</p>
-          </div>
-          <div class="seven-width-image-container">
-            <img
-              src="images/1.7/1.7.3/friend_jumping.png"
-              alt="Barista"
-              width="100%"
-            />
-            <p class="image-text">Original image</p>
-          </div>
-        </div>
-        <h3>Visual Anagrams</h3>
-        <p>
-          Now to create a visual anagram, I used the UNet model twice. First, I
-          used it to denoise the image and then I used it to denoise the image
-          flipped on its head. By doing this, I could generate an image where
-          you see one thing when the image is upside down and another thing when
-          it is right side up. With the prompts "an oil painting of people
-          around a campfire" and "an oil painting of an old man" I got the image
-          below.
-        </p>
-        <div class="images-container">
-          <div class="image-container">
-            <img
-              src="images/1.8/campfire_old_man.png"
-              alt="Campfire and old man"
-              width="100%"
-            />
-            <p class="image-text">Right side up (campfire)</p>
-          </div>
-          <div class="image-container">
-            <img
-              src="images/1.8/campfire_old_man.png"
-              alt="Campfire and old man"
-              width="100%"
-              style="transform: rotate(180deg)"
-            />
-            <p class="image-text">Upside down (old man)</p>
-          </div>
-        </div>
-        <p>
-          Here is the same process for the prompts "a lithograph of waterfalls"
-          and "a lithograph of a skull" and the prompts "a photo of the amalfi
-          cost" and "a photo of a dog".
-        </p>
-        <div class="images-container">
-          <div class="image-container">
-            <img
-              src="images/1.8/waterfall_skull.png"
-              alt="Waterfall and skull"
-              width="100%"
-            />
-            <p class="image-text">Right side up (waterfall)</p>
-          </div>
-          <div class="image-container">
-            <img
-              src="images/1.8/waterfall_skull.png"
-              alt="Waterfall and skull"
-              width="100%"
-              style="transform: rotate(180deg)"
-            />
-            <p class="image-text">Upside down (skull)</p>
-          </div>
-        </div>
+                <div class="images-container">
+                    <div class="seven-width-image-container">
+                        <img
+                            src="images/1.7/1.7.3/barista1.png"
+                            alt="Barista 1"
+                            width="100%"
+                        />
+                        <p class="image-text">Barista from noise level 1</p>
+                    </div>
+                    <div class="seven-width-image-container">
+                        <img
+                            src="images/1.7/1.7.3/barista2.png"
+                            alt="Barista 3"
+                            width="100%"
+                        />
+                        <p class="image-text">Barista from noise level 3</p>
+                    </div>
+                    <div class="seven-width-image-container">
+                        <img
+                            src="images/1.7/1.7.3/barista3.png"
+                            alt="Barista 5"
+                            width="100%"
+                        />
+                        <p class="image-text">Barista from noise level 5</p>
+                    </div>
+                    <div class="seven-width-image-container">
+                        <img
+                            src="images/1.7/1.7.3/barista4.png"
+                            alt="Barista 7"
+                            width="100%"
+                        />
+                        <p class="image-text">Barista from noise level 7</p>
+                    </div>
+                    <div class="seven-width-image-container">
+                        <img
+                            src="images/1.7/1.7.3/barista5.png"
+                            alt="Barista 10"
+                            width="100%"
+                        />
+                        <p class="image-text">Barista from noise level 10</p>
+                    </div>
+                    <div class="seven-width-image-container">
+                        <img
+                            src="images/1.7/1.7.3/barista6.png"
+                            alt="Barista 20"
+                            width="100%"
+                        />
+                        <p class="image-text">Barista from noise level 20</p>
+                    </div>
+                    <div class="seven-width-image-container">
+                        <img
+                            src="images/1.7/1.7.3/friend_jumping.png"
+                            alt="Barista"
+                            width="100%"
+                        />
+                        <p class="image-text">Original image</p>
+                    </div>
+                </div>
+                <h3>Visual Anagrams</h3>
+                <p>
+                    Now to create a visual anagram, I used the UNet model twice.
+                    First, I used it to denoise the image and then I used it to
+                    denoise the image flipped on its head. By doing this, I
+                    could generate an image where you see one thing when the
+                    image is upside down and another thing when it is right side
+                    up. With the prompts "an oil painting of people around a
+                    campfire" and "an oil painting of an old man" I got the
+                    image below.
+                </p>
+                <div class="images-container">
+                    <div class="image-container">
+                        <img
+                            src="images/1.8/campfire_old_man.png"
+                            alt="Campfire and old man"
+                            width="100%"
+                        />
+                        <p class="image-text">Right side up (campfire)</p>
+                    </div>
+                    <div class="image-container">
+                        <img
+                            src="images/1.8/campfire_old_man.png"
+                            alt="Campfire and old man"
+                            width="100%"
+                            style="transform: rotate(180deg)"
+                        />
+                        <p class="image-text">Upside down (old man)</p>
+                    </div>
+                </div>
+                <p>
+                    Here is the same process for the prompts "a lithograph of
+                    waterfalls" and "a lithograph of a skull" and the prompts "a
+                    photo of the amalfi cost" and "a photo of a dog".
+                </p>
+                <div class="images-container">
+                    <div class="image-container">
+                        <img
+                            src="images/1.8/waterfall_skull.png"
+                            alt="Waterfall and skull"
+                            width="100%"
+                        />
+                        <p class="image-text">Right side up (waterfall)</p>
+                    </div>
+                    <div class="image-container">
+                        <img
+                            src="images/1.8/waterfall_skull.png"
+                            alt="Waterfall and skull"
+                            width="100%"
+                            style="transform: rotate(180deg)"
+                        />
+                        <p class="image-text">Upside down (skull)</p>
+                    </div>
+                </div>
 
-        <div class="images-container">
-          <div class="image-container">
-            <img
-              src="images/1.8/amalfi_coast_dog.png"
-              alt="Amalfi and dog"
-              width="100%"
-            />
-            <p class="image-text">Right side up (Amalfi coast)</p>
-          </div>
-          <div class="image-container">
-            <img
-              src="images/1.8/amalfi_coast_dog.png"
-              alt="Amalfi and dog"
-              width="100%"
-              style="transform: rotate(180deg)"
-            />
-            <p class="image-text">Upside down (dog)</p>
-          </div>
-        </div>
+                <div class="images-container">
+                    <div class="image-container">
+                        <img
+                            src="images/1.8/amalfi_coast_dog.png"
+                            alt="Amalfi and dog"
+                            width="100%"
+                        />
+                        <p class="image-text">Right side up (Amalfi coast)</p>
+                    </div>
+                    <div class="image-container">
+                        <img
+                            src="images/1.8/amalfi_coast_dog.png"
+                            alt="Amalfi and dog"
+                            width="100%"
+                            style="transform: rotate(180deg)"
+                        />
+                        <p class="image-text">Upside down (dog)</p>
+                    </div>
+                </div>
 
-        <h3>Hybrid Images</h3>
-        <p>
-          To create hybrid images, I used a similar approach to the one in the
-          last task, but instead of summing the denoised image and the flipped
-          denoised image, I summed the denoised high frequency image with the
-          denoised low frequency image. This way, the high frequency image would
-          be visible when the image is viewed up close and the low frequency
-          image would be visible when the image is viewed from a distance. I
-          then used the prompts "a lithograph of waterfalls" and "a lithograph
-          of a skull" to create an image of a skull that is visible when viewed
-          from a distance and waterfalls that are visible when viewed up close.
-        </p>
+                <h3>Hybrid Images</h3>
+                <p>
+                    To create hybrid images, I used a similar approach to the
+                    one in the last task, but instead of summing the denoised
+                    image and the flipped denoised image, I summed the denoised
+                    high frequency image with the denoised low frequency image.
+                    This way, the high frequency image would be visible when the
+                    image is viewed up close and the low frequency image would
+                    be visible when the image is viewed from a distance. I then
+                    used the prompts "a lithograph of waterfalls" and "a
+                    lithograph of a skull" to create an image of a skull that is
+                    visible when viewed from a distance and waterfalls that are
+                    visible when viewed up close.
+                </p>
 
-        <div class="images-container">
-          <div class="image-container">
-            <img
-              src="images/1.9/waterfalls_skull_frequency.png"
-              alt="Waterfalls and skull"
-              width="100%"
-            />
-            <p class="image-text">Close up (waterfalls)</p>
-          </div>
-          <div class="image-container">
-            <img
-              src="images/1.9/waterfalls_skull_frequency.png"
-              alt="Waterfalls and skull"
-              width="100%"
-              style="transform: scale(0.2)"
-            />
-            <p class="image-text">From a distance (skull)</p>
-          </div>
-        </div>
-        <p>
-          Using the same prompt "a photo of a dog" and "a photo of the amalfi
-          cost", we see that the coast is visible when the image is viewed close
-          up and you see the dog if you see the image from a distance. I then
-          used the prompts "an oil painting of a snowy mountain village" and "a
-          rocket ship" to see a snowy mountain village when the image is viewed
-          up close and a rocket ship when the image is viewed from a distance.
-          The results are below.
-        </p>
-        <div class="images-container">
-          <div class="image-container">
-            <img
-              src="images/1.9/amalfi_coast_dog_frequency.png"
-              alt="Amalfi and dog"
-              width="100%"
-            />
-            <p class="image-text">Close up (Amalfi coast)</p>
-          </div>
-          <div class="image-container">
-            <img
-              src="images/1.9/amalfi_coast_dog_frequency.png"
-              alt="Amalfi and dog"
-              width="100%"
-              style="transform: scale(0.2)"
-            />
-            <p class="image-text">From a distance (dog)</p>
-          </div>
-        </div>
-        <div class="images-container">
-          <div class="image-container">
-            <img
-              src="images/1.9/village_rocket.png"
-              alt="Village Rocket"
-              width="100%"
-            />
-            <p class="image-text">Close up (mountain village)</p>
-          </div>
-          <div class="image-container">
-            <img
-              src="images/1.9/village_rocket.png"
-              alt="Village Rocket"
-              width="100%"
-              style="transform: scale(0.2)"
-            />
-            <p class="image-text">From a distance (rocket)</p>
-          </div>
-        </div>
+                <div class="images-container">
+                    <div class="image-container">
+                        <img
+                            src="images/1.9/waterfalls_skull_frequency.png"
+                            alt="Waterfalls and skull"
+                            width="100%"
+                        />
+                        <p class="image-text">Close up (waterfalls)</p>
+                    </div>
+                    <div class="image-container">
+                        <img
+                            src="images/1.9/waterfalls_skull_frequency.png"
+                            alt="Waterfalls and skull"
+                            width="100%"
+                            style="transform: scale(0.2)"
+                        />
+                        <p class="image-text">From a distance (skull)</p>
+                    </div>
+                </div>
+                <p>
+                    Using the same prompt "a photo of a dog" and "a photo of the
+                    amalfi cost", we see that the coast is visible when the
+                    image is viewed close up and you see the dog if you see the
+                    image from a distance. I then used the prompts "an oil
+                    painting of a snowy mountain village" and "a rocket ship" to
+                    see a snowy mountain village when the image is viewed up
+                    close and a rocket ship when the image is viewed from a
+                    distance. The results are below.
+                </p>
+                <div class="images-container">
+                    <div class="image-container">
+                        <img
+                            src="images/1.9/amalfi_coast_dog_frequency.png"
+                            alt="Amalfi and dog"
+                            width="100%"
+                        />
+                        <p class="image-text">Close up (Amalfi coast)</p>
+                    </div>
+                    <div class="image-container">
+                        <img
+                            src="images/1.9/amalfi_coast_dog_frequency.png"
+                            alt="Amalfi and dog"
+                            width="100%"
+                            style="transform: scale(0.2)"
+                        />
+                        <p class="image-text">From a distance (dog)</p>
+                    </div>
+                </div>
+                <div class="images-container">
+                    <div class="image-container">
+                        <img
+                            src="images/1.9/village_rocket.png"
+                            alt="Village Rocket"
+                            width="100%"
+                        />
+                        <p class="image-text">Close up (mountain village)</p>
+                    </div>
+                    <div class="image-container">
+                        <img
+                            src="images/1.9/village_rocket.png"
+                            alt="Village Rocket"
+                            width="100%"
+                            style="transform: scale(0.2)"
+                        />
+                        <p class="image-text">From a distance (rocket)</p>
+                    </div>
+                </div>
 
-        <h2>Part B</h2>
-        <h3>Training a Single-Step Denoising UNet</h3>
-        <p>
-          Now it was time to build our own diffusion model from scratch. I
-          started this by implementing these blocks:
-        </p>
-        <br />
-        <p>
-          (1) Conv is a convolutional layer that doesn't change the image
-          resolution, only the channel dimension. <br />(2) DownConv is a
-          convolutional layer that downsamples the tensor by 2. <br />(3) UpConv
-          is a convolutional layer that upsamples the tensor by 2. <br />(4)
-          Flatten is an average pooling layer that flattens a 7x7 tensor into a
-          1x1 tensor. 7 is the resulting height and width after the downsampling
-          operations. <br />(5) Unflatten is a convolutional layer that
-          unflattens/upsamples a 1x1 tensor into a 7x7 tensor. <br />(6) Concat
-          is a channel-wise concatenation between tensors with the same 2D
-          shape. This is simply torch.cat. D is the number of hidden channels
-          and is a hyperparameter that we will set ourselves. <br />(7)
-          ConvBlock, is similar to Conv but includes an additional Conv. Note
-          that it has the same input and output shape as (1) Conv. <br />(8)
-          DownBlock, is similar to DownConv but includes an additional
-          ConvBlock. Note that it has the same input and output shape as (2)
-          DownConv. <br />(9) UpBlock, is similar to UpConv but includes an
-          additional ConvBlock. Note that it has the same input and output shape
-          as (3) UpConv.
-        </p>
-        <br />
-        <p>
-          Afterwards, I put it all together to create an unconditional UNet
-          according to this architecture:
-        </p>
-        <img src="images/b1/unet.png" alt="Unconditional UNet" width="100%" />
-        <h3>Using the UNet to Train a Denoiser</h3>
-        <p>
-          To then train the model on MNIST, I first had to add noise to the
-          images that the model would be able to learn from. Here I added noise
-          of the following levels: [0.0, 0.2, 0.4, 0.5, 0.6, 0.8, 1.0]. To
-          visualize the noise, I plotted 5 digits with different noise levels.
-          The results are below.
-        </p>
-        <img
-          src="images/b1/digit_noise_levels.png"
-          alt="Digit noise levels"
-          width="100%"
-        />
-        <p>
-          I then trained the model for 5 epochs with a batch size of 256. I set
-          the noise level to 0.5 and the number of hidden dimensions to 128.
-          Using L2 loss (MSE) and Adam optimizer with a learning rate of 1e-4, I
-          ended up getting a loss of only 0.0084 after the last epoch. Below I
-          have plotted some inputs to the model, the noised image and the output
-          that the model generated do denoise the image. I did this for both the
-          first and last epoch and we can clearly see that the output of the
-          model is more clear and similar to the input image after the last
-          epoch.
-        </p>
-        <h4>Results After Epoch 1</h4>
-        <img src="images/b1/epoch1.png" alt="Epoch 1" width="100%" />
-        <h4>Results After Epoch 5</h4>
-        <img src="images/b1/epoch5.png" alt="Epoch 5" width="100%" />
-        <p>
-          Below is the loss plotted over the steps of the training. We can see
-          that the loss is steadily decreasing and that the model is learning
-          well.
-        </p>
-        <img
-          src="images/b1/training_losses.png"
-          alt="Training losses"
-          width="100%"
-        />
+                <h2>Part B</h2>
+                <h3>Training a Single-Step Denoising UNet</h3>
+                <p>
+                    Now it was time to build our own diffusion model from
+                    scratch. I started this by implementing these blocks:
+                </p>
+                <br />
+                <p>
+                    (1) Conv is a convolutional layer that doesn't change the
+                    image resolution, only the channel dimension. <br />(2)
+                    DownConv is a convolutional layer that downsamples the
+                    tensor by 2. <br />(3) UpConv is a convolutional layer that
+                    upsamples the tensor by 2. <br />(4) Flatten is an average
+                    pooling layer that flattens a 7x7 tensor into a 1x1 tensor.
+                    7 is the resulting height and width after the downsampling
+                    operations. <br />(5) Unflatten is a convolutional layer
+                    that unflattens/upsamples a 1x1 tensor into a 7x7 tensor.
+                    <br />(6) Concat is a channel-wise concatenation between
+                    tensors with the same 2D shape. This is simply torch.cat. D
+                    is the number of hidden channels and is a hyperparameter
+                    that we will set ourselves. <br />(7) ConvBlock, is similar
+                    to Conv but includes an additional Conv. Note that it has
+                    the same input and output shape as (1) Conv. <br />(8)
+                    DownBlock, is similar to DownConv but includes an additional
+                    ConvBlock. Note that it has the same input and output shape
+                    as (2) DownConv. <br />(9) UpBlock, is similar to UpConv but
+                    includes an additional ConvBlock. Note that it has the same
+                    input and output shape as (3) UpConv.
+                </p>
+                <br />
+                <p>
+                    Afterwards, I put it all together to create an unconditional
+                    UNet according to this architecture:
+                </p>
+                <img
+                    src="images/b1/unet.png"
+                    alt="Unconditional UNet"
+                    width="100%"
+                />
+                <h3>Using the UNet to Train a Denoiser</h3>
+                <p>
+                    To then train the model on MNIST, I first had to add noise
+                    to the images that the model would be able to learn from.
+                    Here I added noise of the following levels: [0.0, 0.2, 0.4,
+                    0.5, 0.6, 0.8, 1.0]. To visualize the noise, I plotted 5
+                    digits with different noise levels. The results are below.
+                </p>
+                <img
+                    src="images/b1/digit_noise_levels.png"
+                    alt="Digit noise levels"
+                    width="100%"
+                />
+                <p>
+                    I then trained the model for 5 epochs with a batch size of
+                    256. I set the noise level to 0.5 and the number of hidden
+                    dimensions to 128. Using L2 loss (MSE) and Adam optimizer
+                    with a learning rate of 1e-4, I ended up getting a loss of
+                    only 0.0084 after the last epoch. Below I have plotted some
+                    inputs to the model, the noised image and the output that
+                    the model generated do denoise the image. I did this for
+                    both the first and last epoch and we can clearly see that
+                    the output of the model is more clear and similar to the
+                    input image after the last epoch.
+                </p>
+                <h4>Results After Epoch 1</h4>
+                <img src="images/b1/epoch1.png" alt="Epoch 1" width="100%" />
+                <h4>Results After Epoch 5</h4>
+                <img src="images/b1/epoch5.png" alt="Epoch 5" width="100%" />
+                <p>
+                    Below is the loss plotted over the steps of the training. We
+                    can see that the loss is steadily decreasing and that the
+                    model is learning well.
+                </p>
+                <img
+                    src="images/b1/training_losses.png"
+                    alt="Training losses"
+                    width="100%"
+                />
 
-        <p>
-          When we have trained the model on noise level 0.5 we can then see how
-          it performs when denoising images of other noise levels. Below I have
-          plotted the input image at the noise levels from before [0.0, 0.2,
-          0.4, 0.5, 0.6, 0.8, 1.0] and the output that the model generated when
-          denoising the image. We can see that the model is able to denoise the
-          images with lower noise levels quite well. However, when the noise
-          gets higher to 0.8 or 1.0, the model creates artifacts in the image
-          and the number is not looking right.
-        </p>
-        <img
-          src="images/b1/denoise_at_levels.png"
-          alt="Denoise at levels"
-          width="100%"
-        />
-        <h2>Training a Diffusion Model</h2>
-        <p>
-          Now it was time to train a diffusion model. I started by implementing
-          time conditioning to the UNet so that it could take in images at
-          different noise levels and learn how to denoise them. I could then use
-          the equations below to calculate the next time step iteratively where
-          x<sub>t</sub> is the image at time t, z is noise, betas are a linear
-          schedule between two intervals, alphas are 1 - betas and alpha-bars
-          are cumulative product of alphas.
-        </p>
-        <img
-          src="images/equations/noise_prediction.png"
-          alt="Noise prediction"
-          width="50%"
-        />
-        <p>
-          Doing this allowed us to learn the patterns in the data and recreate
-          digits from noise, effectively drawing our own digits. Below I have
-          plotted the training loss over the steps of the training as well as
-          numbers generated after 5 and 20 epochs. We can see that the model is
-          becoming better as the training progresses and that the numbers are
-          becoming more clear and start to represent the actual digits.
-        </p>
-        <img
-          src="images/b2/training_losses.png"
-          alt="Training losses"
-          width="100%"
-        />
-        <h4>Results After Epoch 5</h4>
-        <img src="images/b2/epoch5.png" alt="Epoch 5" width="100%" />
-        <h4>Results After Epoch 20</h4>
-        <img src="images/b2/epoch20.png" alt="Epoch 20" width="100%" />
+                <p>
+                    When we have trained the model on noise level 0.5 we can
+                    then see how it performs when denoising images of other
+                    noise levels. Below I have plotted the input image at the
+                    noise levels from before [0.0, 0.2, 0.4, 0.5, 0.6, 0.8, 1.0]
+                    and the output that the model generated when denoising the
+                    image. We can see that the model is able to denoise the
+                    images with lower noise levels quite well. However, when the
+                    noise gets higher to 0.8 or 1.0, the model creates artifacts
+                    in the image and the number is not looking right.
+                </p>
+                <img
+                    src="images/b1/denoise_at_levels.png"
+                    alt="Denoise at levels"
+                    width="100%"
+                />
+                <h2>Training a Diffusion Model</h2>
+                <p>
+                    Now it was time to train a diffusion model. I started by
+                    implementing time conditioning to the UNet so that it could
+                    take in images at different noise levels and learn how to
+                    denoise them. I could then use the equations below to
+                    calculate the next time step iteratively where x<sub>t</sub>
+                    is the image at time t, z is noise, betas are a linear
+                    schedule between two intervals, alphas are 1 - betas and
+                    alpha-bars are cumulative product of alphas.
+                </p>
+                <img
+                    src="images/equations/noise_prediction.png"
+                    alt="Noise prediction"
+                    width="50%"
+                />
+                <p>
+                    Doing this allowed us to learn the patterns in the data and
+                    recreate digits from noise, effectively drawing our own
+                    digits. Below I have plotted the training loss over the
+                    steps of the training as well as numbers generated after 5
+                    and 20 epochs. We can see that the model is becoming better
+                    as the training progresses and that the numbers are becoming
+                    more clear and start to represent the actual digits.
+                </p>
+                <img
+                    src="images/b2/training_losses.png"
+                    alt="Training losses"
+                    width="100%"
+                />
+                <h4>Results After Epoch 5</h4>
+                <img src="images/b2/epoch5.png" alt="Epoch 5" width="100%" />
+                <h4>Results After Epoch 20</h4>
+                <img src="images/b2/epoch20.png" alt="Epoch 20" width="100%" />
 
-        <p>
-          For the next part I implemented a Class-Conditioned UNet where I
-          conditioned the model on the class of the digit that I wanted to
-          generate. I did this by adding 2 more fully connected blocks to the
-          UNet with a one-hot encoded class label c as input. Additionally, I
-          implemented a 10% dropout to make it work without being conditioned on
-          the class c. Below is the loss plotted over the steps of the training
-          across 20 epochs.
-        </p>
-        <img
-          src="images/b2/class_cond_losses.png"
-          alt="Class cond losses"
-          width="100%"
-        />
-        <p>
-          Having a class conditioned UNet, we could now sample from specific
-          classes. Below are the samples from classes 0 to 9 after 5 and 20
-          epochs. We can see that the model is able to generate digits that
-          represent the classes quite well even after 5 epochs because of the
-          class conditioning, but it still gets less noisy and more clear after
-          20 epochs.
-        </p>
-        <h4>Results After Epoch 5</h4>
-        <img
-          src="images/b2/class_cond_epoch5.png"
-          alt="Class cond epoch 5"
-          width="100%"
-        />
-        <h4>Results After Epoch 20</h4>
-        <img
-          src="images/b2/class_cond_epoch20.png"
-          alt="Class cond epoch 20"
-          width="100%"
-        />
-      </section>
-    </main>
-  </body>
+                <p>
+                    For the next part I implemented a Class-Conditioned UNet
+                    where I conditioned the model on the class of the digit that
+                    I wanted to generate. I did this by adding 2 more fully
+                    connected blocks to the UNet with a one-hot encoded class
+                    label c as input. Additionally, I implemented a 10% dropout
+                    to make it work without being conditioned on the class c.
+                    Below is the loss plotted over the steps of the training
+                    across 20 epochs.
+                </p>
+                <img
+                    src="images/b2/class_cond_losses.png"
+                    alt="Class cond losses"
+                    width="100%"
+                />
+                <p>
+                    Having a class conditioned UNet, we could now sample from
+                    specific classes. Below are the samples from classes 0 to 9
+                    after 5 and 20 epochs. We can see that the model is able to
+                    generate digits that represent the classes quite well even
+                    after 5 epochs because of the class conditioning, but it
+                    still gets less noisy and more clear after 20 epochs.
+                </p>
+                <h4>Results After Epoch 5</h4>
+                <img
+                    src="images/b2/class_cond_epoch5.png"
+                    alt="Class cond epoch 5"
+                    width="100%"
+                />
+                <h4>Results After Epoch 20</h4>
+                <img
+                    src="images/b2/class_cond_epoch20.png"
+                    alt="Class cond epoch 20"
+                    width="100%"
+                />
+            </section>
+        </main>
+        <button id="back-to-top">↑</button>
+        <script>
+            window.addEventListener("scroll", () => {
+                const scrollTop = window.scrollY;
+                const docHeight =
+                    document.documentElement.scrollHeight - window.innerHeight;
+                const scrollPercent = (scrollTop / docHeight) * 100;
+                document.getElementById("progress-bar").style.width =
+                    scrollPercent + "%";
+            });
+
+            const btn = document.getElementById("back-to-top");
+
+            window.addEventListener("scroll", () => {
+                if (window.scrollY > 300) {
+                    btn.classList.add("show");
+                } else {
+                    btn.classList.remove("show");
+                }
+            });
+
+            btn.addEventListener("click", () => {
+                window.scrollTo({ top: 0, behavior: "smooth" });
+            });
+        </script>
+    </body>
 </html>

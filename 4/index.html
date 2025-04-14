@@ -1,505 +1,609 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Bendik Norli - Automatic Image Mosaicing and Rectification</title>
-    <link rel="stylesheet" href="styles.css" />
-  </head>
-  <body>
-    <header>
-      <div class="navbar">
-        <a class="logo" href="../index.html">CS180</a>
-        <nav>
-          <ul>
-            <li><a href="../1/index.html">Project 1</a></li>
-            <li><a href="../2/index.html">Project 2</a></li>
-            <li><a href="../3/index.html">Project 3</a></li>
-            <li><a href="../4/index.html">Project 4</a></li>
-            <li><a href="../5/index.html">Project 5</a></li>
-          </ul>
-        </nav>
-      </div>
-    </header>
-    <main>
-      <section class="content">
-        <h1>Project 4</h1>
-        <p class="note">
-          Rectifying images and automatically creating panorama images through
-          feature matching and homography
-        </p>
+    <head>
+        <meta charset="UTF-8" />
+        <title>
+            Bendik Norli - Automatic Image Mosaicing and Rectification
+        </title>
+        <link rel="stylesheet" href="../styles.css" />
+    </head>
+    <body>
+        <header>
+            <div class="navbar">
+                <a class="logo" href="../index.html">Bendik Norli
+                <nav>
+                    <ul>
+                        <li><a href="../ELEC4630/index.html">ELEC4630</a></li>
+                        <li><a href="../1/index.html">Project 1</a></li>
+                        <li><a href="../2/index.html">Project 2</a></li>
+                        <li><a href="../3/index.html">Project 3</a></li>
+                        <li><a href="../4/index.html">Project 4</a></li>
+                        <li><a href="../5/index.html">Project 5</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </header>
+        <div id="progress-bar"></div>
+        <main>
+            <section class="content">
+                <h1>Project 4</h1>
+                <p class="note">
+                    Rectifying images and automatically creating panorama images
+                    through feature matching and homography
+                </p>
 
-        <h2>Part A: Computing Homographies</h2>
-        <p>
-          To align the images for both the mosaic and rectification, I needed to
-          compute the homography matrix between the images. The homography
-          defines the transformation between two perspectives of the same scene,
-          which can be used to map points from one image to the other.
-        </p>
-        <br />
-        <p>
-          The homography matrix is a 3x3 matrix that represents a projective
-          transformation. We want to recover this projective transformation such
-          that
-        </p>
-        <img
-          src="images/equations/eq1.png"
-          alt="Homography Matrix"
-          width="50%"
-        />
+                <h2>Part A: Computing Homographies</h2>
+                <p>
+                    To align the images for both the mosaic and rectification, I
+                    needed to compute the homography matrix between the images.
+                    The homography defines the transformation between two
+                    perspectives of the same scene, which can be used to map
+                    points from one image to the other.
+                </p>
+                <br />
+                <p>
+                    The homography matrix is a 3x3 matrix that represents a
+                    projective transformation. We want to recover this
+                    projective transformation such that
+                </p>
+                <img
+                    src="images/equations/eq1.png"
+                    alt="Homography Matrix"
+                    width="50%"
+                />
 
-        <p>If we expand this out, we have the following system of equations:</p>
-        <img
-          src="images/equations/eq2.png"
-          alt="System of Equations"
-          width="50%"
-        />
+                <p>
+                    If we expand this out, we have the following system of
+                    equations:
+                </p>
+                <img
+                    src="images/equations/eq2.png"
+                    alt="System of Equations"
+                    width="50%"
+                />
 
-        <p>Expanding this further:</p>
-        <img
-          src="images/equations/eq3.png"
-          alt="Expanded Homography"
-          width="50%"
-        />
+                <p>Expanding this further:</p>
+                <img
+                    src="images/equations/eq3.png"
+                    alt="Expanded Homography"
+                    width="50%"
+                />
 
-        <p>Which simplifies to:</p>
-        <img
-          src="images/equations/eq4.png"
-          alt="Simplified System"
-          width="50%"
-        />
+                <p>Which simplifies to:</p>
+                <img
+                    src="images/equations/eq4.png"
+                    alt="Simplified System"
+                    width="50%"
+                />
 
-        <p>This gives us the following system of linear equations:</p>
-        <img src="images/equations/eq5.png" alt="Linear System" width="50%" />
+                <p>This gives us the following system of linear equations:</p>
+                <img
+                    src="images/equations/eq5.png"
+                    alt="Linear System"
+                    width="50%"
+                />
 
-        <h3>Rectification</h3>
-        <p>
-          To ensure the homography matrix was calculated corectly, I took a
-          picture of a square painting from an angle. I then manually selected
-          four corner points from the painting in the image with the tool from
-          the previous student. Then, I mapped those points to a perfect square
-          which in this case was [0, 0], [0, 100], [100, 0], [100, 100] to
-          compute the homography. I then inverse warped the image using the
-          inverse of the homography matrix and bilinear interpolation where the
-          pixels mapped between multiple pixels. Here are the points I selected
-          on the painting and the result after warping the image in to the
-          square:
-        </p>
-        <div class="images-container">
-          <div class="image-container">
-            <img
-              src="images/portrait.png"
-              alt="Painting Keypoints"
-              width="100%"
-            />
-            <p class="image-text">Painting with defined points</p>
-          </div>
-          <div class="image-container">
-            <img
-              src="images/portrait_rectified.png"
-              alt="Target Square"
-              width="100%"
-            />
-            <p class="image-text">Painting Rectified</p>
-          </div>
-        </div>
+                <h3>Rectification</h3>
+                <p>
+                    To ensure the homography matrix was calculated corectly, I
+                    took a picture of a square painting from an angle. I then
+                    manually selected four corner points from the painting in
+                    the image with the tool from the previous student. Then, I
+                    mapped those points to a perfect square which in this case
+                    was [0, 0], [0, 100], [100, 0], [100, 100] to compute the
+                    homography. I then inverse warped the image using the
+                    inverse of the homography matrix and bilinear interpolation
+                    where the pixels mapped between multiple pixels. Here are
+                    the points I selected on the painting and the result after
+                    warping the image in to the square:
+                </p>
+                <div class="images-container">
+                    <div class="image-container">
+                        <img
+                            src="images/portrait.png"
+                            alt="Painting Keypoints"
+                            width="100%"
+                        />
+                        <p class="image-text">Painting with defined points</p>
+                    </div>
+                    <div class="image-container">
+                        <img
+                            src="images/portrait_rectified.png"
+                            alt="Target Square"
+                            width="100%"
+                        />
+                        <p class="image-text">Painting Rectified</p>
+                    </div>
+                </div>
 
-        <p>I then did the same thing with a picture of a mirror</p>
-        <div class="images-container">
-          <div class="image-container">
-            <img
-              src="images/mirror_keypoints.png"
-              alt="Mirror Keypoints"
-              width="100%"
-            />
-            <p class="image-text">Mirror with defined points</p>
-          </div>
-          <div class="image-container">
-            <img
-              src="images/mirror_rectified.png"
-              alt="Mirror Rectified"
-              width="100%"
-            />
-            <p class="image-text">Mirror Rectified</p>
-          </div>
-        </div>
+                <p>I then did the same thing with a picture of a mirror</p>
+                <div class="images-container">
+                    <div class="image-container">
+                        <img
+                            src="images/mirror_keypoints.png"
+                            alt="Mirror Keypoints"
+                            width="100%"
+                        />
+                        <p class="image-text">Mirror with defined points</p>
+                    </div>
+                    <div class="image-container">
+                        <img
+                            src="images/mirror_rectified.png"
+                            alt="Mirror Rectified"
+                            width="100%"
+                        />
+                        <p class="image-text">Mirror Rectified</p>
+                    </div>
+                </div>
 
-        <h3>Warping for the Mosaic</h3>
-        <p>
-          For the mosaicing, I took three photos of I-House overlapping each
-          other by about 60%. Here I made sure to keep the camera fixed in one
-          location and rotating it around its own axis to make the center of
-          projection the same for all images.
-        </p>
-        <div class="images-container">
-          <div class="three-width-image-container">
-            <img
-              src="images/i-house-left.png"
-              alt="I House left"
-              width="100%"
-            />
-            <p class="image-text">I House left image</p>
-          </div>
-          <div class="three-width-image-container">
-            <img
-              src="images/i-house-middle.png"
-              alt="I House middle"
-              width="100%"
-            />
-            <p class="image-text">I House middle image</p>
-          </div>
-          <div class="three-width-image-container">
-            <img
-              src="images/i-house-right.png"
-              alt="I House right"
-              width="100%"
-            />
-            <p class="image-text">I House right image</p>
-          </div>
-        </div>
-        <p>
-          Afterward, I manually selected a bunch of points for correspondences
-          between the left and middle image and the right and middle image.
-        </p>
-        <div class="images-container">
-          <div class="image-container">
-            <img
-              src="images/i-house-left-points.png"
-              alt="I House left points"
-              width="100%"
-            />
-            <p class="image-text">Left image points</p>
-          </div>
-          <div class="image-container">
-            <img
-              src="images/i-house-middle-left-points.png"
-              alt="I House middle left points"
-              width="100%"
-            />
-            <p class="image-text">Middle image correspondence points</p>
-          </div>
-          <div class="image-container">
-            <img
-              src="images/i-house-middle-right-points.png"
-              alt="I House middle right points"
-              width="100%"
-            />
-            <p class="image-text">Middle image correspondence points</p>
-          </div>
-          <div class="image-container">
-            <img
-              src="images/i-house-right-points.png"
-              alt="I House right points"
-              width="100%"
-            />
-            <p class="image-text">Right image points</p>
-          </div>
-        </div>
+                <h3>Warping for the Mosaic</h3>
+                <p>
+                    For the mosaicing, I took three photos of I-House
+                    overlapping each other by about 60%. Here I made sure to
+                    keep the camera fixed in one location and rotating it around
+                    its own axis to make the center of projection the same for
+                    all images.
+                </p>
+                <div class="images-container">
+                    <div class="three-width-image-container">
+                        <img
+                            src="images/i-house-left.png"
+                            alt="I House left"
+                            width="100%"
+                        />
+                        <p class="image-text">I House left image</p>
+                    </div>
+                    <div class="three-width-image-container">
+                        <img
+                            src="images/i-house-middle.png"
+                            alt="I House middle"
+                            width="100%"
+                        />
+                        <p class="image-text">I House middle image</p>
+                    </div>
+                    <div class="three-width-image-container">
+                        <img
+                            src="images/i-house-right.png"
+                            alt="I House right"
+                            width="100%"
+                        />
+                        <p class="image-text">I House right image</p>
+                    </div>
+                </div>
+                <p>
+                    Afterward, I manually selected a bunch of points for
+                    correspondences between the left and middle image and the
+                    right and middle image.
+                </p>
+                <div class="images-container">
+                    <div class="image-container">
+                        <img
+                            src="images/i-house-left-points.png"
+                            alt="I House left points"
+                            width="100%"
+                        />
+                        <p class="image-text">Left image points</p>
+                    </div>
+                    <div class="image-container">
+                        <img
+                            src="images/i-house-middle-left-points.png"
+                            alt="I House middle left points"
+                            width="100%"
+                        />
+                        <p class="image-text">
+                            Middle image correspondence points
+                        </p>
+                    </div>
+                    <div class="image-container">
+                        <img
+                            src="images/i-house-middle-right-points.png"
+                            alt="I House middle right points"
+                            width="100%"
+                        />
+                        <p class="image-text">
+                            Middle image correspondence points
+                        </p>
+                    </div>
+                    <div class="image-container">
+                        <img
+                            src="images/i-house-right-points.png"
+                            alt="I House right points"
+                            width="100%"
+                        />
+                        <p class="image-text">Right image points</p>
+                    </div>
+                </div>
 
-        <p>
-          Using the same warping funciton as before, I warped the images into
-          three separate canvases, all with the same dimentions.
-        </p>
-        <div class="images-container">
-          <div class="three-width-image-container">
-            <img
-              src="images/i-house-left-canvas.png"
-              alt="I House left canvas"
-              width="100%"
-            />
-            <p class="image-text">Left image canvas</p>
-          </div>
-          <div class="three-width-image-container">
-            <img
-              src="images/i-house-middle-canvas.png"
-              alt="I House middle canvas"
-              width="100%"
-            />
-            <p class="image-text">Middle image canvas</p>
-          </div>
-          <div class="three-width-image-container">
-            <img
-              src="images/i-house-right-canvas.png"
-              alt="I House right canvas"
-              width="100%"
-            />
-            <p class="image-text">Right image canvas</p>
-          </div>
-        </div>
+                <p>
+                    Using the same warping funciton as before, I warped the
+                    images into three separate canvases, all with the same
+                    dimentions.
+                </p>
+                <div class="images-container">
+                    <div class="three-width-image-container">
+                        <img
+                            src="images/i-house-left-canvas.png"
+                            alt="I House left canvas"
+                            width="100%"
+                        />
+                        <p class="image-text">Left image canvas</p>
+                    </div>
+                    <div class="three-width-image-container">
+                        <img
+                            src="images/i-house-middle-canvas.png"
+                            alt="I House middle canvas"
+                            width="100%"
+                        />
+                        <p class="image-text">Middle image canvas</p>
+                    </div>
+                    <div class="three-width-image-container">
+                        <img
+                            src="images/i-house-right-canvas.png"
+                            alt="I House right canvas"
+                            width="100%"
+                        />
+                        <p class="image-text">Right image canvas</p>
+                    </div>
+                </div>
 
-        <h3>Blending the Images into a Mosaic</h3>
-        <p>
-          To then combine the images onto one canvas and smooth the transitions
-          over them together, I first created an alpha mask for the middle image
-          by setting 1 at the center and gradually decreasing to 0 at the edges
-          by using euclidean distance from the center. I then multiplied this
-          mask with the pixel values of the middle image to ensure a smooth
-          transition between the warped images on the side and the middle image.
-        </p>
+                <h3>Blending the Images into a Mosaic</h3>
+                <p>
+                    To then combine the images onto one canvas and smooth the
+                    transitions over them together, I first created an alpha
+                    mask for the middle image by setting 1 at the center and
+                    gradually decreasing to 0 at the edges by using euclidean
+                    distance from the center. I then multiplied this mask with
+                    the pixel values of the middle image to ensure a smooth
+                    transition between the warped images on the side and the
+                    middle image.
+                </p>
 
-        <div class="images-container">
-          <div class="image-container">
-            <img src="images/alpha-mask.png" alt="Alpha Mask" width="100%" />
-            <p class="image-text">Alpha Mask</p>
-          </div>
-          <div class="image-container">
-            <img
-              src="images/i-house-middle-canvas-alpha-mask.png"
-              alt="Middle Canvas with Alpha Mask"
-              width="100%"
-            />
-            <p class="image-text">Middle Canvas with Alpha Mask</p>
-          </div>
-        </div>
-        <p>
-          I then computed the weighted average of the three images by combining
-          the pixel values from all images, using the total weight map to
-          normalize the pixel intensities. By using this weight map, I got all
-          the pixel values to a weighted average of all the overlapping images.
-          This produced a smooth transition between the overlapping images.
-          After cropping the image to remove the black edges, I got this final
-          blended panorama.
-        </p>
-        <img
-          src="images/i-house-mosaic.png"
-          alt="Blended Panorama"
-          width="100%"
-        />
+                <div class="images-container">
+                    <div class="image-container">
+                        <img
+                            src="images/alpha-mask.png"
+                            alt="Alpha Mask"
+                            width="100%"
+                        />
+                        <p class="image-text">Alpha Mask</p>
+                    </div>
+                    <div class="image-container">
+                        <img
+                            src="images/i-house-middle-canvas-alpha-mask.png"
+                            alt="Middle Canvas with Alpha Mask"
+                            width="100%"
+                        />
+                        <p class="image-text">Middle Canvas with Alpha Mask</p>
+                    </div>
+                </div>
+                <p>
+                    I then computed the weighted average of the three images by
+                    combining the pixel values from all images, using the total
+                    weight map to normalize the pixel intensities. By using this
+                    weight map, I got all the pixel values to a weighted average
+                    of all the overlapping images. This produced a smooth
+                    transition between the overlapping images. After cropping
+                    the image to remove the black edges, I got this final
+                    blended panorama.
+                </p>
+                <img
+                    src="images/i-house-mosaic.png"
+                    alt="Blended Panorama"
+                    width="100%"
+                />
 
-        <p>
-          I then did the exact same procedure for these three images of haas and
-          the street next to it.
-        </p>
+                <p>
+                    I then did the exact same procedure for these three images
+                    of haas and the street next to it.
+                </p>
 
-        <div class="images-container">
-          <div class="three-width-image-container">
-            <img src="images/haas-left.png" alt="Haas left" width="100%" />
-            <p class="image-text">Haas left image</p>
-          </div>
-          <div class="three-width-image-container">
-            <img src="images/haas-middle.png" alt="Haas middle" width="100%" />
-            <p class="image-text">Haas middle image</p>
-          </div>
-          <div class="three-width-image-container">
-            <img src="images/haas-right.png" alt="Haas right" width="100%" />
-            <p class="image-text">Haas right image</p>
-          </div>
-        </div>
-        <img src="images/haas-mosaic.png" alt="Haas Mosaic" width="100%" />
+                <div class="images-container">
+                    <div class="three-width-image-container">
+                        <img
+                            src="images/haas-left.png"
+                            alt="Haas left"
+                            width="100%"
+                        />
+                        <p class="image-text">Haas left image</p>
+                    </div>
+                    <div class="three-width-image-container">
+                        <img
+                            src="images/haas-middle.png"
+                            alt="Haas middle"
+                            width="100%"
+                        />
+                        <p class="image-text">Haas middle image</p>
+                    </div>
+                    <div class="three-width-image-container">
+                        <img
+                            src="images/haas-right.png"
+                            alt="Haas right"
+                            width="100%"
+                        />
+                        <p class="image-text">Haas right image</p>
+                    </div>
+                </div>
+                <img
+                    src="images/haas-mosaic.png"
+                    alt="Haas Mosaic"
+                    width="100%"
+                />
 
-        <div class="images-container">
-          <div class="three-width-image-container">
-            <img src="images/street-left.png" alt="Street left" width="100%" />
-            <p class="image-text">Street left image</p>
-          </div>
-          <div class="three-width-image-container">
-            <img
-              src="images/street-middle.png"
-              alt="Street middle"
-              width="100%"
-            />
-            <p class="image-text">Street middle image</p>
-          </div>
-          <div class="three-width-image-container">
-            <img
-              src="images/street-right.png"
-              alt="Street right"
-              width="100%"
-            />
-            <p class="image-text">Street right image</p>
-          </div>
-        </div>
-        <img src="images/street-mosaic.png" alt="Street Mosaic" width="100%" />
+                <div class="images-container">
+                    <div class="three-width-image-container">
+                        <img
+                            src="images/street-left.png"
+                            alt="Street left"
+                            width="100%"
+                        />
+                        <p class="image-text">Street left image</p>
+                    </div>
+                    <div class="three-width-image-container">
+                        <img
+                            src="images/street-middle.png"
+                            alt="Street middle"
+                            width="100%"
+                        />
+                        <p class="image-text">Street middle image</p>
+                    </div>
+                    <div class="three-width-image-container">
+                        <img
+                            src="images/street-right.png"
+                            alt="Street right"
+                            width="100%"
+                        />
+                        <p class="image-text">Street right image</p>
+                    </div>
+                </div>
+                <img
+                    src="images/street-mosaic.png"
+                    alt="Street Mosaic"
+                    width="100%"
+                />
 
-        <h2>Part B: Feature Matching and Autostitching</h2>
-        <h3>Harris points</h3>
-        <p>
-          To start implementing the autostitching, I used the sample code given
-          in the project to detect the harris interest points. This made me get
-          this result.
-        </p>
-        <img src="images/harris-points.png" alt="Harris Points" width="50%" />
-        <h3>Adaptive Non-Maximal Suppression</h3>
-        <p>
-          As we can see, getting all the harris interest points results in a lot
-          of points. To reduce the number of points, I used the Adaptive
-          Non-Maximal Suppression algorithm to get the interest points that were
-          both spread out and had a high corner response. I did this by first
-          sorting the harris points by their strength. For each point, I then
-          found all points that were stronger than the current point, even after
-          mulitplying by a c_robust factor of 0.9. I stored the distance r_i to
-          the closest point in a list. This process can be described with the
-          following equation:
-        </p>
-        <img
-          src="images/equations/ri_equation.png"
-          alt="Ri Equation"
-          width="50%"
-        />
-        <p>
-          With this list of distances, I sorted it and select the stronger
-          points that were the furthest away from each other. For the amount of
-          points, I selected 500 as in the paper which resulted in the following
-          image.
-        </p>
-        <img src="images/anms-points.png" alt="ANMS Points" width="50%" />
-        <h3>Feature Descriptor extraction</h3>
-        <p>
-          The next step now was to get feature descriptors for the points in
-          each image. To do this, I looped over every 5th pixel around the image
-          in a 36x36 grid (since this will result in the same number of points
-          as a 40x40 grid) to get a 8x8 descriptor for each point. I then
-          normalized it by subtracting the mean and dividing by the standard
-          deviation of the descriptor. This gave me descriptors that looked like
-          this:
-        </p>
-        <div class="images-container">
-          <div class="image-container">
-            <img
-              src="images/descriptor_unnormalized.png"
-              alt="Descriptor 1"
-              width="100%"
-            />
-            <p class="image-text">Descriptor before normalization</p>
-          </div>
-          <div class="image-container">
-            <img src="images/descriptor3.png" alt="Descriptor 3" width="100%" />
-            <p class="image-text">Descriptor after normalization</p>
-          </div>
-        </div>
+                <h2>Part B: Feature Matching and Autostitching</h2>
+                <h3>Harris points</h3>
+                <p>
+                    To start implementing the autostitching, I used the sample
+                    code given in the project to detect the harris interest
+                    points. This made me get this result.
+                </p>
+                <img
+                    src="images/harris-points.png"
+                    alt="Harris Points"
+                    width="50%"
+                />
+                <h3>Adaptive Non-Maximal Suppression</h3>
+                <p>
+                    As we can see, getting all the harris interest points
+                    results in a lot of points. To reduce the number of points,
+                    I used the Adaptive Non-Maximal Suppression algorithm to get
+                    the interest points that were both spread out and had a high
+                    corner response. I did this by first sorting the harris
+                    points by their strength. For each point, I then found all
+                    points that were stronger than the current point, even after
+                    mulitplying by a c_robust factor of 0.9. I stored the
+                    distance r_i to the closest point in a list. This process
+                    can be described with the following equation:
+                </p>
+                <img
+                    src="images/equations/ri_equation.png"
+                    alt="Ri Equation"
+                    width="50%"
+                />
+                <p>
+                    With this list of distances, I sorted it and select the
+                    stronger points that were the furthest away from each other.
+                    For the amount of points, I selected 500 as in the paper
+                    which resulted in the following image.
+                </p>
+                <img
+                    src="images/anms-points.png"
+                    alt="ANMS Points"
+                    width="50%"
+                />
+                <h3>Feature Descriptor extraction</h3>
+                <p>
+                    The next step now was to get feature descriptors for the
+                    points in each image. To do this, I looped over every 5th
+                    pixel around the image in a 36x36 grid (since this will
+                    result in the same number of points as a 40x40 grid) to get
+                    a 8x8 descriptor for each point. I then normalized it by
+                    subtracting the mean and dividing by the standard deviation
+                    of the descriptor. This gave me descriptors that looked like
+                    this:
+                </p>
+                <div class="images-container">
+                    <div class="image-container">
+                        <img
+                            src="images/descriptor_unnormalized.png"
+                            alt="Descriptor 1"
+                            width="100%"
+                        />
+                        <p class="image-text">
+                            Descriptor before normalization
+                        </p>
+                    </div>
+                    <div class="image-container">
+                        <img
+                            src="images/descriptor3.png"
+                            alt="Descriptor 3"
+                            width="100%"
+                        />
+                        <p class="image-text">Descriptor after normalization</p>
+                    </div>
+                </div>
 
-        <img
-          src="images/descriptor_collection.png"
-          alt="Descriptor Collection"
-          width="100%"
-        />
-        <h3>Feature Matching</h3>
-        <p>
-          After getting the descriptors, I then matched the descriptors between
-          the two images by first normalizing the descriptors and then computing
-          the euclidean distance between them. I could then sort the distances
-          so that I had a list of the the descriptors that were the most
-          similar. I then took the two first entries in this list which were the
-          first and second nearest neighbor and kept all the matches that
-          satisfied the Lowe's ratio test. This test was done by taking the
-          ratio of the distance between the first and second nearest neighbor to
-          make sure it was both a good and unique match. This gave me the
-          following matches:
-        </p>
-        <div class="images-container">
-          <div class="image-container">
-            <img
-              src="images/i-house-left-middle-matches.png"
-              alt="I House Left Middle Matches"
-              width="100%"
-            />
-            <p class="image-text">Matches between left and middle image</p>
-          </div>
-          <div class="image-container">
-            <img
-              src="images/i-house-middle-right-matches.png"
-              alt="I House Right Middle Matches"
-              width="100%"
-            />
-            <p class="image-text">Matches between right and middle image</p>
-          </div>
-        </div>
-        <h3>RANSAC</h3>
-        <p>
-          I now had the matches between the images, but as we see on the images
-          above, some of the matches are still off. To fix this, I implemented
-          the RANSAC algorithm to find the inliers in the matches. I did this by
-          first randomly selecting 4 matches and computing the homography matrix
-          between them. I then used this matrix to warp the points from the
-          first image to the second image and checked if the distance between
-          the warped points and the actual points were less than a threshold of
-          1 pixel away from each other. I then counted the amount of inliers and
-          kept the homography matrix that had the most inliers. I then ended up
-          with these inliers:
-        </p>
-        <div class="images-container">
-          <div class="image-container">
-            <img
-              src="images/i-house-left-middle-ransac.png"
-              alt="I House Left Middle RANSAC"
-              width="100%"
-            />
-            <p class="image-text">Inliers between left and middle image</p>
-          </div>
-          <div class="image-container">
-            <img
-              src="images/i-house-middle-right-ransac.png"
-              alt="I House Right Middle RANSAC"
-              width="100%"
-            />
-            <p class="image-text">Inliers between right and middle image</p>
-          </div>
-        </div>
+                <img
+                    src="images/descriptor_collection.png"
+                    alt="Descriptor Collection"
+                    width="100%"
+                />
+                <h3>Feature Matching</h3>
+                <p>
+                    After getting the descriptors, I then matched the
+                    descriptors between the two images by first normalizing the
+                    descriptors and then computing the euclidean distance
+                    between them. I could then sort the distances so that I had
+                    a list of the the descriptors that were the most similar. I
+                    then took the two first entries in this list which were the
+                    first and second nearest neighbor and kept all the matches
+                    that satisfied the Lowe's ratio test. This test was done by
+                    taking the ratio of the distance between the first and
+                    second nearest neighbor to make sure it was both a good and
+                    unique match. This gave me the following matches:
+                </p>
+                <div class="images-container">
+                    <div class="image-container">
+                        <img
+                            src="images/i-house-left-middle-matches.png"
+                            alt="I House Left Middle Matches"
+                            width="100%"
+                        />
+                        <p class="image-text">
+                            Matches between left and middle image
+                        </p>
+                    </div>
+                    <div class="image-container">
+                        <img
+                            src="images/i-house-middle-right-matches.png"
+                            alt="I House Right Middle Matches"
+                            width="100%"
+                        />
+                        <p class="image-text">
+                            Matches between right and middle image
+                        </p>
+                    </div>
+                </div>
+                <h3>RANSAC</h3>
+                <p>
+                    I now had the matches between the images, but as we see on
+                    the images above, some of the matches are still off. To fix
+                    this, I implemented the RANSAC algorithm to find the inliers
+                    in the matches. I did this by first randomly selecting 4
+                    matches and computing the homography matrix between them. I
+                    then used this matrix to warp the points from the first
+                    image to the second image and checked if the distance
+                    between the warped points and the actual points were less
+                    than a threshold of 1 pixel away from each other. I then
+                    counted the amount of inliers and kept the homography matrix
+                    that had the most inliers. I then ended up with these
+                    inliers:
+                </p>
+                <div class="images-container">
+                    <div class="image-container">
+                        <img
+                            src="images/i-house-left-middle-ransac.png"
+                            alt="I House Left Middle RANSAC"
+                            width="100%"
+                        />
+                        <p class="image-text">
+                            Inliers between left and middle image
+                        </p>
+                    </div>
+                    <div class="image-container">
+                        <img
+                            src="images/i-house-middle-right-ransac.png"
+                            alt="I House Right Middle RANSAC"
+                            width="100%"
+                        />
+                        <p class="image-text">
+                            Inliers between right and middle image
+                        </p>
+                    </div>
+                </div>
 
-        <p>
-          With the inliers, I could now warp the images into the final mosaic.
-        </p>
-        <img
-          src="images/i-house-auto-mosaic.png"
-          alt="Auto Mosaic"
-          width="100%"
-        />
-        <div class="images-container">
-          <div class="image-container">
-            <img
-              src="images/i-house-auto-mosaic.png"
-              alt="Auto Mosaic"
-              width="100%"
-            />
-            <p class="image-text">Autostitched</p>
-          </div>
-          <div class="image-container">
-            <img
-              src="images/i-house-mosaic.png"
-              alt="Manual Mosaic"
-              width="100%"
-            />
-            <p class="image-text">Manually stitched</p>
-          </div>
-        </div>
+                <p>
+                    With the inliers, I could now warp the images into the final
+                    mosaic.
+                </p>
+                <img
+                    src="images/i-house-auto-mosaic.png"
+                    alt="Auto Mosaic"
+                    width="100%"
+                />
+                <div class="images-container">
+                    <div class="image-container">
+                        <img
+                            src="images/i-house-auto-mosaic.png"
+                            alt="Auto Mosaic"
+                            width="100%"
+                        />
+                        <p class="image-text">Autostitched</p>
+                    </div>
+                    <div class="image-container">
+                        <img
+                            src="images/i-house-mosaic.png"
+                            alt="Manual Mosaic"
+                            width="100%"
+                        />
+                        <p class="image-text">Manually stitched</p>
+                    </div>
+                </div>
 
-        <div class="images-container">
-          <div class="image-container">
-            <img
-              src="images/haas-auto-mosaic.png"
-              alt="Haas Auto Mosaic"
-              width="100%"
-            />
-            <p class="image-text">Haas Autostitched</p>
-          </div>
-          <div class="image-container">
-            <img
-              src="images/haas-mosaic.png"
-              alt="Haas Manual Mosaic"
-              width="100%"
-            />
-            <p class="image-text">Haas Manually stitched</p>
-          </div>
-        </div>
+                <div class="images-container">
+                    <div class="image-container">
+                        <img
+                            src="images/haas-auto-mosaic.png"
+                            alt="Haas Auto Mosaic"
+                            width="100%"
+                        />
+                        <p class="image-text">Haas Autostitched</p>
+                    </div>
+                    <div class="image-container">
+                        <img
+                            src="images/haas-mosaic.png"
+                            alt="Haas Manual Mosaic"
+                            width="100%"
+                        />
+                        <p class="image-text">Haas Manually stitched</p>
+                    </div>
+                </div>
 
-        <div class="images-container">
-          <div class="image-container">
-            <img
-              src="images/street-auto-mosaic.png"
-              alt="Street Auto Mosaic"
-              width="100%"
-            />
-            <p class="image-text">Street Autostitched</p>
-          </div>
-          <div class="image-container">
-            <img
-              src="images/street-mosaic.png"
-              alt="Street Manual Mosaic"
-              width="100%"
-            />
-            <p class="image-text">Street Manually stitched</p>
-          </div>
-        </div>
-      </section>
-    </main>
-  </body>
+                <div class="images-container">
+                    <div class="image-container">
+                        <img
+                            src="images/street-auto-mosaic.png"
+                            alt="Street Auto Mosaic"
+                            width="100%"
+                        />
+                        <p class="image-text">Street Autostitched</p>
+                    </div>
+                    <div class="image-container">
+                        <img
+                            src="images/street-mosaic.png"
+                            alt="Street Manual Mosaic"
+                            width="100%"
+                        />
+                        <p class="image-text">Street Manually stitched</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+        <button id="back-to-top">↑</button>
+        <script>
+            window.addEventListener("scroll", () => {
+                const scrollTop = window.scrollY;
+                const docHeight =
+                    document.documentElement.scrollHeight - window.innerHeight;
+                const scrollPercent = (scrollTop / docHeight) * 100;
+                document.getElementById("progress-bar").style.width =
+                    scrollPercent + "%";
+            });
+
+            const btn = document.getElementById("back-to-top");
+
+            window.addEventListener("scroll", () => {
+                if (window.scrollY > 300) {
+                    btn.classList.add("show");
+                } else {
+                    btn.classList.remove("show");
+                }
+            });
+
+            btn.addEventListener("click", () => {
+                window.scrollTo({ top: 0, behavior: "smooth" });
+            });
+        </script>
+    </body>
 </html>
