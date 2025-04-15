@@ -109,4 +109,14 @@ document.addEventListener("DOMContentLoaded", () => {
             // For now, let scroll handle visibility.
         }
     }, 100);
+
+    const scrollToTopButton = document.getElementById("back-to-top-button");
+    if (scrollToTopButton) {
+        scrollToTopButton.addEventListener("click", () => {
+            timelineContainer.scrollTo({
+                top: 0,
+                behavior: "smooth",
+            });
+        });
+    }
 });

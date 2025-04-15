@@ -159,3 +159,50 @@ body {
 .university-section:first-child h3 {
     margin-top: 10px;
 }
+
+.timeline-container {
+    width: 100%;
+    justify-content: center;
+    display: flex;
+    padding-bottom: 20px;
+}
+
+/* Timeline Button Styles */
+.timeline-button {
+    display: inline-flex; /* Align icon and text nicely on the same line */
+    align-items: center; /* Vertically center icon and text */
+    gap: 8px; /* Space between icon and text */
+    padding: 10px 18px; /* Adjust padding for desired size */
+    background-color: #007bff; /* Dark background */
+    color: #fff; /* White text/icon */
+    border: none;
+    border-radius: 5px;
+    text-decoration: none; /* Remove default link underline */
+    font-weight: 500;
+    font-size: 0.95em;
+    font-family: inherit; /* Use the same font as the body */
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out, transform 0.1s ease;
+    white-space: nowrap; /* Prevent text wrapping */
+}
+
+.timeline-button .timeline-icon {
+    width: 28px; /* Adjust icon width */
+    height: auto; /* Maintain aspect ratio based on width */
+    vertical-align: middle; /* Helps ensure alignment */
+    /* Icon color is inherited via 'currentColor' in SVG */
+}
+
+.timeline-button:hover {
+    background-color: #0062ca; /* Slightly lighter on hover */
+}
+
+.timeline-button:active {
+    transform: scale(0.98); /* Subtle press effect */
+}
+
+/* Optional: Style for focus state (accessibility) */
+.timeline-button:focus-visible {
+    outline: 2px solid #007bff; /* Example blue outline */
+    outline-offset: 2px;
+}

@@ -102,18 +102,13 @@ body {
 .timeline-image {
     flex: 1 1 45%;
     max-width: 50%;
+    max-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
     font-size: 1.2rem;
     border-radius: 8px;
     overflow: hidden;
-}
-
-.timeline-image img {
-    width: 100%;
-    object-fit: cover;
-    display: block;
 }
 
 .timeline-content {
@@ -181,12 +176,10 @@ body {
     font-size: clamp(1.1rem, 2.5vw, 1.4rem);
     margin-bottom: 30px;
 }
-.end-slide h2 {
-    color: #fff;
-    font-size: clamp(2rem, 5vw, 3.5rem);
-}
-.end-slide p {
-    font-size: clamp(1rem, 2vw, 1.2rem);
+
+.end-slide h1 {
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    margin-bottom: 20px;
 }
 
 .centered-content {
@@ -203,6 +196,17 @@ body {
     opacity: 0.7;
 }
 
+#back-to-top-button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    margin-top: 40px;
+    padding: 10px 15px;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
 @media (max-width: 768px) {
     #timeline-line {
         left: 15px;
@@ -214,7 +218,7 @@ body {
         height: 12px;
     }
     #timeline-year {
-        left: 35px; /* Adjust year position */
+        left: 35px;
         font-size: 0.8rem;
         padding: 4px 8px;
     }
@@ -224,34 +228,25 @@ body {
         flex-direction: column;
         min-height: 100vh;
         padding: 8vh 5vw;
-        padding-left: calc(
-            15px + 12px + 30px
-        ); /* Ensure content clears indicators */
+        padding-left: calc(15px + 12px + 30px);
         gap: 20px;
         text-align: center;
     }
 
     .timeline-image {
+        width: 100%;
+        max-width: 100%;
+
         flex-basis: auto;
-        width: 80%;
-        height: auto;
-        max-width: 90%;
         margin-bottom: 20px;
+        border-radius: 8px; /* Keep if you like rounded image containers */
+        overflow: hidden; /* Keep if you like rounded image containers */
     }
 
     .timeline-content {
-        flex-basis: auto;
         width: 100%;
         max-width: 90%;
         text-align: center;
         padding: 0;
-    }
-
-    .timeline-content h2 {
-        font-size: clamp(1.6rem, 5vw, 2.2rem);
-    }
-
-    .timeline-content p {
-        font-size: clamp(0.9rem, 2.5vw, 1rem);
     }
 }
