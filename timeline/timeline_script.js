@@ -14,15 +14,14 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
     }
 
-    const dotHeight = timelineDot.offsetHeight; // Get dot height for offset calculation
+    const dotHeight = timelineDot.offsetHeight;
     const halfDotHeight = dotHeight / 2;
     let indicatorsVisible = false;
 
-    // --- Intersection Observer for Year Text Update ---
     const observerOptions = {
-        root: timelineContainer, // Observe within the scrolling container
-        rootMargin: "-40% 0px -60% 0px", // Trigger near the vertical center
-        threshold: 0, // Trigger as soon as any part enters the margin
+        root: timelineContainer,
+        rootMargin: "-40% 0px -60% 0px",
+        threshold: 0,
     };
 
     const observerCallback = (entries, observer) => {
@@ -45,36 +44,31 @@ document.addEventListener("DOMContentLoaded", () => {
         observer.observe(item);
     });
 
-    // --- Scroll Listener for Dot/Year Position ---
     const handleScroll = () => {
-        const containerHeight = timelineContainer.offsetHeight; // Viewport height effectively
+        const containerHeight = timelineContainer.offsetHeight;
         const scrollableHeight =
             timelineContainer.scrollHeight - containerHeight;
         const scrollTop = timelineContainer.scrollTop;
 
         if (scrollableHeight <= 0) {
-            // No scrolling needed, position at middle or top? Let's default to top.
             timelineDot.style.top = `${halfDotHeight}px`;
             timelineYear.style.top = `${halfDotHeight}px`;
             return;
         }
 
-        const scrollPercent = scrollTop / scrollableHeight; // Value between 0 and 1
+        const scrollPercent = scrollTop / scrollableHeight;
 
-        // Calculate the available travel distance for the dot's center
         const travelDistance = containerHeight - dotHeight;
-        // Calculate the dot's top offset
+
         const dotTopOffset = scrollPercent * travelDistance;
 
-        // Position the top of the dot
         const dotTop = dotTopOffset;
-        // Position the year display (aligned with dot's center)
+
         const yearTop = dotTopOffset + halfDotHeight;
 
         timelineDot.style.top = `${dotTop}px`;
         timelineYear.style.top = `${yearTop}px`;
 
-        // Make indicators visible on first scroll
         if (!indicatorsVisible) {
             timelineDot.classList.add("visible");
             timelineYear.classList.add("visible");
@@ -84,29 +78,24 @@ document.addEventListener("DOMContentLoaded", () => {
 
     timelineContainer.addEventListener("scroll", handleScroll);
 
-    // Initial call to position correctly on load if not scrolled to top
     handleScroll();
-    // Also trigger observer check manually in case first item is already "intersecting"
-    // but observer hasn't fired yet. A small delay helps.
+
     setTimeout(() => {
         const firstVisible = Array.from(timelineItems).find((item) => {
             const rect = item.getBoundingClientRect();
-            return rect.top >= 0 && rect.top <= window.innerHeight * 0.6; // Check if roughly visible
+            return rect.top >= 0 && rect.top <= window.innerHeight * 0.6;
         });
         if (firstVisible) {
             const year = firstVisible.getAttribute("data-year");
             if (year) {
                 timelineYear.textContent = year;
                 if (!indicatorsVisible) {
-                    // Only make visible if scroll hasn't already
                     timelineDot.classList.add("visible");
                     timelineYear.classList.add("visible");
                     indicatorsVisible = true;
                 }
             }
         } else if (!indicatorsVisible) {
-            // If still nothing visible (e.g. empty timeline), maybe hide? Or show default?
-            // For now, let scroll handle visibility.
         }
     }, 100);
 

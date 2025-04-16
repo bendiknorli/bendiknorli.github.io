@@ -9,8 +9,7 @@ html {
 }
 
 body {
-    font-family: "Lato", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-        Helvetica, Arial, sans-serif;
+    font-family: "Lato", Roboto, sans-serif;
     background-color: #f8f8f8;
     color: #333;
     line-height: 1.6;
@@ -30,26 +29,22 @@ body {
 #timeline-dot {
     position: fixed;
     left: calc(30px + 1.5px - 7.5px);
-    top: 0; /* Start at the top, JS controls position */
+    top: 0;
     width: 15px;
     height: 15px;
     background-color: #007bff;
     border-radius: 50%;
     z-index: 10;
-    /* Removed transform: translateY(-50%) initially */
-    /* Let JS handle exact positioning */
-    /* transition: top 0.1s linear; /* Faster, more direct tracking */
+
     opacity: 0;
     pointer-events: none;
 }
 
 #timeline-year {
     position: fixed;
-    left: 55px; /* Position next to the dot */
-    top: 0; /* Start at the top, JS controls position */
-    transform: translateY(
-        -50%
-    ); /* Keep vertically centered relative to its 'top' */
+    left: 55px;
+    top: 0;
+    transform: translateY(-50%);
     background-color: rgba(255, 255, 255, 0.85);
     color: #333;
     padding: 5px 10px;
@@ -57,7 +52,7 @@ body {
     font-size: 0.9rem;
     font-weight: 700;
     z-index: 10;
-    /* transition: top 0.1s linear; */
+
     opacity: 0;
     pointer-events: none;
     white-space: nowrap;
@@ -83,8 +78,8 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    /* Adjust padding-left to clear year indicator */
-    padding: 5vh calc(30px + 15px + 70px) 5vh 12vw; /* Left padding calculation might need tweaking */
+
+    padding: 5vh calc(30px + 15px + 70px) 5vh 12vw;
     padding-right: 4vw;
     background-color: #ffffff;
     border-bottom: 1px solid #eee;
@@ -94,7 +89,6 @@ body {
 
 .timeline-item.alt-layout {
     flex-direction: row-reverse;
-    /* Adjust padding for alt layout */
     padding-left: 8vw;
     padding-right: calc(30px + 15px + 70px);
 }
@@ -239,8 +233,8 @@ body {
 
         flex-basis: auto;
         margin-bottom: 20px;
-        border-radius: 8px; /* Keep if you like rounded image containers */
-        overflow: hidden; /* Keep if you like rounded image containers */
+        border-radius: 8px;
+        overflow: hidden;
     }
 
     .timeline-content {
