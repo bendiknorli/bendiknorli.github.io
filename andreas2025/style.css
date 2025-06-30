@@ -85,6 +85,18 @@ section {
 #image8 {
     background-image: url("./images/scammer.jpeg");
 }
+#image9 {
+    background-image: url("./images/vulcano.jpeg");
+}
+#image10 {
+    background-image: url("./images/moreton.jpeg");
+}
+#image11 {
+    background-image: url("./images/car.jpeg");
+}
+#image12 {
+    background-image: url("./images/bus.jpeg");
+}
 
 /* A fallback color in case images don't load */
 .image-section {
