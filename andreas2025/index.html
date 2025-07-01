@@ -135,4 +135,87 @@
             ></video>
         </section>
     </body>
+    <!-- REPLACE YOUR OLD SCRIPT WITH THIS NEW ONE -->
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const sections = document.querySelectorAll("section");
+            let currentSectionIndex = 0;
+            let isScrolling = false; // Our new, more robust lock
+
+            // This is the delay between scrolls. 1200ms (1.2s) is a very safe value.
+            // It needs to be longer than the smooth scroll animation time.
+            const scrollCooldown = 1200;
+
+            // This function ONLY handles the scrolling action and updating the index.
+            function scrollToSection(index) {
+                sections[index].scrollIntoView({ behavior: "smooth" });
+                currentSectionIndex = index;
+            }
+
+            // This is our new "master" function that decides if we should scroll.
+            function handleScrollAttempt(direction) {
+                // If a scroll is already in progress, ignore this new attempt completely.
+                if (isScrolling) {
+                    return;
+                }
+
+                const newIndex = currentSectionIndex + direction;
+
+                // Check if the target section is valid (not before the first or after the last)
+                if (newIndex >= 0 && newIndex < sections.length) {
+                    // 1. Lock scrolling immediately
+                    isScrolling = true;
+
+                    // 2. Perform the scroll
+                    scrollToSection(newIndex);
+
+                    // 3. Set a timer to unlock scrolling after the cooldown period
+                    setTimeout(() => {
+                        isScrolling = false;
+                    }, scrollCooldown);
+                }
+            }
+
+            // --- Event Listeners ---
+
+            // Listener for Mouse Wheel and Trackpad
+            window.addEventListener(
+                "wheel",
+                (event) => {
+                    // Prevent the browser's default scroll action
+                    event.preventDefault();
+                    const direction = event.deltaY > 0 ? 1 : -1; // 1 for down, -1 for up
+                    handleScrollAttempt(direction);
+                },
+                { passive: false }
+            ); // `passive: false` is required for preventDefault() to work
+
+            // Listeners for Mobile Touch Swipes
+            let touchstartY = 0;
+
+            window.addEventListener(
+                "touchstart",
+                (event) => {
+                    touchstartY = event.changedTouches[0].screenY;
+                },
+                { passive: false }
+            );
+
+            window.addEventListener(
+                "touchend",
+                (event) => {
+                    event.preventDefault();
+                    const touchendY = event.changedTouches[0].screenY;
+                    const swipeDistance = touchendY - touchstartY;
+
+                    // We only care about significant swipes, not accidental taps
+                    if (Math.abs(swipeDistance) > 50) {
+                        const direction = swipeDistance < 0 ? 1 : -1; // Swipe up = scroll down (1)
+                        handleScrollAttempt(direction);
+                    }
+                },
+                { passive: false }
+            );
+        });
+    </script>
 </html>
