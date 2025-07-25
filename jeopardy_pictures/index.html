@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Bendik Norli - CS180 Project 1</title>
+        <link rel="stylesheet" href="../styles.css" />
+    </head>
+    <body>
+        <main>
+            <img src="./india.png" alt="India" width="100%" />
+            <img src="./japan.png" alt="Japan" width="100%" />
+            <img src="./singapore.png" alt="Singapore" width="100%" />
+            <img src="./thailand.png" alt="Thailand" width="100%" />
+            <img src="./malaysia.png" alt="Malaysia" width="100%" />
+        </main>
+        <button id="back-to-top">↑</button>
+        <script>
+            window.addEventListener("scroll", () => {
+                const scrollTop = window.scrollY;
+                const docHeight =
+                    document.documentElement.scrollHeight - window.innerHeight;
+                const scrollPercent = (scrollTop / docHeight) * 100;
+                document.getElementById("progress-bar").style.width =
+                    scrollPercent + "%";
+            });
+
+            const btn = document.getElementById("back-to-top");
+
+            window.addEventListener("scroll", () => {
+                if (window.scrollY > 300) {
+                    btn.classList.add("show");
+                } else {
+                    btn.classList.remove("show");
+                }
+            });
+
+            btn.addEventListener("click", () => {
+                window.scrollTo({ top: 0, behavior: "smooth" });
+            });
+        </script>
+    </body>
+</html>
