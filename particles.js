@@ -31,18 +31,19 @@ window.addEventListener('resize', function() {
         const newWidth = window.innerWidth;
         const newHeight = window.innerHeight;
         
-        // Only reinitialize if width changed significantly (>50px) 
-        // or height changed significantly (>100px to account for mobile browser UI)
+        // Only update canvas and reinitialize if width or height changed significantly
         const widthDiff = Math.abs(newWidth - lastWidth);
         const heightDiff = Math.abs(newHeight - lastHeight);
         
-        if (widthDiff > 50 || heightDiff > 300) {
+        if (widthDiff > 50 || heightDiff > 200) {
+            // Update canvas dimensions and respawn particles
             canvas.width = newWidth;
             canvas.height = newHeight;
             lastWidth = newWidth;
             lastHeight = newHeight;
             init();
         }
+        // If below threshold, ignore the resize completely
     }, 150); // Debounce for 150ms
 });
 
