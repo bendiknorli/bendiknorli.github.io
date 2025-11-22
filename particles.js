@@ -14,8 +14,9 @@ const mouse = {
 }
 
 window.addEventListener('mousemove', function(event) {
-    mouse.x = event.x;
-    mouse.y = event.y;
+    const rect = canvas.getBoundingClientRect();
+    mouse.x = event.clientX - rect.left;
+    mouse.y = event.clientY - rect.top;
 });
 
 window.addEventListener('resize', function() {

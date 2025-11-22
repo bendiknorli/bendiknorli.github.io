@@ -3,7 +3,61 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Bendik Norli - Portfolio</title>
+        
+        <!-- Primary Meta Tags -->
+        <title>Bendik Norli - Computer Science Student & Developer Portfolio</title>
+        <meta name="title" content="Bendik Norli - Computer Science Student & Developer Portfolio" />
+        <meta name="description" content="Bendik Norli is a Computer Science student at NTNU specializing in AI and machine learning. Explore my portfolio featuring projects from UC Berkeley, University of Queensland, and professional experience at Norges Bank Investment Management." />
+        <meta name="keywords" content="Bendik Norli, Computer Science, NTNU, AI, Machine Learning, UC Berkeley, Developer, Portfolio, Software Engineer, Norway" />
+        <meta name="author" content="Bendik Norli" />
+        <meta name="robots" content="index, follow" />
+        <link rel="canonical" href="https://bendiknorli.github.io/" />
+        
+        <!-- Open Graph / Facebook -->
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://bendiknorli.github.io/" />
+        <meta property="og:title" content="Bendik Norli - Computer Science Student & Developer Portfolio" />
+        <meta property="og:description" content="Computer Science student at NTNU specializing in AI and machine learning. View my projects and professional experience." />
+        <meta property="og:image" content="https://bendiknorli.github.io/profile_picture.jpeg" />
+        
+        <!-- Twitter -->
+        <meta property="twitter:card" content="summary_large_image" />
+        <meta property="twitter:url" content="https://bendiknorli.github.io/" />
+        <meta property="twitter:title" content="Bendik Norli - Computer Science Student & Developer Portfolio" />
+        <meta property="twitter:description" content="Computer Science student at NTNU specializing in AI and machine learning. View my projects and professional experience." />
+        <meta property="twitter:image" content="https://bendiknorli.github.io/profile_picture.jpeg" />
+        
+        <!-- Structured Data (JSON-LD) -->
+        <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "Person",
+          "name": "Bendik Norli",
+          "url": "https://bendiknorli.github.io/",
+          "image": "https://bendiknorli.github.io/profile_picture.jpeg",
+          "jobTitle": "Computer Science Student",
+          "worksFor": {
+            "@type": "Organization",
+            "name": "NTNU"
+          },
+          "alumniOf": [
+            {
+              "@type": "Organization",
+              "name": "UC Berkeley"
+            },
+            {
+              "@type": "Organization",
+              "name": "University of Queensland"
+            }
+          ],
+          "sameAs": [
+            "https://www.linkedin.com/in/bendik-norli/",
+            "https://github.com/bendiknorli"
+          ],
+          "description": "Computer Science student at NTNU specializing in AI and machine learning with experience at Norges Bank Investment Management, Kongsberg Defence & Aerospace, and various tech organizations."
+        }
+        </script>
+        
         <link rel="stylesheet" href="main_styles.css" />
     </head>
     <body>
@@ -24,54 +78,238 @@
 
         <div class="container" id="content">
             <header class="header fade-in-section">
-                <img
-                    src="profile_picture.jpeg"
-                    alt="Bendik Norli"
-                    class="profile-photo-placeholder"
-                />
-                <h1>Projects</h1>
-                <p>Here are some of my projects!</p>
+                <div class="header-content">
+                    <img
+                        src="profile_picture.jpeg"
+                        alt="Bendik Norli"
+                        class="profile-photo"
+                    />
+                    <div class="header-text">
+                        <p>
+                            Hey! My name is Bendik and I'm a CS student at NTNU.
+                            This website shows a bit of what I've been up to
+                            over the last few years.
+                        </p>
+                    </div>
+                </div>
             </header>
 
             <main>
-                <div class="timeline-container fade-in-section">
-                    <a href="./timeline/timeline.html" class="timeline-button">
-                        <svg
-                            class="timeline-icon"
-                            viewBox="0 0 100 15"
-                            xmlns="http://www.w3.org/2000/svg"
-                            aria-hidden="true"
-                            focusable="false"
-                        >
-                            <line
-                                x1="5"
-                                y1="7.5"
-                                x2="95"
-                                y2="7.5"
-                                stroke="currentColor"
-                                stroke-width="3"
-                            />
-                            <circle
-                                cx="10"
-                                cy="7.5"
-                                r="8"
-                                fill="currentColor"
-                            />
-                            <circle
-                                cx="50"
-                                cy="7.5"
-                                r="8"
-                                fill="currentColor"
-                            />
-                            <circle
-                                cx="90"
-                                cy="7.5"
-                                r="8"
-                                fill="currentColor"
-                            />
-                        </svg>
-                        <span>Timeline</span>
-                    </a>
+                <div id="timeline-section">
+                    <div id="timeline-line"></div>
+                    <div id="timeline-dot"></div>
+                    <div id="timeline-year"></div>
+
+                    <section class="timeline-item alt-layout fade-in-section" data-year="2025">
+                        <div class="timeline-content">
+                            <h2>ReLU NTNU</h2>
+                            <p class="timeline-date">August 2025 - Present</p>
+                            <p class="timeline-role">Head of Knowledge</p>
+                            <p>
+                                Teaching technology students from bachelor to PhD level
+                                about AI and machine learning by holding lectures and
+                                workshops about transformers, diffusion models, etc.
+                                <a
+                                    href="https://www.reluntnu.no/"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    >View the organization here</a
+                                >.
+                            </p>
+                        </div>
+                        <img src="./timeline/relu.png" alt="ReLU" class="timeline-image" />
+                    </section>
+
+                    <section class="timeline-item fade-in-section" data-year="2025">
+                        <div class="timeline-content">
+                            <h2>Norges Bank Investment Management</h2>
+                            <p class="timeline-date">June 2025 - August 2025</p>
+                            <p class="timeline-role">
+                                Summer Intern - Technology and Operations
+                            </p>
+                            <p>
+                                Developed an internal dashboard, aggregating and
+                                transforming data to show the most important market
+                                trends, informing portfolio managers about the best
+                                investment opportunities.
+                                <a
+                                    href="https://www.sb.no/fra-sandefjord-til-oljefondet-vi-har-reell-pavirkning/s/5-73-2028268"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    >Read my news article from the summer here</a
+                                >.
+                            </p>
+                        </div>
+                        <img
+                            src="./timeline/oljefondet.png"
+                            alt="Nicolai Tangen"
+                            class="timeline-image"
+                        />
+                    </section>
+
+                    <section class="timeline-item alt-layout fade-in-section" data-year="2025">
+                        <div class="timeline-content">
+                            <h2>University of Queensland</h2>
+                            <p class="timeline-date">February 2025 - June 2025</p>
+                            <p class="timeline-role">
+                                Graduate Student in Computer Science
+                            </p>
+                            <p>
+                                Exchange semester focusing on computer vision,
+                                entrepreneurship and exploring Australia.
+                            </p>
+                        </div>
+                        <img src="./timeline/uq.png" alt="UQ Logo" class="timeline-image" />
+                    </section>
+
+                    <section class="timeline-item fade-in-section" data-year="2024">
+                        <div class="timeline-content">
+                            <h2>University of California, Berkeley</h2>
+                            <p class="timeline-date">August 2024 - December 2024</p>
+                            <p class="timeline-role">
+                                Graduate Student in Computer Science
+                            </p>
+                            <p>
+                                Exchange semester focusing on graduate-level Computer
+                                Science coursework, continuing specialization in
+                                Artificial Intelligence.
+                            </p>
+                        </div>
+                        <img
+                            src="./timeline/berkeley.png"
+                            alt="UC Berkeley Logo"
+                            class="timeline-image"
+                        />
+                    </section>
+
+                    <section class="timeline-item alt-layout fade-in-section" data-year="2024">
+                        <div class="timeline-content">
+                            <h2>Kongsberg Defence & Aerospace</h2>
+                            <p class="timeline-date">June 2024 - August 2024</p>
+                            <p class="timeline-role">
+                                Summer Intern - Simulator Developer
+                            </p>
+                            <p>
+                                Developed and refactored an in-house Unity simulator for
+                                rapid software testing, improving scalability and
+                                maintainability. Also worked on an autonomous ATV
+                                project.
+                            </p>
+                        </div>
+                        <img
+                            src="./timeline/kongsberg.png"
+                            alt="Kongsberg Logo"
+                            class="timeline-image"
+                        />
+                    </section>
+
+                    <section class="timeline-item fade-in-section" data-year="2023">
+                        <div class="timeline-content">
+                            <h2>Pango Consulting</h2>
+                            <p class="timeline-date">November 2023 - February 2024</p>
+                            <p class="timeline-role">Course Instructor</p>
+                            <p>
+                                Teaching high school teachers Unity game engine so they
+                                can teach their students programming. Planning,
+                                presenting and developing a game together with high
+                                school teachers.
+                            </p>
+                        </div>
+                        <img src="./timeline/pango.png" alt="Pango" class="timeline-image" />
+                    </section>
+
+                    <section class="timeline-item alt-layout fade-in-section" data-year="2023">
+                        <div class="timeline-content">
+                            <h2>House of Math</h2>
+                            <p class="timeline-date">June 2023 - August 2023</p>
+                            <p class="timeline-role">Summer Intern - Game Developer</p>
+                            <p>
+                                Developed "Wind Surfer" an educational JavaScript game
+                                teaching division. Involved in game design, programming,
+                                integration, user testing, and scrum processes.
+                                <a
+                                    href="https://www.houseofmath.com/no/games/windsurfer"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    >View the game here</a
+                                >.
+                            </p>
+                        </div>
+                        <img
+                            src="./timeline/windsurfer.png"
+                            alt="House of Math Logo"
+                            class="timeline-image"
+                        />
+                    </section>
+
+                    <section class="timeline-item fade-in-section" data-year="2022">
+                        <div class="timeline-content">
+                            <h2>Ascend NTNU</h2>
+                            <p class="timeline-date">August 2022 - August 2024</p>
+                            <p class="timeline-role">Deputy Leader & Autonomy Member</p>
+                            <p>
+                                Managing and supporting the board of the organization.
+                                HR-responsible and previous simulator developer. Winning
+                                IARC Mission 9, becoming world champions in drone
+                                technology.
+                                <a
+                                    href="https://www.ascendntnu.no/"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    >View the organization here</a
+                                >.
+                            </p>
+                        </div>
+                        <img
+                            src="./timeline/ascend.png"
+                            alt="Ascend Logo"
+                            class="timeline-image"
+                        />
+                    </section>
+
+                    <section class="timeline-item alt-layout fade-in-section" data-year="2022">
+                        <div class="timeline-content">
+                            <h2>Orakeltjenesten NTNU</h2>
+                            <p class="timeline-date">February 2022 - Present</p>
+                            <p class="timeline-role">Student Oracle, IT Department</p>
+                            <p>
+                                Providing IT support to students, developing internal
+                                web tools for employees, and troubleshooting software
+                                issues (VPN, 2FA, etc.).
+                            </p>
+                        </div>
+                        <img
+                            src="./timeline/orakeltjenesten.png"
+                            alt="Orakeltjenesten Logo"
+                            class="timeline-image"
+                        />
+                    </section>
+
+                    <section class="timeline-item fade-in-section" data-year="2018">
+                        <div class="timeline-content">
+                            <h2>Side Project: Elementalist</h2>
+                            <p class="timeline-date">2018 - 2022</p>
+                            <p class="timeline-role">
+                                Game Designer, Artist, Composer, Programmer
+                            </p>
+                            <p>
+                                Designed, drew, composed music for, and programmed a
+                                level-based 2D combat game from scratch using C# and the
+                                Unity game engine.
+                                <a
+                                    href="https://bendiknorli.itch.io/elementalist"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    >View the game on itch.io</a
+                                >.
+                            </p>
+                        </div>
+                        <img
+                            src="./timeline/elementalist.png"
+                            alt="Elementalist Logo"
+                            class="timeline-image"
+                        />
+                    </section>
                 </div>
 
                 <section class="projects">
@@ -110,6 +348,18 @@
             </main>
 
             <footer class="footer fade-in-section">
+                <div class="social-links">
+                    <a href="https://www.linkedin.com/in/bendik-norli/" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="LinkedIn">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+                        </svg>
+                    </a>
+                    <a href="https://github.com/bendiknorli" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="GitHub">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                        </svg>
+                    </a>
+                </div>
                 <p>Portfolio Made by Bendik Norli</p>
             </footer>
         </div>
@@ -164,6 +414,82 @@
             document.querySelectorAll('.fade-in-section').forEach(section => {
                 observer.observe(section);
             });
+
+            // Timeline Logic
+            const timelineSection = document.getElementById('timeline-section');
+            const timelineDot = document.getElementById('timeline-dot');
+            const timelineYear = document.getElementById('timeline-year');
+            const timelineItems = document.querySelectorAll('.timeline-item');
+
+            if (timelineSection && timelineDot && timelineYear) {
+                const updateTimeline = () => {
+                    const rect = timelineSection.getBoundingClientRect();
+                    const viewportHeight = window.innerHeight;
+                    const sectionHeight = rect.height;
+                    
+                    // Calculate scroll progress through the section
+                    // Start when section top hits viewport top (or slightly before)
+                    // End when section bottom hits viewport bottom
+                    const startOffset = viewportHeight * 0.2; // Start moving dot when section is 20% up
+                    const endOffset = viewportHeight * 0.2;
+                    
+                    const scrollDist = -rect.top + startOffset;
+                    const scrollableDist = sectionHeight - viewportHeight + startOffset + endOffset;
+                    
+                    let progress = scrollDist / scrollableDist;
+                    
+                    // Clamp progress
+                    if (progress < 0) progress = 0;
+                    if (progress > 1) progress = 1;
+
+                    // Show/Hide logic
+                    if (rect.top < viewportHeight && rect.bottom > 0) {
+                        timelineDot.classList.add('visible');
+                        timelineYear.classList.add('visible');
+                    } else {
+                        timelineDot.classList.remove('visible');
+                        timelineYear.classList.remove('visible');
+                    }
+
+                    // Move dot
+                    const maxDotTop = viewportHeight - 50; // Bottom padding
+                    const minDotTop = 50; // Top padding
+                    let dotY = minDotTop + (progress * (maxDotTop - minDotTop));
+                    
+                    // Clamp dot to timeline bounds to ensure it stays on the line
+                    // The line is within the section, so we clamp to section top/bottom
+                    const dotHeight = 15; 
+                    const buffer = 0; 
+                    
+                    // Prevent dot from going above the start of the timeline
+                    if (dotY < rect.top + buffer) {
+                        dotY = rect.top + buffer;
+                    }
+                    
+                    // Prevent dot from going below the end of the timeline
+                    if (dotY > rect.bottom - dotHeight - buffer) {
+                        dotY = rect.bottom - dotHeight - buffer;
+                    }
+                    
+                    timelineDot.style.top = `${dotY}px`;
+                    timelineYear.style.top = `${dotY}px`;
+                };
+
+                window.addEventListener('scroll', updateTimeline);
+                window.addEventListener('resize', updateTimeline);
+                
+                // Year Observer
+                const yearObserver = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            const year = entry.target.getAttribute('data-year');
+                            if (year) timelineYear.textContent = year;
+                        }
+                    });
+                }, { rootMargin: '-45% 0px -45% 0px' }); // Trigger when item is in middle 10% of screen
+
+                timelineItems.forEach(item => yearObserver.observe(item));
+            }
         </script>
         <script src="particles.js"></script>
     </body>
