@@ -19,10 +19,31 @@ window.addEventListener('mousemove', function(event) {
     mouse.y = event.clientY - rect.top;
 });
 
+// Prevent particle respawn on mobile scroll (when browser UI hides/shows)
+let resizeTimeout;
+let lastWidth = window.innerWidth;
+let lastHeight = window.innerHeight;
+
 window.addEventListener('resize', function() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-    init();
+    clearTimeout(resizeTimeout);
+    
+    resizeTimeout = setTimeout(() => {
+        const newWidth = window.innerWidth;
+        const newHeight = window.innerHeight;
+        
+        // Only reinitialize if width changed significantly (>50px) 
+        // or height changed significantly (>100px to account for mobile browser UI)
+        const widthDiff = Math.abs(newWidth - lastWidth);
+        const heightDiff = Math.abs(newHeight - lastHeight);
+        
+        if (widthDiff > 50 || heightDiff > 300) {
+            canvas.width = newWidth;
+            canvas.height = newHeight;
+            lastWidth = newWidth;
+            lastHeight = newHeight;
+            init();
+        }
+    }, 150); // Debounce for 150ms
 });
 
 window.addEventListener('mouseout', function() {
