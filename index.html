@@ -9,20 +9,33 @@
     <body>
         <div id="progress-bar"></div>
 
-        <div class="container">
-            <header class="header">
+        <section id="landing">
+            <canvas id="particles-canvas"></canvas>
+            <div class="landing-content">
+                <h1 class="landing-title">Bendik Norli</h1>
+                <p class="landing-subtitle">Scroll down to see my work</p>
+            </div>
+            <div class="scroll-indicator">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </section>
+
+        <div class="container" id="content">
+            <header class="header fade-in-section">
                 <img
                     src="profile_picture.jpeg"
                     alt="Bendik Norli"
                     class="profile-photo-placeholder"
                 />
-                <h1>Bendik Norli</h1>
+                <h1>Projects</h1>
                 <p>Here are some of my projects!</p>
             </header>
 
             <main>
-                <div class="timeline-container">
-                    <a href="/timeline/timeline.html" class="timeline-button">
+                <div class="timeline-container fade-in-section">
+                    <a href="./timeline/timeline.html" class="timeline-button">
                         <svg
                             class="timeline-icon"
                             viewBox="0 0 100 15"
@@ -62,7 +75,7 @@
                 </div>
 
                 <section class="projects">
-                    <div class="university-section">
+                    <div class="university-section fade-in-section">
                         <h3>UC Berkeley</h3>
                         <ul class="project-list">
                             <li><a href="./1/index.html">Project 1</a></li>
@@ -85,7 +98,7 @@
                         </ul>
                     </div>
 
-                    <div class="university-section">
+                    <div class="university-section fade-in-section">
                         <h3>University of Queensland</h3>
                         <ul class="project-list">
                             <li>
@@ -96,7 +109,7 @@
                 </section>
             </main>
 
-            <footer class="footer">
+            <footer class="footer fade-in-section">
                 <p>Portfolio Made by Bendik Norli</p>
             </footer>
         </div>
@@ -130,6 +143,28 @@
             if (yearSpan) {
                 yearSpan.textContent = new Date().getFullYear();
             }
+
+            // Intersection Observer for fade-in animations
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.1
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                    } else {
+                        entry.target.classList.remove('is-visible');
+                    }
+                });
+            }, observerOptions);
+
+            document.querySelectorAll('.fade-in-section').forEach(section => {
+                observer.observe(section);
+            });
         </script>
+        <script src="particles.js"></script>
     </body>
 </html>
