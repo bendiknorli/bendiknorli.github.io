@@ -366,24 +366,39 @@
         <button id="back-to-top">↑</button>
 
         <script>
-            window.addEventListener("scroll", () => {
+            // Throttle scroll events with requestAnimationFrame
+            let scrollTicking = false;
+            
+            function updateProgressBar() {
                 const scrollTop = window.scrollY;
                 const docHeight =
                     document.documentElement.scrollHeight - window.innerHeight;
                 const scrollPercent = (scrollTop / docHeight) * 100;
                 document.getElementById("progress-bar").style.width =
                     scrollPercent + "%";
-            });
-
-            const btn = document.getElementById("back-to-top");
-
-            window.addEventListener("scroll", () => {
+            }
+            
+            function updateBackToTop() {
+                const btn = document.getElementById("back-to-top");
                 if (window.scrollY > 300) {
                     btn.classList.add("show");
                 } else {
                     btn.classList.remove("show");
                 }
+            }
+            
+            window.addEventListener("scroll", () => {
+                if (!scrollTicking) {
+                    window.requestAnimationFrame(() => {
+                        updateProgressBar();
+                        updateBackToTop();
+                        scrollTicking = false;
+                    });
+                    scrollTicking = true;
+                }
             });
+
+            const btn = document.getElementById("back-to-top");
 
             btn.addEventListener("click", () => {
                 window.scrollTo({ top: 0, behavior: "smooth" });
@@ -475,7 +490,16 @@
                     timelineYear.style.top = `${dotY}px`;
                 };
 
-                window.addEventListener('scroll', updateTimeline);
+                let timelineTicking = false;
+                window.addEventListener('scroll', () => {
+                    if (!timelineTicking) {
+                        window.requestAnimationFrame(() => {
+                            updateTimeline();
+                            timelineTicking = false;
+                        });
+                        timelineTicking = true;
+                    }
+                });
                 window.addEventListener('resize', updateTimeline);
                 
                 // Year Observer
