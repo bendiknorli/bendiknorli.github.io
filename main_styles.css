@@ -453,25 +453,25 @@ body {
 }
 
 .timeline-item {
-    min-height: 60vh; /* Reduced from 100vh for better flow */
+    min-height: 80vh; /* Increased from 60vh */
     width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 40px 0 40px 12vw; /* Alternating spacing: larger indent */
-    gap: 40px;
+    padding: 60px 0 60px 12vw; /* Increased padding */
+    gap: 60px; /* Increased gap */
     position: relative;
 }
 
 .timeline-item.alt-layout {
     flex-direction: row-reverse;
     padding-right: 0;
-    padding-left: 8vw; /* Alternating spacing: smaller indent */
+    padding-left: 8vw;
 }
 
 .timeline-image {
-    flex: 1 1 40%;
-    max-width: 400px;
+    flex: 1 1 45%;
+    max-width: 550px; /* Increased from 400px */
     border-radius: 12px;
     box-shadow: 0 4px 10px rgba(0,0,0,0.3);
     transition: transform 0.3s;
@@ -483,35 +483,37 @@ body {
 
 .timeline-content {
     flex: 1 1 50%;
-    padding: 20px;
-    background: #2a2a2a; /* Card background */
+    padding: 35px; /* Increased from 20px */
+    background: #2a2a2a;
     border-radius: 12px;
     border: 1px solid #333;
     box-shadow: 0 4px 6px rgba(0,0,0,0.2);
 }
 
 .timeline-content h2 {
-    font-size: 1.8rem;
-    margin-bottom: 10px;
+    font-size: 2.2rem; /* Increased from 1.8rem */
+    margin-bottom: 15px; /* Increased spacing */
     color: #fff;
 }
 
 .timeline-date {
-    font-size: 0.9rem;
+    font-size: 1rem; /* Increased from 0.9rem */
     color: #aaa;
-    margin-bottom: 5px;
+    margin-bottom: 8px; /* Increased spacing */
     text-transform: uppercase;
     letter-spacing: 0.5px;
 }
 
 .timeline-role {
-    font-size: 1.1rem;
+    font-size: 1.3rem; /* Increased from 1.1rem */
     font-weight: 700;
     color: #007bff;
-    margin-bottom: 15px;
+    margin-bottom: 20px; /* Increased spacing */
 }
 
 .timeline-content p {
+    font-size: 1.1rem; /* Added explicit size */
+    line-height: 1.7; /* Improved readability */
     color: #ccc;
 }
 
@@ -523,6 +525,59 @@ body {
 .timeline-content a:hover {
     text-decoration: underline;
 }
+
+/* Medium-large screens: reduce image size slightly */
+@media (max-width: 1200px) {
+    .timeline-image {
+        max-width: 450px;
+    }
+    
+    .timeline-item {
+        gap: 40px;
+        padding: 50px 0 50px 10vw;
+    }
+    
+    .timeline-item.alt-layout {
+        padding-left: 6vw;
+    }
+}
+
+/* Medium screens: further reduce sizes */
+@media (max-width: 900px) {
+    .timeline-image {
+        max-width: 350px;
+        flex: 1 1 40%;
+    }
+    
+    .timeline-content {
+        flex: 1 1 55%;
+        padding: 25px;
+    }
+    
+    .timeline-item {
+        gap: 30px;
+        padding: 40px 0 40px 8vw;
+        min-height: 60vh;
+    }
+    
+    .timeline-item.alt-layout {
+        padding-left: 5vw;
+    }
+    
+    .timeline-content h2 {
+        font-size: 1.8rem;
+    }
+    
+    .timeline-role {
+        font-size: 1.1rem;
+    }
+    
+    .timeline-content p {
+        font-size: 1rem;
+    }
+}
+
+/* Small screens: stack vertically */
 
 @media (max-width: 768px) {
     .timeline-item,

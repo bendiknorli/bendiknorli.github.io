@@ -109,26 +109,77 @@ function animate() {
     ctx.fillStyle = 'rgba(26, 26, 26, 0.1)';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     
+    // Spatial partitioning: create a grid
+    const cellSize = 100; // Same as connection distance
+    const cols = Math.ceil(canvas.width / cellSize);
+    const rows = Math.ceil(canvas.height / cellSize);
+    const grid = Array.from({ length: cols * rows }, () => []);
+    
+    // Assign particles to grid cells
     for (let i = 0; i < particlesArray.length; i++) {
         particlesArray[i].update();
         particlesArray[i].draw();
         
-        // Connect particles
-        for (let j = i; j < particlesArray.length; j++) {
-            const dx = particlesArray[i].x - particlesArray[j].x;
-            const dy = particlesArray[i].y - particlesArray[j].y;
-            const distance = Math.sqrt(dx * dx + dy * dy);
-            
-            if (distance < 100) {
-                ctx.beginPath();
-                ctx.strokeStyle = `rgba(255, 255, 255, ${0.1 - distance/1000})`;
-                ctx.lineWidth = 0.5;
-                ctx.moveTo(particlesArray[i].x, particlesArray[i].y);
-                ctx.lineTo(particlesArray[j].x, particlesArray[j].y);
-                ctx.stroke();
-            }
+        const col = Math.floor(particlesArray[i].x / cellSize);
+        const row = Math.floor(particlesArray[i].y / cellSize);
+        const cellIndex = row * cols + col;
+        
+        if (cellIndex >= 0 && cellIndex < grid.length) {
+            grid[cellIndex].push(i);
         }
     }
+    
+    // Draw connections using spatial grid
+    const maxConnectionsPerParticle = 15; // Limit connections per particle
+    
+    for (let i = 0; i < particlesArray.length; i++) {
+        const particle = particlesArray[i];
+        const col = Math.floor(particle.x / cellSize);
+        const row = Math.floor(particle.y / cellSize);
+        
+        let connectionCount = 0;
+        
+        // Check current cell and 8 adjacent cells
+        for (let offsetY = -1; offsetY <= 1; offsetY++) {
+            for (let offsetX = -1; offsetX <= 1; offsetX++) {
+                const checkCol = col + offsetX;
+                const checkRow = row + offsetY;
+                
+                if (checkCol < 0 || checkCol >= cols || checkRow < 0 || checkRow >= rows) continue;
+                
+                const cellIndex = checkRow * cols + checkCol;
+                const cellParticles = grid[cellIndex];
+                
+                for (let k = 0; k < cellParticles.length; k++) {
+                    const j = cellParticles[k];
+                    
+                    // Skip self and already-checked pairs
+                    if (j <= i) continue;
+                    
+                    // Stop if we've hit max connections
+                    if (connectionCount >= maxConnectionsPerParticle) break;
+                    
+                    const dx = particle.x - particlesArray[j].x;
+                    const dy = particle.y - particlesArray[j].y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+                    
+                    if (distance < 100) {
+                        ctx.beginPath();
+                        ctx.strokeStyle = `rgba(255, 255, 255, ${0.1 - distance/1000})`;
+                        ctx.lineWidth = 0.5;
+                        ctx.moveTo(particle.x, particle.y);
+                        ctx.lineTo(particlesArray[j].x, particlesArray[j].y);
+                        ctx.stroke();
+                        connectionCount++;
+                    }
+                }
+                
+                if (connectionCount >= maxConnectionsPerParticle) break;
+            }
+            if (connectionCount >= maxConnectionsPerParticle) break;
+        }
+    }
+    
     requestAnimationFrame(animate);
 }
 
