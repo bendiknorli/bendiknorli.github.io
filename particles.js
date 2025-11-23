@@ -23,6 +23,12 @@ window.addEventListener('mousemove', function(event) {
 let resizeTimeout;
 let lastWidth = window.innerWidth;
 let lastHeight = window.innerHeight;
+const landing = document.getElementById('landing');
+
+// Set initial height to prevent jumping
+if (landing) {
+    landing.style.height = `${window.innerHeight}px`;
+}
 
 window.addEventListener('resize', function() {
     clearTimeout(resizeTimeout);
@@ -31,14 +37,20 @@ window.addEventListener('resize', function() {
         const newWidth = window.innerWidth;
         const newHeight = window.innerHeight;
         
-        // Only update canvas and reinitialize if width or height changed significantly
-        const widthDiff = Math.abs(newWidth - lastWidth);
+        // Only update canvas and reinitialize if width changed OR height changed significantly
+        const widthChanged = newWidth !== lastWidth;
         const heightDiff = Math.abs(newHeight - lastHeight);
         
-        if (widthDiff > 50 || heightDiff > 200) {
+        if (widthChanged || heightDiff > 100) {
             // Update canvas dimensions and respawn particles
             canvas.width = newWidth;
             canvas.height = newHeight;
+            
+            // Update landing height
+            if (landing) {
+                landing.style.height = `${newHeight}px`;
+            }
+
             lastWidth = newWidth;
             lastHeight = newHeight;
             init();
