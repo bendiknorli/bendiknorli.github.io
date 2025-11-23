@@ -41,7 +41,7 @@ window.addEventListener('resize', function() {
         const widthChanged = newWidth !== lastWidth;
         const heightDiff = Math.abs(newHeight - lastHeight);
         
-        if (widthChanged || heightDiff > 100) {
+        if (widthChanged || heightDiff > 200) {
             // Update canvas dimensions and respawn particles
             canvas.width = newWidth;
             canvas.height = newHeight;
